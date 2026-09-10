@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Interactive research demo for Orbital Data Center Flow." />
-    <title>Orbit Data Center — Flow Research Demo</title>
+    <meta name="description" content="SpaceSFF-Gen: unified conditional diffusion for space data-center cold-plate flow-field generation." />
+    <title>SpaceSFF-Gen — Generative Flow Fields for Space Compute</title>
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="theme.css" />
   </head>
@@ -13,7 +13,7 @@
     <header class="topbar">
       <a class="brand" href="#top" aria-label="Orbit Data Center home">
         <span class="brand-mark"><i></i></span>
-        <span>ORBIT <b>DATA CENTER</b></span>
+        <span>SPACE<b>SFF-GEN</b></span>
       </a>
       <nav aria-label="Primary navigation">
         <a href="#demo">Demo</a>
@@ -26,21 +26,22 @@
     <main id="top">
       <section class="hero section-shell">
         <div class="hero-copy">
-          <p class="eyebrow"><span></span> Interactive research prototype</p>
-          <h1>Engineering<br /><em>compute</em><br />beyond Earth.</h1>
-          <p class="lede">Explore how operating conditions shape heat transport and airflow inside a data-center module designed for orbit.</p>
+          <p class="eyebrow"><span></span> Generative thermal design for space compute</p>
+          <h1>Generating<br /><em>flow fields</em><br />beyond Earth.</h1>
+          <p class="lede">One family-conditioned diffusion model generates manufacturable cold-plate layouts for orbital data-center thermal management.</p>
           <div class="hero-actions">
             <a class="button primary" href="#demo">Explore the demo <span>→</span></a>
             <a class="button ghost" href="#method">View method</a>
           </div>
           <dl class="hero-stats">
-            <div><dt>REAL-TIME</dt><dd>Flow visualization</dd></div>
-            <div><dt>PARAMETRIC</dt><dd>Operating scenarios</dd></div>
-            <div><dt>WEB-NATIVE</dt><dd>Zero-install demo</dd></div>
+            <div><dt>ONE MODEL</dt><dd>Three geometry families</dd></div>
+            <div><dt>NATIVE 256²</dt><dd>Signed distance fields</dd></div>
+            <div><dt>768 SAMPLES</dt><dd>Generation QC study</dd></div>
           </dl>
         </div>
 
-        <div class="orbital-stage" aria-label="Illustration of an orbital data center">
+        <!-- Future hero video slot: replace this orbital-stage content with a muted autoplay loop. -->
+        <div class="orbital-stage" data-video-slot="hero-orbital-16x9" aria-label="Future orbital data-center video area">
           <div class="orbit orbit-a"></div>
           <div class="orbit orbit-b"></div>
           <div class="planet"></div>
@@ -49,87 +50,94 @@
             <span class="module"><i></i><i></i><i></i></span>
             <span class="solar right"></span>
           </div>
-          <div class="telemetry t1"><span>ALTITUDE</span><b>LEO</b></div>
-          <div class="telemetry t2"><span>THERMAL LOOP</span><b>NOMINAL</b></div>
-          <div class="telemetry t3"><span>FLOW FIELD</span><b>LIVE</b></div>
+          <div class="telemetry t1"><span>MODEL</span><b>UNIFIED U-NET</b></div>
+          <div class="telemetry t2"><span>REPRESENTATION</span><b>SDF → MASK</b></div>
+          <div class="telemetry t3"><span>QUALITY CONTROL</span><b>FAMILY GATES</b></div>
+          <div class="video-slot-note"><i></i><span>FUTURE MOTION PLATE</span><b>16:9 · LOOP · MUTED</b></div>
         </div>
       </section>
 
       <section id="demo" class="demo-section section-shell">
         <div class="section-heading">
-          <div><p class="eyebrow"><span></span> Interactive viewer</p><h2>Orbital Data Center Flow</h2></div>
-          <p>Adjust operating conditions and inspect the resulting thermal-flow pattern. This interface is ready to connect to simulation output or a surrogate model.</p>
+          <div><p class="eyebrow"><span></span> Interactive generator explorer</p><h2>SpaceSFF-Gen</h2></div>
+          <p>Explore the three flow-field families learned by one conditional model. The viewer reconstructs the visual grammar of the generated native-resolution masks.</p>
         </div>
 
         <div class="demo-frame">
           <aside class="controls">
-            <div class="panel-title"><span>SCENARIO CONTROL</span><b>01</b></div>
-            <label>Operating mode</label>
-            <div class="segmented" id="modes">
-              <button class="active" data-mode="nominal">Nominal</button>
-              <button data-mode="peak">Peak load</button>
-              <button data-mode="safe">Safe mode</button>
+            <div class="panel-title"><span>GENERATION CONTROL</span><b>01</b></div>
+            <label>Geometry family</label>
+            <div class="segmented" id="families">
+              <button class="active" data-family="F0">F0</button>
+              <button data-family="F1">F1</button>
+              <button data-family="F6">F6</button>
             </div>
-
-            <label for="power">Compute load <output id="powerOut">68%</output></label>
-            <input id="power" type="range" min="20" max="100" value="68" />
-            <label for="pump">Coolant flow <output id="pumpOut">3.2 L/min</output></label>
-            <input id="pump" type="range" min="10" max="50" value="32" />
-            <label for="sun">Solar exposure <output id="sunOut">42%</output></label>
-            <input id="sun" type="range" min="0" max="100" value="42" />
-
+            <label for="seed">Sample ID <output id="seedOut">0128</output></label>
+            <input id="seed" type="range" min="1" max="256" value="128" />
+            <label for="complexity">Geometry density <output id="complexityOut">6</output></label>
+            <input id="complexity" type="range" min="3" max="10" value="6" />
+            <label>Representation</label>
+            <div class="segmented two" id="representations">
+              <button data-view="sdf">Native SDF</button>
+              <button class="active" data-view="mask">Final mask</button>
+            </div>
             <div class="legend">
-              <span><i class="cold"></i> Low temperature</span>
-              <span><i class="hot"></i> High temperature</span>
+              <span><i class="fluid"></i> Fluid domain</span>
+              <span><i class="solid"></i> Solid domain</span>
             </div>
-            <p class="hint">Drag sliders to update the concept flow field.</p>
+            <p class="hint">F0: Serpentine · F1: Parallel channels · F6: Circular pin-fin</p>
           </aside>
 
           <div class="viewer">
             <div class="viewer-bar">
-              <span><i></i> FLOW FIELD / XY PLANE</span>
-              <div><button class="view-active">Temperature</button><button>Velocity</button></div>
+              <span><i></i> <b id="viewerLabel">F0 / SERPENTINE</b></span>
+              <div><button class="view-active">GENERATED</button><button>256 × 256</button></div>
             </div>
-            <canvas id="flowCanvas" aria-label="Animated concept visualization of thermal flow"></canvas>
-            <div class="module-overlay"><span>RACK A</span><span>RACK B</span><span>RACK C</span></div>
-            <div class="axis"><i>Y</i><b></b><i>X</i></div>
+            <canvas id="flowCanvas" aria-label="Interactive SpaceSFF generated geometry"></canvas>
+            <div class="port inlet">INLET</div><div class="port outlet">OUTLET</div>
+            <div class="flow-readout"><i></i><span>FLOW RESPONSE</span><b id="flowResponse">HIGH-MIXING PATH</b></div>
           </div>
 
           <aside class="metrics">
-            <div class="panel-title"><span>LIVE METRICS</span><b>02</b></div>
-            <article><span>Peak temperature</span><strong id="tempMetric">48.6<small> °C</small></strong><em class="ok">NOMINAL</em></article>
-            <article><span>Flow uniformity</span><strong id="flowMetric">91.2<small> %</small></strong><em>ESTIMATE</em></article>
-            <article><span>Thermal margin</span><strong id="marginMetric">13.4<small> °C</small></strong><em class="ok">STABLE</em></article>
-            <div class="spark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-            <p>Concept values for interface validation. Replace with verified research outputs before publication.</p>
+            <div class="panel-title"><span>V5.11.5 QC</span><b>02</b></div>
+            <article><span>Release pass rate</span><strong id="passMetric">90.2<small> %</small></strong><em class="ok">231 / 256</em></article>
+            <article><span>Unique final masks</span><strong id="uniqueMetric">256<small> / 256</small></strong><em>DIVERSITY</em></article>
+            <article><span>Generation time</span><strong id="timeMetric">8.78<small> min</small></strong><em class="ok">DDIM-100</em></article>
+            <div class="effects-panel">
+              <div class="effect-title"><span>EXPECTED FLOW EFFECT</span><b>QUALITATIVE</b></div>
+              <div class="effect-row"><label>Heat-transfer area</label><i><u id="heatBar"></u></i><output id="heatEffect">HIGH</output></div>
+              <div class="effect-row"><label>Flow uniformity</label><i><u id="uniformBar"></u></i><output id="uniformEffect">MED</output></div>
+              <div class="effect-row"><label>Pressure loss</label><i><u id="pressureBar"></u></i><output id="pressureEffect">HIGH</output></div>
+              <p id="effectSummary">Long turning path promotes mixing, with a higher pumping penalty.</p>
+            </div>
+            <p class="qc-note">QC values above are measured V5.11.5 results. Expected effects are qualitative design tendencies—not CFD/CHT predictions.</p>
           </aside>
         </div>
       </section>
 
       <section id="method" class="method-section section-shell">
         <div class="section-heading compact">
-          <div><p class="eyebrow"><span></span> Research workflow</p><h2>From orbit to insight</h2></div>
+          <div><p class="eyebrow"><span></span> Research workflow</p><h2>One model. Three families.</h2></div>
         </div>
         <div class="pipeline">
-          <article><b>01</b><span>ORBITAL INPUTS</span><h3>Define the environment</h3><p>Encode solar exposure, operating load, boundary conditions, and cooling parameters.</p></article>
-          <article><b>02</b><span>FLOW MODEL</span><h3>Resolve coupled transport</h3><p>Run the physics solver or learned surrogate to obtain thermal and velocity fields.</p></article>
-          <article><b>03</b><span>DESIGN RESPONSE</span><h3>Evaluate performance</h3><p>Compare hotspot risk, flow uniformity, thermal margin, and system-level tradeoffs.</p></article>
+          <article><b>01</b><span>CONDITION</span><h3>Family embedding</h3><p>A single U-Net backbone receives a discrete F0, F1, or F6 family condition instead of training three separate generators.</p></article>
+          <article><b>02</b><span>GENERATE</span><h3>Native 256² SDF</h3><p>V-prediction, cosine diffusion, EMA weights, and DDIM-100 produce a fluid-positive signed distance field.</p></article>
+          <article><b>03</b><span>VERIFY</span><h3>Family-specific gates</h3><p>RAW geometry QC precedes conservative cleanup. F1 quality failures remain failures and cannot be hidden by projection.</p></article>
         </div>
       </section>
 
       <section id="results" class="results-section section-shell">
-        <div class="results-card">
-          <div>
-            <p class="eyebrow"><span></span> Research-ready structure</p>
-            <h2>Designed for the evidence,<br />not decoration.</h2>
-          </div>
-          <p>The shell is ready for verified figures, case comparisons, quantitative tables, paper links, author information, and real simulation assets.</p>
-          <a class="button primary" href="#demo">Explore viewer ↑</a>
+        <div class="results-intro"><p class="eyebrow"><span></span> Generation quality control</p><h2>768 designs.<br />Measured by family.</h2><p>Existing V5.11 unified checkpoint, three family conditions, 256 samples per family. No retraining was performed for the V5.11.5 QC run.</p></div>
+        <div class="result-grid">
+          <article><header><b>F0</b><span>SERPENTINE</span></header><strong>90.2%</strong><p>231 / 256 release PASS</p><ul><li>256 unique final masks</li><li>22 connectivity failures</li><li>2 minimum-wall failures</li></ul></article>
+          <article><header><b>F1</b><span>PARALLEL</span></header><strong>70.7%</strong><p>181 / 256 release PASS</p><ul><li>99.2% RAW quality PASS</li><li>242 unique final masks</li><li>74 column-consistency failures</li></ul></article>
+          <article><header><b>F6</b><span>PIN-FIN</span></header><strong>97.3%</strong><p>249 / 256 release PASS</p><ul><li>256 unique final masks</li><li>6 radius/pitch failures</li><li>1 gap/pitch failure</li></ul></article>
         </div>
+        <div class="research-note"><b>QUALITY PRINCIPLE</b><p>RAW model performance, conservative cleanup, and final release decisions are reported separately. Geometry validity is a pre-screening step—not a substitute for CFD/CHT validation.</p></div>
       </section>
     </main>
 
-    <footer><span>ORBIT DATA CENTER</span><p>Orbital Data Center Flow · Research Demo</p><a href="#top">Back to top ↑</a></footer>
+    <footer><span>SPACESFF-GEN</span><p>Unified Conditional Diffusion · V5.11.5 Generation QC</p><a href="#top">Back to top ↑</a></footer>
     <script src="app.js"></script>
   </body>
 </html>
