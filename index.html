@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Interactive research demo for Orbital Data Center Flow." />
+    <title>Orbit Data Center — Flow Research Demo</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="noise" aria-hidden="true"></div>
+    <header class="topbar">
+      <a class="brand" href="#top" aria-label="Orbit Data Center home">
+        <span class="brand-mark"><i></i></span>
+        <span>ORBIT <b>DATA CENTER</b></span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#demo">Demo</a>
+        <a href="#method">Method</a>
+        <a href="#results">Results</a>
+      </nav>
+      <a class="repo-link" href="https://github.com/broha-source/Orbit-data-center">GitHub ↗</a>
+    </header>
+
+    <main id="top">
+      <section class="hero section-shell">
+        <div class="hero-copy">
+          <p class="eyebrow"><span></span> Interactive research prototype</p>
+          <h1>Making orbital<br /><em>thermal flow</em> visible.</h1>
+          <p class="lede">Explore how operating conditions shape heat transport and airflow inside a data-center module designed for orbit.</p>
+          <div class="hero-actions">
+            <a class="button primary" href="#demo">Launch demo <span>↓</span></a>
+            <a class="button ghost" href="#method">View method</a>
+          </div>
+          <dl class="hero-stats">
+            <div><dt>REAL-TIME</dt><dd>Flow visualization</dd></div>
+            <div><dt>PARAMETRIC</dt><dd>Operating scenarios</dd></div>
+            <div><dt>WEB-NATIVE</dt><dd>Zero-install demo</dd></div>
+          </dl>
+        </div>
+
+        <div class="orbital-stage" aria-label="Illustration of an orbital data center">
+          <div class="orbit orbit-a"></div>
+          <div class="orbit orbit-b"></div>
+          <div class="planet"></div>
+          <div class="station">
+            <span class="solar left"></span>
+            <span class="module"><i></i><i></i><i></i></span>
+            <span class="solar right"></span>
+          </div>
+          <div class="telemetry t1"><span>ALTITUDE</span><b>LEO</b></div>
+          <div class="telemetry t2"><span>THERMAL LOOP</span><b>NOMINAL</b></div>
+          <div class="telemetry t3"><span>FLOW FIELD</span><b>LIVE</b></div>
+        </div>
+      </section>
+
+      <section id="demo" class="demo-section section-shell">
+        <div class="section-heading">
+          <div><p class="eyebrow"><span></span> Interactive viewer</p><h2>Orbital Data Center Flow</h2></div>
+          <p>Adjust operating conditions and inspect the resulting thermal-flow pattern. This interface is ready to connect to simulation output or a surrogate model.</p>
+        </div>
+
+        <div class="demo-frame">
+          <aside class="controls">
+            <div class="panel-title"><span>SCENARIO CONTROL</span><b>01</b></div>
+            <label>Operating mode</label>
+            <div class="segmented" id="modes">
+              <button class="active" data-mode="nominal">Nominal</button>
+              <button data-mode="peak">Peak load</button>
+              <button data-mode="safe">Safe mode</button>
+            </div>
+
+            <label for="power">Compute load <output id="powerOut">68%</output></label>
+            <input id="power" type="range" min="20" max="100" value="68" />
+            <label for="pump">Coolant flow <output id="pumpOut">3.2 L/min</output></label>
+            <input id="pump" type="range" min="10" max="50" value="32" />
+            <label for="sun">Solar exposure <output id="sunOut">42%</output></label>
+            <input id="sun" type="range" min="0" max="100" value="42" />
+
+            <div class="legend">
+              <span><i class="cold"></i> Low temperature</span>
+              <span><i class="hot"></i> High temperature</span>
+            </div>
+            <p class="hint">Drag sliders to update the concept flow field.</p>
+          </aside>
+
+          <div class="viewer">
+            <div class="viewer-bar">
+              <span><i></i> FLOW FIELD / XY PLANE</span>
+              <div><button class="view-active">Temperature</button><button>Velocity</button></div>
+            </div>
+            <canvas id="flowCanvas" aria-label="Animated concept visualization of thermal flow"></canvas>
+            <div class="module-overlay"><span>RACK A</span><span>RACK B</span><span>RACK C</span></div>
+            <div class="axis"><i>Y</i><b></b><i>X</i></div>
+          </div>
+
+          <aside class="metrics">
+            <div class="panel-title"><span>LIVE METRICS</span><b>02</b></div>
+            <article><span>Peak temperature</span><strong id="tempMetric">48.6<small> °C</small></strong><em class="ok">NOMINAL</em></article>
+            <article><span>Flow uniformity</span><strong id="flowMetric">91.2<small> %</small></strong><em>ESTIMATE</em></article>
+            <article><span>Thermal margin</span><strong id="marginMetric">13.4<small> °C</small></strong><em class="ok">STABLE</em></article>
+            <div class="spark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <p>Concept values for interface validation. Replace with verified research outputs before publication.</p>
+          </aside>
+        </div>
+      </section>
+
+      <section id="method" class="method-section section-shell">
+        <div class="section-heading compact">
+          <div><p class="eyebrow"><span></span> Research workflow</p><h2>From orbit to insight</h2></div>
+        </div>
+        <div class="pipeline">
+          <article><b>01</b><span>ORBITAL INPUTS</span><h3>Define the environment</h3><p>Encode solar exposure, operating load, boundary conditions, and cooling parameters.</p></article>
+          <article><b>02</b><span>FLOW MODEL</span><h3>Resolve coupled transport</h3><p>Run the physics solver or learned surrogate to obtain thermal and velocity fields.</p></article>
+          <article><b>03</b><span>DESIGN RESPONSE</span><h3>Evaluate performance</h3><p>Compare hotspot risk, flow uniformity, thermal margin, and system-level tradeoffs.</p></article>
+        </div>
+      </section>
+
+      <section id="results" class="results-section section-shell">
+        <div class="results-card">
+          <div>
+            <p class="eyebrow"><span></span> Research-ready structure</p>
+            <h2>Designed for the evidence,<br />not decoration.</h2>
+          </div>
+          <p>The shell is ready for verified figures, case comparisons, quantitative tables, paper links, author information, and real simulation assets.</p>
+          <a class="button primary" href="#demo">Explore viewer ↑</a>
+        </div>
+      </section>
+    </main>
+
+    <footer><span>ORBIT DATA CENTER</span><p>Orbital Data Center Flow · Research Demo</p><a href="#top">Back to top ↑</a></footer>
+    <script src="app.js"></script>
+  </body>
+</html>
