@@ -25,35 +25,12 @@
 
     <main id="top">
       <section class="hero section-shell">
-        <div class="hero-copy">
-          <p class="eyebrow"><span></span> Generative thermal design for space compute</p>
-          <h1>Generating<br /><em>flow fields</em><br />beyond Earth.</h1>
-          <p class="lede">One family-conditioned diffusion model generates manufacturable cold-plate layouts for orbital data-center thermal management.</p>
-          <div class="hero-actions">
-            <a class="button primary" href="#demo">Explore the demo <span>→</span></a>
-            <a class="button ghost" href="#method">View method</a>
-          </div>
-          <dl class="hero-stats">
-            <div><dt>ONE MODEL</dt><dd>Three geometry families</dd></div>
-            <div><dt>NATIVE 256²</dt><dd>Signed distance fields</dd></div>
-            <div><dt>768 SAMPLES</dt><dd>Generation QC study</dd></div>
-          </dl>
-        </div>
-
-        <!-- Future hero video slot: replace this orbital-stage content with a muted autoplay loop. -->
-        <div class="orbital-stage" data-video-slot="hero-orbital-16x9" aria-label="Future orbital data-center video area">
-          <div class="orbit orbit-a"></div>
-          <div class="orbit orbit-b"></div>
-          <div class="planet"></div>
-          <div class="station">
-            <span class="solar left"></span>
-            <span class="module"><i></i><i></i><i></i></span>
-            <span class="solar right"></span>
-          </div>
-          <div class="telemetry t1"><span>MODEL</span><b>UNIFIED U-NET</b></div>
-          <div class="telemetry t2"><span>REPRESENTATION</span><b>SDF → MASK</b></div>
-          <div class="telemetry t3"><span>QUALITY CONTROL</span><b>FAMILY GATES</b></div>
-          <div class="video-slot-note"><i></i><span>FUTURE MOTION PLATE</span><b>16:9 · LOOP · MUTED</b></div>
+        <div class="orbital-stage hero-video-stage" aria-label="Orbital data-center radiator animation">
+          <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="hero-radiator-poster.jpg" aria-label="Orbital data center with a deployable radiator and evolving flow-field geometry">
+            <source src="hero-radiator.mp4" type="video/mp4" />
+            Your browser does not support the video element.
+          </video>
+          <div class="hero-video-shade" aria-hidden="true"></div>
         </div>
       </section>
 
