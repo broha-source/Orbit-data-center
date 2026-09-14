@@ -90,54 +90,97 @@ function drawMaskStroke(path, width) {
   ctx.restore();
 }
 
-function strokeCoolant(path, width, dash, gap, offset, alpha = .3) {
+function strokeCoolantParticles(path, width, spacing, offset, alpha = .3) {
   ctx.save();
   ctx.lineCap = 'round';
   ctx.lineJoin = 'round';
-  ctx.setLineDash([dash, gap]);
+  ctx.setLineDash([.1, spacing]);
   ctx.lineDashOffset = offset;
   ctx.lineWidth = width;
   ctx.strokeStyle = `rgba(115, 218, 244, ${alpha})`;
-  ctx.shadowColor = 'rgba(100, 211, 245, .42)';
-  ctx.shadowBlur = 7;
+  ctx.shadowColor = 'rgba(100, 211, 245, .55)';
+  ctx.shadowBlur = 10;
   ctx.stroke(path);
+  ctx.restore();
+}
+
+function drawSoftParticle(px, py, radius, alpha, direction = 1) {
+  const tail = 18 + radius * 2;
+  ctx.save();
+  const trail = ctx.createLinearGradient(px - tail * direction, py, px + radius * direction, py);
+  if (direction > 0) {
+    trail.addColorStop(0, 'rgba(103, 216, 244, 0)');
+    trail.addColorStop(1, `rgba(146, 229, 248, ${alpha * .72})`);
+  } else {
+    trail.addColorStop(0, `rgba(146, 229, 248, ${alpha * .72})`);
+    trail.addColorStop(1, 'rgba(103, 216, 244, 0)');
+  }
+  ctx.strokeStyle = trail;
+  ctx.lineWidth = Math.max(1, radius * .55);
+  ctx.lineCap = 'round';
+  ctx.beginPath();
+  ctx.moveTo(px - tail * direction, py);
+  ctx.lineTo(px, py);
+  ctx.stroke();
+
+  const glow = ctx.createRadialGradient(px, py, 0, px, py, radius * 3.4);
+  glow.addColorStop(0, `rgba(210, 249, 255, ${alpha})`);
+  glow.addColorStop(.28, `rgba(103, 216, 244, ${alpha * .62})`);
+  glow.addColorStop(1, 'rgba(103, 216, 244, 0)');
+  ctx.fillStyle = glow;
+  ctx.beginPath();
+  ctx.arc(px, py, radius * 3.4, 0, Math.PI * 2);
+  ctx.fill();
   ctx.restore();
 }
 
 function drawF0Flow(path, width) {
   const phase = reduceMotion ? 0 : flowTime * .032;
-  strokeCoolant(path, Math.max(2, width * .105), 16, 52, -phase, representation === 'sdf' ? .22 : .32);
+  const alpha = representation === 'sdf' ? .22 : .3;
+  strokeCoolantParticles(path, Math.max(3, width * .13), 88, -phase, alpha);
+  strokeCoolantParticles(path, Math.max(2, width * .085), 143, -phase * .79 - 41, alpha * .72);
 }
 
-function drawF1Flow(x, y, w, h, n) {
+function drawF1Flow(x, y, w, h, n, edge) {
   const gap = h / n;
-  const phase = reduceMotion ? 0 : flowTime * .035;
-  ctx.save();
+  const clock = reduceMotion ? 0 : flowTime * .000055;
   for (let i = 0; i < n; i++) {
-    const cy = y + i * gap + gap * .5;
-    const path = new Path2D();
-    path.moveTo(x + 26, cy);
-    path.lineTo(x + w - 26, cy);
-    strokeCoolant(path, 2.2, 13, 42, -phase - i * 11, representation === 'sdf' ? .2 : .3);
+    const cy = y + (i + .5) * gap;
+    const channelX = representation === 'sdf' ? x + edge * 1.7 : x + edge * .62;
+    const channelW = representation === 'sdf' ? w - edge * 3.4 : w - edge * 1.24;
+    const channelH = representation === 'sdf' ? gap * .54 : Math.max(5, gap - edge * 1.12);
+    const channel = roundedRectPath(channelX, cy - channelH * .5, channelW, channelH, Math.min(5, channelH * .35));
+
+    ctx.save();
+    ctx.clip(channel);
+    const wash = ctx.createLinearGradient(channelX, 0, channelX + channelW, 0);
+    wash.addColorStop(0, 'rgba(92, 202, 235, .015)');
+    wash.addColorStop(.5, 'rgba(92, 202, 235, .07)');
+    wash.addColorStop(1, 'rgba(92, 202, 235, .015)');
+    ctx.fillStyle = wash;
+    ctx.fill(channel);
+    for (let p = 0; p < 3; p++) {
+      const speed = 1 + (i % 3) * .075;
+      const t = (clock * speed + i * .137 + p * .337) % 1;
+      const px = channelX + 12 + t * Math.max(1, channelW - 24);
+      drawSoftParticle(px, cy, Math.max(1.6, Math.min(2.7, channelH * .08)), representation === 'sdf' ? .29 : .34);
+    }
+    ctx.restore();
   }
-  ctx.restore();
 }
 
 function drawF6Flow(x, y, w, h, n) {
   const gy = h / (n + 1);
-  const phase = reduceMotion ? 0 : flowTime * .028;
+  const clock = reduceMotion ? 0 : flowTime * .000042;
   for (let lane = 0; lane <= n; lane++) {
     const baseY = y + (lane + .5) * gy;
-    const path = new Path2D();
-    const steps = 28;
-    for (let step = 0; step <= steps; step++) {
-      const t = step / steps;
+    for (let p = 0; p < 2; p++) {
+      const speed = 1 + (lane % 4) * .055;
+      const t = (clock * speed + lane * .119 + p * .51) % 1;
       const px = x + t * w;
       const py = baseY + Math.sin(t * Math.PI * 4 + lane * .7) * Math.min(2.8, gy * .08);
-      if (step === 0) path.moveTo(px, py);
-      else path.lineTo(px, py);
+      drawSoftParticle(px, py, Math.max(1.25, Math.min(2.1, gy * .055)), representation === 'sdf' ? .22 : .28);
     }
-    strokeCoolant(path, 1.8, 10, 46, -phase - lane * 9, representation === 'sdf' ? .17 : .25);
   }
 }
 
@@ -191,7 +234,7 @@ function drawF1(x, y, w, h, n) {
     ctx.clearRect(x + w - edge * 1.5, y - edge * 1.05, edge * 2.5, edge * 2.1);
     ctx.restore();
   }
-  drawF1Flow(x, y, w, h, n);
+  drawF1Flow(x, y, w, h, n, edge);
 }
 
 function drawF6(x, y, w, h, n) {
