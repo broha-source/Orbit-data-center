@@ -1,126 +1,262 @@
 const canvas = document.querySelector('#flowCanvas');
 const ctx = canvas.getContext('2d');
-const seed = document.querySelector('#seed');
-const complexity = document.querySelector('#complexity');
+const condition = document.querySelector('#condition');
 let family = 'F0';
 let representation = 'mask';
 let transition = 1;
-let lastTime = 0;
+let lastTime = performance.now();
 
 const results = {
-  F0: { name: 'SERPENTINE', pass: '90.2', count: '231 / 256', unique: 256, time: '8.78' },
-  F1: { name: 'PARALLEL', pass: '70.7', count: '181 / 256', unique: 242, time: '8.77' },
-  F6: { name: 'PIN-FIN', pass: '97.3', count: '249 / 256', unique: 256, time: '8.77' }
+  F0: { name: 'SERPENTINE', pass: '90.2', fail: '9.8', passCount: '231 / 256', failCount: '25 / 256' },
+  F1: { name: 'PARALLEL', pass: '70.7', fail: '29.3', passCount: '181 / 256', failCount: '75 / 256' },
+  F6: { name: 'PIN-FIN', pass: '97.3', fail: '2.7', passCount: '249 / 256', failCount: '7 / 256' }
 };
 
-const effects = {
-  F0: { heat:.76, uniform:.62, pressure:.82, response:'HIGH-MIXING PATH', summary:'Long turning path promotes mixing, with a higher pumping penalty.' },
-  F1: { heat:.58, uniform:.92, pressure:.36, response:'UNIFORM LOW-LOSS FLOW', summary:'Parallel paths favor even distribution and lower pumping demand.' },
-  F6: { heat:.91, uniform:.80, pressure:.64, response:'WAKE-ENHANCED EXCHANGE', summary:'Pin wakes increase exchange area and local mixing at moderate pressure cost.' }
-};
-
-function resize(){
+function resize() {
   const dpr = Math.min(devicePixelRatio, 2);
-  canvas.width = canvas.clientWidth * dpr;
-  canvas.height = canvas.clientHeight * dpr;
-  ctx.setTransform(dpr,0,0,dpr,0,0);
+  canvas.width = Math.round(canvas.clientWidth * dpr);
+  canvas.height = Math.round(canvas.clientHeight * dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   draw();
 }
 
-function roundedLine(points, width){
-  ctx.beginPath(); ctx.moveTo(points[0][0], points[0][1]);
-  for(let i=1;i<points.length;i++) ctx.lineTo(points[i][0], points[i][1]);
-  ctx.lineWidth=width; ctx.lineCap='round'; ctx.lineJoin='round'; ctx.stroke();
+function roundedRectPath(x, y, w, h, r) {
+  const path = new Path2D();
+  path.roundRect(x, y, w, h, r);
+  return path;
 }
 
-function drawF0(x,y,w,h,n,t){
-  const rows=Math.max(3,Math.min(9,n)), gap=h/(rows-1), pts=[];
-  for(let i=0;i<rows;i++) pts.push([i%2===0?x:x+w,y+i*gap]);
-  ctx.strokeStyle='#f1f1f1'; roundedLine(pts,Math.max(9,gap*.3));
-  const segments=pts.length-1;
-  for(let p=0;p<18;p++){
-    const q=(t*.00014+p/18)%1*segments, s=Math.min(segments-1,Math.floor(q)), f=q-s;
-    const px=pts[s][0]+(pts[s+1][0]-pts[s][0])*f, py=pts[s][1]+(pts[s+1][1]-pts[s][1])*f;
-    particle(px,py,p%3===0?3:1.7);
+function makeSerpentinePath(x, y, w, h, rows) {
+  const path = new Path2D();
+  const gap = h / (rows - 1);
+  const radius = Math.min(gap * .5, w * .07);
+  path.moveTo(x - 24, y + h);
+  for (let row = 0; row < rows; row++) {
+    const yy = y + h - row * gap;
+    const goingRight = row % 2 === 0;
+    if (goingRight) {
+      path.lineTo(x + w - radius, yy);
+      if (row < rows - 1) {
+        path.quadraticCurveTo(x + w, yy, x + w, yy - radius);
+        path.lineTo(x + w, yy - gap + radius);
+        path.quadraticCurveTo(x + w, yy - gap, x + w - radius, yy - gap);
+      }
+    } else {
+      path.lineTo(x + radius, yy);
+      if (row < rows - 1) {
+        path.quadraticCurveTo(x, yy, x, yy - radius);
+        path.lineTo(x, yy - gap + radius);
+        path.quadraticCurveTo(x, yy - gap, x + radius, yy - gap);
+      }
+    }
+  }
+  path.lineTo(x + w + 24, y);
+  return { path, gap };
+}
+
+function drawSdfStroke(path, width) {
+  ctx.save();
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  ctx.strokeStyle = 'rgba(238,247,255,.88)';
+  ctx.shadowColor = 'rgba(230,245,255,.9)';
+  ctx.shadowBlur = 24;
+  ctx.lineWidth = width + 34;
+  ctx.stroke(path);
+  ctx.shadowBlur = 18;
+  ctx.shadowColor = 'rgba(255,93,55,.8)';
+  ctx.strokeStyle = '#ff9675';
+  ctx.lineWidth = width + 15;
+  ctx.stroke(path);
+  ctx.shadowBlur = 0;
+  ctx.strokeStyle = '#ffd1bf';
+  ctx.lineWidth = width;
+  ctx.stroke(path);
+  ctx.strokeStyle = 'rgba(20,24,28,.75)';
+  ctx.lineWidth = 1.5;
+  ctx.stroke(path);
+  ctx.restore();
+}
+
+function drawMaskStroke(path, width) {
+  ctx.save();
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  ctx.strokeStyle = '#050505';
+  ctx.lineWidth = width;
+  ctx.stroke(path);
+  ctx.restore();
+}
+
+function drawF0(x, y, w, h, n) {
+  const { path, gap } = makeSerpentinePath(x, y, w, h, n);
+  const width = Math.max(15, Math.min(34, gap * .34));
+  if (representation === 'sdf') drawSdfStroke(path, width);
+  else drawMaskStroke(path, width);
+}
+
+function drawF1(x, y, w, h, n) {
+  const gap = h / n;
+  const edge = Math.max(12, Math.min(22, gap * .24));
+  const plate = roundedRectPath(x, y, w, h, 5);
+  if (representation === 'sdf') {
+    ctx.save();
+    ctx.fillStyle = '#ff9a79';
+    ctx.shadowColor = 'rgba(235,247,255,.9)';
+    ctx.shadowBlur = 25;
+    ctx.fill(plate);
+    ctx.shadowBlur = 0;
+    for (let i = 0; i < n; i++) {
+      const cy = y + i * gap + gap * .5;
+      const channel = roundedRectPath(x + edge * 1.7, cy - gap * .27, w - edge * 3.4, gap * .54, 4);
+      ctx.fillStyle = '#86a8ff';
+      ctx.shadowColor = 'rgba(220,239,255,.75)';
+      ctx.shadowBlur = 14;
+      ctx.fill(channel);
+      ctx.shadowBlur = 0;
+      ctx.strokeStyle = 'rgba(15,18,24,.7)';
+      ctx.lineWidth = 1.3;
+      ctx.stroke(channel);
+    }
+    ctx.restore();
+  } else {
+    ctx.save();
+    ctx.fillStyle = '#f7f7f4';
+    ctx.fillRect(x, y, w, h);
+    ctx.strokeStyle = '#050505';
+    ctx.lineWidth = edge;
+    ctx.strokeRect(x, y, w, h);
+    for (let i = 1; i < n; i++) {
+      const yy = y + i * gap;
+      ctx.beginPath();
+      ctx.moveTo(x, yy);
+      ctx.lineTo(x + w, yy);
+      ctx.stroke();
+    }
+    ctx.clearRect(x - edge, y + h - edge * 1.05, edge * 2.5, edge * 2.1);
+    ctx.clearRect(x + w - edge * 1.5, y - edge * 1.05, edge * 2.5, edge * 2.1);
+    ctx.restore();
   }
 }
 
-function drawF1(x,y,w,h,n,t){
-  const rows=Math.max(4,Math.min(10,n)), gap=h/(rows-1);
-  ctx.strokeStyle='#f1f1f1'; ctx.lineCap='square'; ctx.lineWidth=Math.max(7,gap*.28);
-  ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x,y+h);ctx.moveTo(x+w,y);ctx.lineTo(x+w,y+h);ctx.stroke();
-  for(let i=0;i<rows;i++){
-    ctx.beginPath();ctx.moveTo(x,y+i*gap);ctx.lineTo(x+w,y+i*gap);ctx.stroke();
-    const px=x+((t*.075+i*43)%w); particle(px,y+i*gap,2);
+function drawF6(x, y, w, h, n) {
+  const cols = n;
+  const rows = n;
+  const gx = w / (cols + 1);
+  const gy = h / (rows + 1);
+  const radius = Math.min(gx, gy) * .27;
+  if (representation === 'sdf') {
+    const plate = roundedRectPath(x, y, w, h, 5);
+    ctx.save();
+    ctx.fillStyle = '#ff9a79';
+    ctx.shadowColor = 'rgba(235,247,255,.9)';
+    ctx.shadowBlur = 25;
+    ctx.fill(plate);
+    ctx.shadowBlur = 0;
+    for (let row = 1; row <= rows; row++) {
+      for (let col = 1; col <= cols; col++) {
+        const px = x + col * gx;
+        const py = y + row * gy;
+        const glow = ctx.createRadialGradient(px, py, 0, px, py, radius * 2.4);
+        glow.addColorStop(0, '#83a6ff');
+        glow.addColorStop(.52, '#dce9ff');
+        glow.addColorStop(1, 'rgba(255,145,112,0)');
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.arc(px, py, radius * 2.4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(15,18,24,.75)';
+        ctx.lineWidth = 1.3;
+        ctx.beginPath();
+        ctx.arc(px, py, radius, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+    }
+    ctx.restore();
+  } else {
+    ctx.save();
+    ctx.fillStyle = '#050505';
+    ctx.fillRect(x, y, w, h);
+    ctx.fillStyle = '#f7f7f4';
+    for (let row = 1; row <= rows; row++) {
+      for (let col = 1; col <= cols; col++) {
+        ctx.beginPath();
+        ctx.arc(x + col * gx, y + row * gy, radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    ctx.clearRect(x - 1, y + h - 30, 30, 31);
+    ctx.clearRect(x + w - 29, y - 1, 30, 31);
+    ctx.restore();
   }
 }
 
-function drawF6(x,y,w,h,n,t){
-  ctx.fillStyle='#f1f1f1'; ctx.fillRect(x-18,y,18,h);ctx.fillRect(x+w,y,18,h);
-  const cols=Math.max(4,Math.min(9,n)), rows=Math.max(4,Math.min(8,n-1));
-  const gx=w/(cols+1), gy=h/(rows+1), r=Math.min(gx,gy)*.24;
-  for(let j=1;j<=rows;j++)for(let i=1;i<=cols;i++){
-    const offset=j%2?gx*.16:-gx*.16;ctx.beginPath();ctx.arc(x+i*gx+offset,y+j*gy,r,0,Math.PI*2);ctx.fill();
-  }
-  for(let p=0;p<20;p++){
-    const px=x+((t*.055+p*w/20)%w), lane=p%rows+1;
-    const py=y+lane*gy+Math.sin(px/gx*Math.PI)*gy*.18; particle(px,py,p%4===0?2.8:1.6);
-  }
+function draw() {
+  const w = canvas.clientWidth;
+  const h = canvas.clientHeight;
+  const alpha = transition * transition * (3 - 2 * transition);
+  ctx.clearRect(0, 0, w, h);
+  ctx.fillStyle = representation === 'sdf' ? '#3d50c5' : '#f7f7f4';
+  ctx.fillRect(0, 0, w, h);
+
+  const pad = Math.max(62, Math.min(w, h) * .13);
+  const x = pad;
+  const y = pad * .72;
+  const gw = w - pad * 2;
+  const gh = h - pad * 1.45;
+  const n = Number(condition.value);
+
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  if (family === 'F0') drawF0(x, y, gw, gh, n);
+  if (family === 'F1') drawF1(x, y, gw, gh, n);
+  if (family === 'F6') drawF6(x, y, gw, gh, n);
+  ctx.restore();
+
+  ctx.strokeStyle = representation === 'sdf' ? 'rgba(10,16,40,.5)' : 'rgba(0,0,0,.2)';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(30, 30, w - 60, h - 60);
 }
 
-function particle(x,y,r){
-  const glow=ctx.createRadialGradient(x,y,0,x,y,r*4); glow.addColorStop(0,'rgba(255,255,255,.95)'); glow.addColorStop(.25,'rgba(165,210,235,.7)'); glow.addColorStop(1,'rgba(120,180,210,0)');
-  ctx.fillStyle=glow;ctx.beginPath();ctx.arc(x,y,r*4,0,Math.PI*2);ctx.fill();
-}
-
-function draw(t=performance.now()){
-  const w=canvas.clientWidth,h=canvas.clientHeight;
-  ctx.clearRect(0,0,w,h);ctx.fillStyle='#050607';ctx.fillRect(0,0,w,h);
-  const pad=Math.max(70,Math.min(w,h)*.16), x=pad,y=pad*.72, gw=w-pad*2,gh=h-pad*1.45;
-  if(representation==='sdf'){
-    const g=ctx.createRadialGradient(w*.5,h*.5,10,w*.5,h*.5,w*.55);g.addColorStop(0,'#48515a');g.addColorStop(.55,'#15191d');g.addColorStop(1,'#020303');ctx.fillStyle=g;ctx.fillRect(0,0,w,h);ctx.globalAlpha=.7;
-  }
-  const n=+complexity.value;
-  ctx.globalAlpha*=Math.min(1,transition);
-  if(family==='F0') drawF0(x,y,gw,gh,n,t);
-  if(family==='F1') drawF1(x,y,gw,gh,n,t);
-  if(family==='F6') drawF6(x,y,gw,gh,n,t);
-  ctx.globalAlpha=1;
-  ctx.strokeStyle='rgba(255,255,255,.16)';ctx.lineWidth=1;ctx.strokeRect(30,30,w-60,h-60);
-}
-
-function level(value){return value>.74?'HIGH':value>.49?'MED':'LOW'}
-
-function updateEffects(){
-  const base=effects[family], density=(+complexity.value-6)*.035;
-  const values={heat:Math.max(.1,Math.min(1,base.heat+density)),uniform:Math.max(.1,Math.min(1,base.uniform-density*.45)),pressure:Math.max(.1,Math.min(1,base.pressure+density*1.4))};
-  ['heat','uniform','pressure'].forEach(key=>{
-    document.querySelector(`#${key}Bar`).style.width=`${values[key]*100}%`;
-    document.querySelector(`#${key}Effect`).value=level(values[key]);
-  });
-  document.querySelector('#flowResponse').textContent=base.response;
-  document.querySelector('#effectSummary').textContent=base.summary;
-}
-
-function update(){
-  const r=results[family];
-  document.querySelector('#seedOut').value=String(seed.value).padStart(4,'0');
-  document.querySelector('#complexityOut').value=complexity.value;
-  document.querySelector('#viewerLabel').textContent=`${family} / ${r.name}`;
-  document.querySelector('#passMetric').innerHTML=`${r.pass}<small> %</small>`;
-  document.querySelector('#passMetric').nextElementSibling.textContent=r.count;
-  document.querySelector('#uniqueMetric').innerHTML=`${r.unique}<small> / 256</small>`;
-  document.querySelector('#timeMetric').innerHTML=`${r.time}<small> min</small>`;
-  updateEffects();
+function update() {
+  const r = results[family];
+  document.querySelector('#conditionOut').value = condition.value;
+  document.querySelector('#viewerLabel').textContent = `${family} / ${r.name}`;
+  document.querySelector('#passMetric').innerHTML = `${r.pass}<small> %</small>`;
+  document.querySelector('#passMetric').nextElementSibling.textContent = r.passCount;
+  document.querySelector('#failMetric').innerHTML = `${r.fail}<small> %</small>`;
+  document.querySelector('#failCount').textContent = r.failCount;
   draw();
 }
 
-document.querySelectorAll('#families button').forEach(btn=>btn.addEventListener('click',()=>{
-  document.querySelectorAll('#families button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');family=btn.dataset.family;transition=0;update();
+document.querySelectorAll('#families button').forEach((button) => button.addEventListener('click', () => {
+  document.querySelectorAll('#families button').forEach((item) => item.classList.remove('active'));
+  button.classList.add('active');
+  family = button.dataset.family;
+  transition = 0;
+  update();
 }));
-document.querySelectorAll('#representations button').forEach(btn=>btn.addEventListener('click',()=>{
-  document.querySelectorAll('#representations button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');representation=btn.dataset.view;draw();
+
+document.querySelectorAll('#representations button').forEach((button) => button.addEventListener('click', () => {
+  document.querySelectorAll('#representations button').forEach((item) => item.classList.remove('active'));
+  button.classList.add('active');
+  representation = button.dataset.view;
+  transition = 0;
+  draw();
 }));
-[seed,complexity].forEach(el=>el.addEventListener('input',update));
-function animate(t){transition=Math.min(1,transition+(t-lastTime)/260);lastTime=t;draw(t);requestAnimationFrame(animate)}
-addEventListener('resize',resize);resize();update();requestAnimationFrame(animate);
+
+condition.addEventListener('input', update);
+
+function animate(time) {
+  if (transition < 1) {
+    transition = Math.min(1, transition + (time - lastTime) / 300);
+    draw();
+  }
+  lastTime = time;
+  requestAnimationFrame(animate);
+}
+
+addEventListener('resize', resize);
+resize();
+update();
+requestAnimationFrame(animate);
