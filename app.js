@@ -5,6 +5,8 @@ let family = 'F0';
 let representation = 'mask';
 let transition = 1;
 let lastTime = performance.now();
+let flowTime = 0;
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 const results = {
   F0: { name: 'SERPENTINE', pass: '90.2', fail: '9.8', passCount: '231 / 256', failCount: '25 / 256' },
@@ -88,11 +90,63 @@ function drawMaskStroke(path, width) {
   ctx.restore();
 }
 
+function strokeCoolant(path, width, dash, gap, offset, alpha = .3) {
+  ctx.save();
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  ctx.setLineDash([dash, gap]);
+  ctx.lineDashOffset = offset;
+  ctx.lineWidth = width;
+  ctx.strokeStyle = `rgba(115, 218, 244, ${alpha})`;
+  ctx.shadowColor = 'rgba(100, 211, 245, .42)';
+  ctx.shadowBlur = 7;
+  ctx.stroke(path);
+  ctx.restore();
+}
+
+function drawF0Flow(path, width) {
+  const phase = reduceMotion ? 0 : flowTime * .032;
+  strokeCoolant(path, Math.max(2, width * .105), 16, 52, -phase, representation === 'sdf' ? .22 : .32);
+}
+
+function drawF1Flow(x, y, w, h, n) {
+  const gap = h / n;
+  const phase = reduceMotion ? 0 : flowTime * .035;
+  ctx.save();
+  for (let i = 0; i < n; i++) {
+    const cy = y + i * gap + gap * .5;
+    const path = new Path2D();
+    path.moveTo(x + 26, cy);
+    path.lineTo(x + w - 26, cy);
+    strokeCoolant(path, 2.2, 13, 42, -phase - i * 11, representation === 'sdf' ? .2 : .3);
+  }
+  ctx.restore();
+}
+
+function drawF6Flow(x, y, w, h, n) {
+  const gy = h / (n + 1);
+  const phase = reduceMotion ? 0 : flowTime * .028;
+  for (let lane = 0; lane <= n; lane++) {
+    const baseY = y + (lane + .5) * gy;
+    const path = new Path2D();
+    const steps = 28;
+    for (let step = 0; step <= steps; step++) {
+      const t = step / steps;
+      const px = x + t * w;
+      const py = baseY + Math.sin(t * Math.PI * 4 + lane * .7) * Math.min(2.8, gy * .08);
+      if (step === 0) path.moveTo(px, py);
+      else path.lineTo(px, py);
+    }
+    strokeCoolant(path, 1.8, 10, 46, -phase - lane * 9, representation === 'sdf' ? .17 : .25);
+  }
+}
+
 function drawF0(x, y, w, h, n) {
   const { path, gap } = makeSerpentinePath(x, y, w, h, n);
   const width = Math.max(15, Math.min(34, gap * .34));
   if (representation === 'sdf') drawSdfStroke(path, width);
   else drawMaskStroke(path, width);
+  drawF0Flow(path, width);
 }
 
 function drawF1(x, y, w, h, n) {
@@ -137,6 +191,7 @@ function drawF1(x, y, w, h, n) {
     ctx.clearRect(x + w - edge * 1.5, y - edge * 1.05, edge * 2.5, edge * 2.1);
     ctx.restore();
   }
+  drawF1Flow(x, y, w, h, n);
 }
 
 function drawF6(x, y, w, h, n) {
@@ -189,6 +244,7 @@ function drawF6(x, y, w, h, n) {
     ctx.clearRect(x + w - 29, y - 1, 30, 31);
     ctx.restore();
   }
+  drawF6Flow(x, y, w, h, n);
 }
 
 function draw() {
@@ -248,10 +304,11 @@ document.querySelectorAll('#representations button').forEach((button) => button.
 condition.addEventListener('input', update);
 
 function animate(time) {
+  flowTime = time;
   if (transition < 1) {
     transition = Math.min(1, transition + (time - lastTime) / 300);
-    draw();
   }
+  draw();
   lastTime = time;
   requestAnimationFrame(animate);
 }
