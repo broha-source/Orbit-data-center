@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="SpaceSFF-Gen: unified conditional diffusion for space data-center cold-plate flow-field generation." />
-    <title>SpaceSFF-Gen — Generative Flow Fields for Space Compute</title>
+    <meta name="description" content="Radiator Flow Field: interactive orbital data-center radiator geometry explorer." />
+    <title>Radiator Flow Field — Orbit Data Center</title>
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="theme.css" />
   </head>
@@ -36,7 +36,7 @@
 
       <section id="demo" class="demo-section section-shell">
         <div class="section-heading">
-          <div><p class="eyebrow"><span></span> Interactive generator explorer</p><h2>SpaceSFF-Gen</h2></div>
+          <div><p class="eyebrow"><span></span> Interactive generator explorer</p><h2>Radiator Flow Field</h2></div>
           <p>Explore the three flow-field families learned by one conditional model. The viewer reconstructs the visual grammar of the generated native-resolution masks.</p>
         </div>
 
@@ -49,10 +49,8 @@
               <button data-family="F1">F1</button>
               <button data-family="F6">F6</button>
             </div>
-            <label for="seed">Sample ID <output id="seedOut">0128</output></label>
-            <input id="seed" type="range" min="1" max="256" value="128" />
-            <label for="complexity">Geometry density <output id="complexityOut">6</output></label>
-            <input id="complexity" type="range" min="3" max="10" value="6" />
+            <label for="condition">Condition <output id="conditionOut">6</output></label>
+            <input id="condition" type="range" min="4" max="9" value="6" />
             <label>Representation</label>
             <div class="segmented two" id="representations">
               <button data-view="sdf">Native SDF</button>
@@ -72,22 +70,13 @@
             </div>
             <canvas id="flowCanvas" aria-label="Interactive SpaceSFF generated geometry"></canvas>
             <div class="port inlet">INLET</div><div class="port outlet">OUTLET</div>
-            <div class="flow-readout"><i></i><span>FLOW RESPONSE</span><b id="flowResponse">HIGH-MIXING PATH</b></div>
           </div>
 
           <aside class="metrics">
-            <div class="panel-title"><span>V5.11.5 QC</span><b>02</b></div>
-            <article><span>Release pass rate</span><strong id="passMetric">90.2<small> %</small></strong><em class="ok">231 / 256</em></article>
-            <article><span>Unique final masks</span><strong id="uniqueMetric">256<small> / 256</small></strong><em>DIVERSITY</em></article>
-            <article><span>Generation time</span><strong id="timeMetric">8.78<small> min</small></strong><em class="ok">DDIM-100</em></article>
-            <div class="effects-panel">
-              <div class="effect-title"><span>EXPECTED FLOW EFFECT</span><b>QUALITATIVE</b></div>
-              <div class="effect-row"><label>Heat-transfer area</label><i><u id="heatBar"></u></i><output id="heatEffect">HIGH</output></div>
-              <div class="effect-row"><label>Flow uniformity</label><i><u id="uniformBar"></u></i><output id="uniformEffect">MED</output></div>
-              <div class="effect-row"><label>Pressure loss</label><i><u id="pressureBar"></u></i><output id="pressureEffect">HIGH</output></div>
-              <p id="effectSummary">Long turning path promotes mixing, with a higher pumping penalty.</p>
-            </div>
-            <p class="qc-note">QC values above are measured V5.11.5 results. Expected effects are qualitative design tendencies—not CFD/CHT predictions.</p>
+            <div class="panel-title"><span>METRICS</span><b>02</b></div>
+            <article><span>Pass rate</span><strong id="passMetric">90.2<small> %</small></strong><em class="ok">231 / 256</em></article>
+            <article><span>Fail rate</span><strong id="failMetric">9.8<small> %</small></strong><em id="failCount">25 / 256</em></article>
+            <article><span>Compute spec</span><strong class="spec-metric">NVIDIA L4</strong><em class="ok">GOOGLE COLAB</em></article>
           </aside>
         </div>
       </section>
@@ -114,7 +103,7 @@
       </section>
     </main>
 
-    <footer><span>SPACESFF-GEN</span><p>Unified Conditional Diffusion · V5.11.5 Generation QC</p><a href="#top">Back to top ↑</a></footer>
-    <script src="app.js"></script>
+    <footer><span>RADIATOR FLOW FIELD</span><p>Unified Conditional Diffusion · V5.11.5 Generation QC</p><a href="#top">Back to top ↑</a></footer>
+    <script src="app.js?v=radiator-controls-2" defer></script>
   </body>
 </html>
