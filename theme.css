@@ -64,12 +64,12 @@ footer{border-color:#242528;font:700 10px Arial,sans-serif;color:#777}footer a{c
 .legend .fluid{background:#070707;border:1px solid #67dffc;box-shadow:0 0 8px rgba(103,223,252,.45)}
 .legend .solid{background:#f8f8f8;border:1px solid #999}
 .hint{font-size:11px;line-height:1.7;margin-top:27px;color:#85898c}
-.family-key{display:flex;flex-direction:column;gap:9px;font-size:13px;line-height:1.35;color:#aeb3b5}
+.family-key{display:flex;flex-direction:column;gap:12px;font-size:15px;line-height:1.35;color:#c4c8ca}
 .family-key span{display:block}
-.family-key b{display:inline-block;width:30px;color:#fff;font-size:12px;letter-spacing:.04em}
-.viewer-bar{height:58px;padding:0 20px;font-size:11px;background:rgba(0,0,0,.64);backdrop-filter:blur(8px)}
-.viewer-bar button{font-size:10px;padding:10px 8px}
-.viewer-bar b{font-size:11px;color:#d6d8d9}
+.family-key b{display:inline-block;width:38px;color:#fff;font-size:14px;letter-spacing:.05em}
+.viewer-bar{height:66px;padding:0 22px;font-size:14px;background:rgba(0,0,0,.64);backdrop-filter:blur(8px)}
+.viewer-bar button{font-size:12px;padding:12px 11px;letter-spacing:.02em}
+.viewer-bar b{font-size:14px;color:#fff;letter-spacing:.035em}
 .port{font-size:10px;color:#aaa}.port:after{width:34px}
 .metrics article{padding:27px 0}
 .metrics article span{font-size:13px;color:#c2c5c6}

@@ -227,7 +227,7 @@ slider.addEventListener('input', () => {
   updateInterface();
 });
 
-fetch('assets/geometry/geometry-data.json?v=five-family')
+fetch('assets/geometry/geometry-data.json?v=family-readability-2')
   .then((response) => {
     if (!response.ok) throw new Error(`Geometry data: ${response.status}`);
     return response.json();
