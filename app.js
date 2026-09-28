@@ -14,11 +14,15 @@ const passMetric = document.querySelector('#passMetric');
 const failMetric = document.querySelector('#failMetric');
 const passCount = document.querySelector('#passCount');
 const failCount = document.querySelector('#failCount');
+const generateNext = document.querySelector('#generateNext');
+const sampleReadout = document.querySelector('#sampleReadout');
 
 let database;
+let passDatabase;
 let familyId = 'F0';
 let view = 'mask';
 let variantIndex = 0;
+let randomSample = null;
 let frame = 0;
 let lastTime = performance.now();
 const imageCache = new Map();
@@ -37,6 +41,17 @@ function loadImage(src) {
 
 function currentFamily() { return database.families[familyId]; }
 function currentVariant() { return currentFamily().variants[variantIndex]; }
+
+function atlasCrop(passFamily, sample) {
+  const sheetIndex = Math.floor(sample / passFamily.samplesPerSheet);
+  const localIndex = sample % passFamily.samplesPerSheet;
+  return {
+    sheetIndex,
+    sx: (localIndex % passFamily.grid) * passFamily.tile,
+    sy: Math.floor(localIndex / passFamily.grid) * passFamily.tile,
+    size: passFamily.tile
+  };
+}
 
 function resizeCanvas() {
   const box = canvas.getBoundingClientRect();
@@ -66,7 +81,9 @@ function updateInterface() {
   slider.value = variantIndex;
   variableLabel.textContent = family.variable;
   conditionOut.textContent = variant.value;
-  viewerLabel.textContent = `${familyId} / ${family.name}`;
+  viewerLabel.textContent = randomSample === null
+    ? `${familyId} / ${family.name}`
+    : `${familyId} / ${family.name} · PASS #${String(randomSample).padStart(3, '0')}`;
   passMetric.innerHTML = `${family.metrics.passRate}<small> %</small>`;
   failMetric.innerHTML = `${family.metrics.failRate}<small> %</small>`;
   passCount.textContent = `${family.metrics.pass} / 256`;
@@ -75,6 +92,12 @@ function updateInterface() {
     port.hidden = familyId === 'F2' || familyId === 'F4';
   });
   [variant.sdf, variant.mask, variant.alpha].forEach(loadImage);
+  if (passDatabase) {
+    const count = passDatabase[familyId].passSamples.length;
+    sampleReadout.textContent = randomSample === null
+      ? `${familyId} · ${count} PASS RESULTS`
+      : `${familyId} · SAMPLE #${String(randomSample).padStart(3, '0')} · PASS`;
+  }
 }
 
 function drawBackdrop() {
@@ -167,20 +190,44 @@ async function draw(time) {
   const variant = currentVariant();
   const rect = imageRect();
   try {
-    const [geometry, alpha] = await Promise.all([loadImage(view === 'sdf' ? variant.sdf : variant.mask), loadImage(variant.alpha)]);
+    let geometry;
+    let alpha;
+    let crop = null;
+    if (randomSample === null || !passDatabase) {
+      [geometry, alpha] = await Promise.all([loadImage(view === 'sdf' ? variant.sdf : variant.mask), loadImage(variant.alpha)]);
+    } else {
+      const passFamily = passDatabase[familyId];
+      crop = atlasCrop(passFamily, randomSample);
+      [geometry, alpha] = await Promise.all([
+        loadImage(view === 'sdf' ? passFamily.sdfSheets[crop.sheetIndex] : passFamily.maskSheets[crop.sheetIndex]),
+        loadImage(passFamily.maskSheets[crop.sheetIndex])
+      ]);
+    }
     ctx.save();
     ctx.imageSmoothingEnabled = true;
     ctx.imageSmoothingQuality = 'high';
     ctx.shadowColor = 'rgba(255,255,255,.08)';
     ctx.shadowBlur = 22;
-    ctx.drawImage(geometry, rect.x, rect.y, rect.size, rect.size);
+    if (crop) {
+      if (view === 'mask') {
+        ctx.fillStyle = '#f8f8f8';
+        ctx.fillRect(rect.x, rect.y, rect.size, rect.size);
+      }
+      ctx.drawImage(geometry, crop.sx, crop.sy, crop.size, crop.size, rect.x, rect.y, rect.size, rect.size);
+    } else {
+      ctx.drawImage(geometry, rect.x, rect.y, rect.size, rect.size);
+    }
     ctx.restore();
 
     fx.clearRect(0, 0, fxCanvas.width, fxCanvas.height);
     drawDirectionalField(rect, time);
-    drawPathParticles(rect, time, variant.paths);
+    if (!crop) drawPathParticles(rect, time, variant.paths);
     fx.globalCompositeOperation = 'destination-in';
-    fx.drawImage(alpha, rect.x, rect.y, rect.size, rect.size);
+    if (crop) {
+      fx.drawImage(alpha, crop.sx, crop.sy, crop.size, crop.size, rect.x, rect.y, rect.size, rect.size);
+    } else {
+      fx.drawImage(alpha, rect.x, rect.y, rect.size, rect.size);
+    }
     fx.globalCompositeOperation = 'source-over';
     ctx.globalCompositeOperation = view === 'sdf' ? 'screen' : 'source-over';
     ctx.globalAlpha = view === 'sdf' ? .6 : .92;
@@ -211,6 +258,7 @@ familiesEl.addEventListener('click', (event) => {
   if (!button) return;
   familyId = button.dataset.family;
   variantIndex = 0;
+  randomSample = null;
   familiesEl.querySelectorAll('button').forEach((item) => item.classList.toggle('active', item === button));
   updateInterface();
 });
@@ -224,16 +272,37 @@ representationsEl.addEventListener('click', (event) => {
 
 slider.addEventListener('input', () => {
   variantIndex = Number(slider.value);
+  randomSample = null;
   updateInterface();
 });
 
-fetch('assets/geometry/geometry-data.json?v=family-readability-2')
-  .then((response) => {
+generateNext.addEventListener('click', () => {
+  if (!passDatabase) return;
+  const samples = passDatabase[familyId].passSamples;
+  let next = samples[Math.floor(Math.random() * samples.length)];
+  if (samples.length > 1) {
+    while (next === randomSample) next = samples[Math.floor(Math.random() * samples.length)];
+  }
+  randomSample = next;
+  generateNext.classList.remove('is-launching');
+  requestAnimationFrame(() => generateNext.classList.add('is-launching'));
+  setTimeout(() => generateNext.classList.remove('is-launching'), 520);
+  updateInterface();
+});
+
+Promise.all([
+  fetch('assets/geometry/geometry-data.json?v=pass-randomizer-1').then((response) => {
     if (!response.ok) throw new Error(`Geometry data: ${response.status}`);
     return response.json();
+  }),
+  fetch('assets/geometry/pass-atlases.json?v=pass-randomizer-1').then((response) => {
+    if (!response.ok) throw new Error(`PASS atlas data: ${response.status}`);
+    return response.json();
   })
-  .then((data) => {
-    database = data;
+])
+  .then(([geometryData, atlasData]) => {
+    database = geometryData;
+    passDatabase = atlasData;
     updateInterface();
   })
   .catch((error) => {

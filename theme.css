@@ -76,6 +76,16 @@ footer{border-color:#242528;font:700 10px Arial,sans-serif;color:#777}footer a{c
 .metrics strong{font-size:36px;margin-top:12px}
 .metrics strong.spec-metric{font-size:25px!important}
 .metrics em{font-size:10px;top:29px}
+.spacecraft-generator{margin-top:24px;padding-top:22px;border-top:1px solid #333;text-align:center}
+.spacecraft-button{width:100%;padding:12px 8px 13px;border:1px solid transparent;background:transparent;color:#fff;cursor:pointer;transition:border-color .25s,background .25s,transform .25s}
+.spacecraft-button:hover{border-color:#555;background:#0d0f11;transform:translateY(-2px)}
+.spacecraft-button:active{transform:translateY(0)}
+.spacecraft-button img{display:block;width:100%;height:92px;object-fit:contain;margin:0 auto 5px;opacity:.92;transition:opacity .25s,transform .35s}
+.spacecraft-button:hover img{opacity:1;transform:translateX(3px)}
+.spacecraft-button.is-launching img{animation:orbitLaunch .52s ease-out}
+.spacecraft-button span{display:block;font:700 11px Arial,sans-serif;letter-spacing:.12em}
+.spacecraft-generator p{margin:10px 0 0;font:700 9px Arial,sans-serif;letter-spacing:.07em;color:#737a7d}
+@keyframes orbitLaunch{0%{transform:translateX(0);opacity:.92}45%{transform:translateX(9px);opacity:1}100%{transform:translateX(0);opacity:.92}}
 .result-grid{grid-template-columns:repeat(5,minmax(0,1fr))}
 .result-grid article{padding:30px 22px 36px;min-width:0}
 .result-grid header{padding-bottom:16px;gap:8px}.result-grid header b{font-size:31px}.result-grid header span{font-size:9px;text-align:right}

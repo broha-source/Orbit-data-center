@@ -85,6 +85,13 @@
             <article><span>Pass rate</span><strong id="passMetric">81.6<small> %</small></strong><em id="passCount" class="ok">209 / 256</em></article>
             <article><span>Fail rate</span><strong id="failMetric">18.4<small> %</small></strong><em id="failCount">47 / 256</em></article>
             <article><span>Model device</span><strong class="spec-metric">NVIDIA L4</strong></article>
+            <div class="spacecraft-generator">
+              <button id="generateNext" class="spacecraft-button" type="button" aria-label="Generate another random PASS geometry">
+                <img src="assets/orbit-generate-button.png" alt="Satellite orbiting Earth" />
+                <span>GENERATE NEXT</span>
+              </button>
+              <p id="sampleReadout" aria-live="polite">F0 · 209 PASS RESULTS</p>
+            </div>
           </aside>
         </div>
       </section>
@@ -114,6 +121,6 @@
     </main>
 
     <footer><span>RADIATOR FLOW FIELD</span><p>Unified Conditional Diffusion · 1,280 RAW SDF Samples</p><a href="#top">Back to top ↑</a></footer>
-    <script src="app.js?v=family-readability-2" defer></script>
+    <script src="app.js?v=pass-randomizer-1" defer></script>
   </body>
 </html>
