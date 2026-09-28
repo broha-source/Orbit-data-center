@@ -1,362 +1,245 @@
 const canvas = document.querySelector('#flowCanvas');
 const ctx = canvas.getContext('2d');
-const condition = document.querySelector('#condition');
-let family = 'F0';
-let representation = 'mask';
-let transition = 1;
+const fxCanvas = document.createElement('canvas');
+const fx = fxCanvas.getContext('2d');
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const familiesEl = document.querySelector('#families');
+const representationsEl = document.querySelector('#representations');
+const slider = document.querySelector('#condition');
+const variableLabel = document.querySelector('#variableLabel');
+const conditionOut = document.querySelector('#conditionOut');
+const viewerLabel = document.querySelector('#viewerLabel');
+const passMetric = document.querySelector('#passMetric');
+const failMetric = document.querySelector('#failMetric');
+const passCount = document.querySelector('#passCount');
+const failCount = document.querySelector('#failCount');
+
+let database;
+let familyId = 'F0';
+let view = 'mask';
+let variantIndex = 0;
+let frame = 0;
 let lastTime = performance.now();
-let flowTime = 0;
-const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const imageCache = new Map();
 
-const results = {
-  F0: { name: 'SERPENTINE', pass: '90.2', fail: '9.8', passCount: '231 / 256', failCount: '25 / 256' },
-  F1: { name: 'PARALLEL', pass: '70.7', fail: '29.3', passCount: '181 / 256', failCount: '75 / 256' },
-  F6: { name: 'PIN-FIN', pass: '97.3', fail: '2.7', passCount: '249 / 256', failCount: '7 / 256' }
-};
-
-function resize() {
-  const dpr = Math.min(devicePixelRatio, 2);
-  canvas.width = Math.round(canvas.clientWidth * dpr);
-  canvas.height = Math.round(canvas.clientHeight * dpr);
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  draw();
+function loadImage(src) {
+  if (imageCache.has(src)) return imageCache.get(src);
+  const promise = new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = reject;
+    image.src = src;
+  });
+  imageCache.set(src, promise);
+  return promise;
 }
 
-function roundedRectPath(x, y, w, h, r) {
-  const path = new Path2D();
-  path.roundRect(x, y, w, h, r);
-  return path;
-}
+function currentFamily() { return database.families[familyId]; }
+function currentVariant() { return currentFamily().variants[variantIndex]; }
 
-function makeSerpentinePath(x, y, w, h, rows) {
-  const path = new Path2D();
-  const gap = h / (rows - 1);
-  const radius = Math.min(gap * .5, w * .07);
-  path.moveTo(x - 24, y + h);
-  for (let row = 0; row < rows; row++) {
-    const yy = y + h - row * gap;
-    const goingRight = row % 2 === 0;
-    if (goingRight) {
-      path.lineTo(x + w - radius, yy);
-      if (row < rows - 1) {
-        path.quadraticCurveTo(x + w, yy, x + w, yy - radius);
-        path.lineTo(x + w, yy - gap + radius);
-        path.quadraticCurveTo(x + w, yy - gap, x + w - radius, yy - gap);
-      }
-    } else {
-      path.lineTo(x + radius, yy);
-      if (row < rows - 1) {
-        path.quadraticCurveTo(x, yy, x, yy - radius);
-        path.lineTo(x, yy - gap + radius);
-        path.quadraticCurveTo(x, yy - gap, x + radius, yy - gap);
-      }
-    }
+function resizeCanvas() {
+  const box = canvas.getBoundingClientRect();
+  const dpr = Math.min(devicePixelRatio || 1, 2);
+  const width = Math.max(1, Math.round(box.width * dpr));
+  const height = Math.max(1, Math.round(box.height * dpr));
+  if (canvas.width !== width || canvas.height !== height) {
+    canvas.width = width;
+    canvas.height = height;
+    fxCanvas.width = width;
+    fxCanvas.height = height;
   }
-  path.lineTo(x + w + 24, y);
-  return { path, gap };
 }
 
-function drawSdfStroke(path, width) {
-  ctx.save();
-  ctx.lineCap = 'round';
-  ctx.lineJoin = 'round';
-  ctx.strokeStyle = 'rgba(238,247,255,.88)';
-  ctx.shadowColor = 'rgba(230,245,255,.9)';
-  ctx.shadowBlur = 24;
-  ctx.lineWidth = width + 34;
-  ctx.stroke(path);
-  ctx.shadowBlur = 18;
-  ctx.shadowColor = 'rgba(255,93,55,.8)';
-  ctx.strokeStyle = '#ff9675';
-  ctx.lineWidth = width + 15;
-  ctx.stroke(path);
-  ctx.shadowBlur = 0;
-  ctx.strokeStyle = '#ffd1bf';
-  ctx.lineWidth = width;
-  ctx.stroke(path);
-  ctx.strokeStyle = 'rgba(20,24,28,.75)';
-  ctx.lineWidth = 1.5;
-  ctx.stroke(path);
-  ctx.restore();
+function imageRect() {
+  const dpr = canvas.width / Math.max(canvas.getBoundingClientRect().width, 1);
+  const top = 64 * dpr;
+  const availableHeight = canvas.height - top - 24 * dpr;
+  const size = Math.min(canvas.width - 36 * dpr, availableHeight);
+  return { x: (canvas.width - size) / 2, y: top + (availableHeight - size) / 2, size };
 }
 
-function drawMaskStroke(path, width) {
-  ctx.save();
-  ctx.lineCap = 'round';
-  ctx.lineJoin = 'round';
-  ctx.strokeStyle = '#050505';
-  ctx.lineWidth = width;
-  ctx.stroke(path);
-  ctx.restore();
+function updateInterface() {
+  const family = currentFamily();
+  const variant = currentVariant();
+  slider.max = family.variants.length - 1;
+  slider.value = variantIndex;
+  variableLabel.textContent = family.variable;
+  conditionOut.textContent = variant.value;
+  viewerLabel.textContent = `${familyId} / ${family.name}`;
+  passMetric.innerHTML = `${family.metrics.passRate}<small> %</small>`;
+  failMetric.innerHTML = `${family.metrics.failRate}<small> %</small>`;
+  passCount.textContent = `${family.metrics.pass} / 256`;
+  failCount.textContent = `${family.metrics.fail} / 256`;
+  document.querySelectorAll('.port').forEach((port) => {
+    port.hidden = familyId === 'F2' || familyId === 'F4';
+  });
+  [variant.sdf, variant.mask, variant.alpha].forEach(loadImage);
 }
 
-function strokeCoolantParticles(path, width, spacing, offset, alpha = .3) {
-  ctx.save();
-  ctx.lineCap = 'round';
-  ctx.lineJoin = 'round';
-  ctx.setLineDash([.1, spacing]);
-  ctx.lineDashOffset = offset;
-  ctx.lineWidth = width;
-  ctx.strokeStyle = `rgba(115, 218, 244, ${alpha})`;
-  ctx.shadowColor = 'rgba(100, 211, 245, .55)';
-  ctx.shadowBlur = 10;
-  ctx.stroke(path);
-  ctx.restore();
-}
-
-function drawSoftParticle(px, py, radius, alpha, direction = 1) {
-  const tail = 18 + radius * 2;
-  ctx.save();
-  const trail = ctx.createLinearGradient(px - tail * direction, py, px + radius * direction, py);
-  if (direction > 0) {
-    trail.addColorStop(0, 'rgba(103, 216, 244, 0)');
-    trail.addColorStop(1, `rgba(146, 229, 248, ${alpha * .72})`);
-  } else {
-    trail.addColorStop(0, `rgba(146, 229, 248, ${alpha * .72})`);
-    trail.addColorStop(1, 'rgba(103, 216, 244, 0)');
-  }
-  ctx.strokeStyle = trail;
-  ctx.lineWidth = Math.max(1, radius * .55);
-  ctx.lineCap = 'round';
-  ctx.beginPath();
-  ctx.moveTo(px - tail * direction, py);
-  ctx.lineTo(px, py);
-  ctx.stroke();
-
-  const glow = ctx.createRadialGradient(px, py, 0, px, py, radius * 3.4);
-  glow.addColorStop(0, `rgba(210, 249, 255, ${alpha})`);
-  glow.addColorStop(.28, `rgba(103, 216, 244, ${alpha * .62})`);
-  glow.addColorStop(1, 'rgba(103, 216, 244, 0)');
+function drawBackdrop() {
+  ctx.fillStyle = '#050607';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  const glow = ctx.createRadialGradient(canvas.width * .5, canvas.height * .48, 0, canvas.width * .5, canvas.height * .48, canvas.width * .58);
+  glow.addColorStop(0, 'rgba(70, 96, 107, .16)');
+  glow.addColorStop(.55, 'rgba(19, 27, 31, .09)');
+  glow.addColorStop(1, 'rgba(0, 0, 0, 0)');
   ctx.fillStyle = glow;
-  ctx.beginPath();
-  ctx.arc(px, py, radius * 3.4, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.restore();
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
-function drawF0Flow(path, width) {
-  const phase = reduceMotion ? 0 : flowTime * .032;
-  const alpha = representation === 'sdf' ? .22 : .3;
-  strokeCoolantParticles(path, Math.max(3, width * .13), 88, -phase, alpha);
-  strokeCoolantParticles(path, Math.max(2, width * .085), 143, -phase * .79 - 41, alpha * .72);
-}
-
-function drawF1Flow(x, y, w, h, n, edge) {
-  const gap = h / n;
-  const clock = reduceMotion ? 0 : flowTime * .000055;
-  for (let i = 0; i < n; i++) {
-    const cy = y + (i + .5) * gap;
-    const channelX = representation === 'sdf' ? x + edge * 1.7 : x + edge * .62;
-    const channelW = representation === 'sdf' ? w - edge * 3.4 : w - edge * 1.24;
-    const channelH = representation === 'sdf' ? gap * .54 : Math.max(5, gap - edge * 1.12);
-    const channel = roundedRectPath(channelX, cy - channelH * .5, channelW, channelH, Math.min(5, channelH * .35));
-
-    ctx.save();
-    ctx.clip(channel);
-    const wash = ctx.createLinearGradient(channelX, 0, channelX + channelW, 0);
-    wash.addColorStop(0, 'rgba(92, 202, 235, .015)');
-    wash.addColorStop(.5, 'rgba(92, 202, 235, .07)');
-    wash.addColorStop(1, 'rgba(92, 202, 235, .015)');
-    ctx.fillStyle = wash;
-    ctx.fill(channel);
-    for (let p = 0; p < 3; p++) {
-      const speed = 1 + (i % 3) * .075;
-      const t = (clock * speed + i * .137 + p * .337) % 1;
-      const px = channelX + 12 + t * Math.max(1, channelW - 24);
-      drawSoftParticle(px, cy, Math.max(1.6, Math.min(2.7, channelH * .08)), representation === 'sdf' ? .29 : .34);
-    }
-    ctx.restore();
+function pointOnPath(path, distance) {
+  if (path.length < 2) return path[0] || [128, 128];
+  const lengths = [];
+  let total = 0;
+  for (let i = 1; i < path.length; i += 1) {
+    total += Math.hypot(path[i][0] - path[i - 1][0], path[i][1] - path[i - 1][1]);
+    lengths.push(total);
   }
+  const target = ((distance % 1) + 1) % 1 * total;
+  let segment = lengths.findIndex((length) => length >= target);
+  if (segment < 0) segment = lengths.length - 1;
+  const before = segment === 0 ? 0 : lengths[segment - 1];
+  const ratio = (target - before) / Math.max(lengths[segment] - before, 1);
+  const a = path[segment];
+  const b = path[segment + 1];
+  return [a[0] + (b[0] - a[0]) * ratio, a[1] + (b[1] - a[1]) * ratio];
 }
 
-function drawF6Flow(x, y, w, h, n) {
-  const gy = h / (n + 1);
-  const clock = reduceMotion ? 0 : flowTime * .000042;
-  for (let lane = 0; lane <= n; lane++) {
-    const baseY = y + (lane + .5) * gy;
-    for (let p = 0; p < 2; p++) {
-      const speed = 1 + (lane % 4) * .055;
-      const t = (clock * speed + lane * .119 + p * .51) % 1;
-      const px = x + t * w;
-      const py = baseY + Math.sin(t * Math.PI * 4 + lane * .7) * Math.min(2.8, gy * .08);
-      drawSoftParticle(px, py, Math.max(1.25, Math.min(2.1, gy * .055)), representation === 'sdf' ? .22 : .28);
-    }
-  }
-}
-
-function drawF0(x, y, w, h, n) {
-  const { path, gap } = makeSerpentinePath(x, y, w, h, n);
-  const width = Math.max(15, Math.min(34, gap * .34));
-  if (representation === 'sdf') drawSdfStroke(path, width);
-  else drawMaskStroke(path, width);
-  drawF0Flow(path, width);
-}
-
-function drawF1(x, y, w, h, n) {
-  const gap = h / n;
-  const edge = Math.max(12, Math.min(22, gap * .24));
-  const plate = roundedRectPath(x, y, w, h, 5);
-  if (representation === 'sdf') {
-    ctx.save();
-    ctx.fillStyle = '#ff9a79';
-    ctx.shadowColor = 'rgba(235,247,255,.9)';
-    ctx.shadowBlur = 25;
-    ctx.fill(plate);
-    ctx.shadowBlur = 0;
-    for (let i = 0; i < n; i++) {
-      const cy = y + i * gap + gap * .5;
-      const channel = roundedRectPath(x + edge * 1.7, cy - gap * .27, w - edge * 3.4, gap * .54, 4);
-      ctx.fillStyle = '#86a8ff';
-      ctx.shadowColor = 'rgba(220,239,255,.75)';
-      ctx.shadowBlur = 14;
-      ctx.fill(channel);
-      ctx.shadowBlur = 0;
-      ctx.strokeStyle = 'rgba(15,18,24,.7)';
-      ctx.lineWidth = 1.3;
-      ctx.stroke(channel);
-    }
-    ctx.restore();
+function drawDirectionalField(rect, time) {
+  fx.save();
+  fx.beginPath();
+  fx.rect(rect.x, rect.y, rect.size, rect.size);
+  fx.clip();
+  fx.globalCompositeOperation = 'lighter';
+  if (familyId === 'F3' || familyId === 'F4') {
+    const cx = rect.x + rect.size / 2;
+    const cy = rect.y + rect.size / 2;
+    const sweep = fx.createConicGradient(time * .00022, cx, cy);
+    sweep.addColorStop(0, 'rgba(97, 220, 255, 0)');
+    sweep.addColorStop(.08, 'rgba(97, 220, 255, .22)');
+    sweep.addColorStop(.18, 'rgba(155, 236, 255, .04)');
+    sweep.addColorStop(.42, 'rgba(97, 220, 255, 0)');
+    sweep.addColorStop(1, 'rgba(97, 220, 255, 0)');
+    fx.fillStyle = sweep;
+    fx.fillRect(rect.x, rect.y, rect.size, rect.size);
   } else {
-    ctx.save();
-    ctx.fillStyle = '#f7f7f4';
-    ctx.fillRect(x, y, w, h);
-    ctx.strokeStyle = '#050505';
-    ctx.lineWidth = edge;
-    ctx.strokeRect(x, y, w, h);
-    for (let i = 1; i < n; i++) {
-      const yy = y + i * gap;
-      ctx.beginPath();
-      ctx.moveTo(x, yy);
-      ctx.lineTo(x + w, yy);
-      ctx.stroke();
+    const offset = (time * .045) % (rect.size * .42);
+    for (let x = rect.x - rect.size * .45 + offset; x < rect.x + rect.size * 1.2; x += rect.size * .42) {
+      const band = fx.createLinearGradient(x, 0, x + rect.size * .25, 0);
+      band.addColorStop(0, 'rgba(69, 191, 229, 0)');
+      band.addColorStop(.5, 'rgba(113, 224, 255, .16)');
+      band.addColorStop(1, 'rgba(69, 191, 229, 0)');
+      fx.fillStyle = band;
+      fx.fillRect(x, rect.y, rect.size * .25, rect.size);
     }
-    ctx.clearRect(x - edge, y + h - edge * 1.05, edge * 2.5, edge * 2.1);
-    ctx.clearRect(x + w - edge * 1.5, y - edge * 1.05, edge * 2.5, edge * 2.1);
-    ctx.restore();
   }
-  drawF1Flow(x, y, w, h, n, edge);
+  fx.restore();
 }
 
-function drawF6(x, y, w, h, n) {
-  const cols = n;
-  const rows = n;
-  const gx = w / (cols + 1);
-  const gy = h / (rows + 1);
-  const radius = Math.min(gx, gy) * .27;
-  if (representation === 'sdf') {
-    const plate = roundedRectPath(x, y, w, h, 5);
-    ctx.save();
-    ctx.fillStyle = '#ff9a79';
-    ctx.shadowColor = 'rgba(235,247,255,.9)';
-    ctx.shadowBlur = 25;
-    ctx.fill(plate);
-    ctx.shadowBlur = 0;
-    for (let row = 1; row <= rows; row++) {
-      for (let col = 1; col <= cols; col++) {
-        const px = x + col * gx;
-        const py = y + row * gy;
-        const glow = ctx.createRadialGradient(px, py, 0, px, py, radius * 2.4);
-        glow.addColorStop(0, '#83a6ff');
-        glow.addColorStop(.52, '#dce9ff');
-        glow.addColorStop(1, 'rgba(255,145,112,0)');
-        ctx.fillStyle = glow;
-        ctx.beginPath();
-        ctx.arc(px, py, radius * 2.4, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.strokeStyle = 'rgba(15,18,24,.75)';
-        ctx.lineWidth = 1.3;
-        ctx.beginPath();
-        ctx.arc(px, py, radius, 0, Math.PI * 2);
-        ctx.stroke();
-      }
+function drawPathParticles(rect, time, paths) {
+  const scale = rect.size / 256;
+  const maxPaths = familyId === 'F2' ? 46 : familyId === 'F4' ? 58 : 30;
+  paths.slice(0, maxPaths).forEach((path, pathIndex) => {
+    const particleCount = familyId === 'F0' || familyId === 'F3' ? 8 : 2;
+    for (let p = 0; p < particleCount; p += 1) {
+      const speed = .000018 + (pathIndex % 5) * .000002;
+      const position = pointOnPath(path, time * speed + p / particleCount + pathIndex * .073);
+      const x = rect.x + position[0] * scale;
+      const y = rect.y + position[1] * scale;
+      const radius = Math.max(1.2, rect.size * (.0026 + (pathIndex % 3) * .0005));
+      const halo = fx.createRadialGradient(x, y, 0, x, y, radius * 4.2);
+      halo.addColorStop(0, 'rgba(202, 249, 255, .72)');
+      halo.addColorStop(.22, 'rgba(104, 218, 246, .34)');
+      halo.addColorStop(1, 'rgba(53, 160, 200, 0)');
+      fx.fillStyle = halo;
+      fx.beginPath();
+      fx.arc(x, y, radius * 4.2, 0, Math.PI * 2);
+      fx.fill();
     }
-    ctx.restore();
-  } else {
+  });
+}
+
+async function draw(time) {
+  resizeCanvas();
+  drawBackdrop();
+  if (!database) return;
+  const variant = currentVariant();
+  const rect = imageRect();
+  try {
+    const [geometry, alpha] = await Promise.all([loadImage(view === 'sdf' ? variant.sdf : variant.mask), loadImage(variant.alpha)]);
     ctx.save();
-    ctx.fillStyle = '#050505';
-    ctx.fillRect(x, y, w, h);
-    ctx.fillStyle = '#f7f7f4';
-    for (let row = 1; row <= rows; row++) {
-      for (let col = 1; col <= cols; col++) {
-        ctx.beginPath();
-        ctx.arc(x + col * gx, y + row * gy, radius, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
-    ctx.clearRect(x - 1, y + h - 30, 30, 31);
-    ctx.clearRect(x + w - 29, y - 1, 30, 31);
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.shadowColor = 'rgba(255,255,255,.08)';
+    ctx.shadowBlur = 22;
+    ctx.drawImage(geometry, rect.x, rect.y, rect.size, rect.size);
     ctx.restore();
+
+    fx.clearRect(0, 0, fxCanvas.width, fxCanvas.height);
+    drawDirectionalField(rect, time);
+    drawPathParticles(rect, time, variant.paths);
+    fx.globalCompositeOperation = 'destination-in';
+    fx.drawImage(alpha, rect.x, rect.y, rect.size, rect.size);
+    fx.globalCompositeOperation = 'source-over';
+    ctx.globalCompositeOperation = view === 'sdf' ? 'screen' : 'source-over';
+    ctx.globalAlpha = view === 'sdf' ? .6 : .92;
+    ctx.drawImage(fxCanvas, 0, 0);
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.strokeStyle = 'rgba(255,255,255,.14)';
+    ctx.lineWidth = Math.max(1, canvas.width / 1600);
+    ctx.strokeRect(rect.x - 1, rect.y - 1, rect.size + 2, rect.size + 2);
+  } catch (error) {
+    ctx.fillStyle = '#999';
+    ctx.font = '14px Arial';
+    ctx.fillText('Geometry asset could not be loaded.', 30, 100);
   }
-  drawF6Flow(x, y, w, h, n);
 }
-
-function draw() {
-  const w = canvas.clientWidth;
-  const h = canvas.clientHeight;
-  const alpha = transition * transition * (3 - 2 * transition);
-  ctx.clearRect(0, 0, w, h);
-  ctx.fillStyle = representation === 'sdf' ? '#3d50c5' : '#f7f7f4';
-  ctx.fillRect(0, 0, w, h);
-
-  const pad = Math.max(62, Math.min(w, h) * .13);
-  const x = pad;
-  const y = pad * .72;
-  const gw = w - pad * 2;
-  const gh = h - pad * 1.45;
-  const n = Number(condition.value);
-
-  ctx.save();
-  ctx.globalAlpha = alpha;
-  if (family === 'F0') drawF0(x, y, gw, gh, n);
-  if (family === 'F1') drawF1(x, y, gw, gh, n);
-  if (family === 'F6') drawF6(x, y, gw, gh, n);
-  ctx.restore();
-
-  ctx.strokeStyle = representation === 'sdf' ? 'rgba(10,16,40,.5)' : 'rgba(0,0,0,.2)';
-  ctx.lineWidth = 1;
-  ctx.strokeRect(30, 30, w - 60, h - 60);
-}
-
-function update() {
-  const r = results[family];
-  document.querySelector('#conditionOut').value = condition.value;
-  document.querySelector('#viewerLabel').textContent = `${family} / ${r.name}`;
-  document.querySelector('#passMetric').innerHTML = `${r.pass}<small> %</small>`;
-  document.querySelector('#passMetric').nextElementSibling.textContent = r.passCount;
-  document.querySelector('#failMetric').innerHTML = `${r.fail}<small> %</small>`;
-  document.querySelector('#failCount').textContent = r.failCount;
-  draw();
-}
-
-document.querySelectorAll('#families button').forEach((button) => button.addEventListener('click', () => {
-  document.querySelectorAll('#families button').forEach((item) => item.classList.remove('active'));
-  button.classList.add('active');
-  family = button.dataset.family;
-  transition = 0;
-  update();
-}));
-
-document.querySelectorAll('#representations button').forEach((button) => button.addEventListener('click', () => {
-  document.querySelectorAll('#representations button').forEach((item) => item.classList.remove('active'));
-  button.classList.add('active');
-  representation = button.dataset.view;
-  transition = 0;
-  draw();
-}));
-
-condition.addEventListener('input', update);
 
 function animate(time) {
-  flowTime = time;
-  if (transition < 1) {
-    transition = Math.min(1, transition + (time - lastTime) / 300);
+  if (!reducedMotion || frame === 0 || time - lastTime > 500) {
+    draw(time);
+    lastTime = time;
+    frame += 1;
   }
-  draw();
-  lastTime = time;
   requestAnimationFrame(animate);
 }
 
-addEventListener('resize', resize);
-resize();
-update();
+familiesEl.addEventListener('click', (event) => {
+  const button = event.target.closest('button[data-family]');
+  if (!button) return;
+  familyId = button.dataset.family;
+  variantIndex = 0;
+  familiesEl.querySelectorAll('button').forEach((item) => item.classList.toggle('active', item === button));
+  updateInterface();
+});
+
+representationsEl.addEventListener('click', (event) => {
+  const button = event.target.closest('button[data-view]');
+  if (!button) return;
+  view = button.dataset.view;
+  representationsEl.querySelectorAll('button').forEach((item) => item.classList.toggle('active', item === button));
+});
+
+slider.addEventListener('input', () => {
+  variantIndex = Number(slider.value);
+  updateInterface();
+});
+
+fetch('assets/geometry/geometry-data.json?v=five-family')
+  .then((response) => {
+    if (!response.ok) throw new Error(`Geometry data: ${response.status}`);
+    return response.json();
+  })
+  .then((data) => {
+    database = data;
+    updateInterface();
+  })
+  .catch((error) => {
+    console.error(error);
+    viewerLabel.textContent = 'GEOMETRY DATA UNAVAILABLE';
+  });
+
+addEventListener('resize', resizeCanvas);
 requestAnimationFrame(animate);
