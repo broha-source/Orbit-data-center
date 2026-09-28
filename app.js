@@ -146,21 +146,25 @@ function buildGeodesicField(alpha, crop, key) {
 
 function drawGeodesicFlow(rect, time, field) {
   const image = field.render.createImageData(FLOW_GRID, FLOW_GRID);
-  const period = Math.max(24, Math.min(52, field.maxDistance * .18));
-  const travel = time * .022;
+  const slugLength = Math.max(28, field.maxDistance * .42);
+  const pause = Math.max(12, field.maxDistance * .08);
+  const cycleLength = field.maxDistance + slugLength + pause;
+  const headDistance = (time * .018) % cycleLength;
   for (let i = 0; i < field.occupied.length; i += 1) {
     const distance = field.distance[i];
     if (!field.occupied[i] || distance < 0) continue;
-    const phase = ((distance - travel) % period + period) % period;
-    const front = Math.exp(-Math.pow(phase / (period * .19), 2));
-    const wakePhase = ((phase - period * .22) % period + period) % period;
-    const wake = Math.exp(-Math.pow(wakePhase / (period * .34), 2)) * .3;
-    const intensity = Math.min(1, front + wake);
+    const behindHead = headDistance - distance;
+    let intensity = 0;
+    if (behindHead >= 0 && behindHead <= slugLength) {
+      const tailFade = Math.min(1, (slugLength - behindHead) / (slugLength * .28));
+      const headGlow = Math.exp(-Math.pow(behindHead / Math.max(8, slugLength * .16), 2));
+      intensity = Math.min(1, .48 * tailFade + .52 * headGlow);
+    }
     const offset = i * 4;
     image.data[offset] = 91;
     image.data[offset + 1] = 211;
     image.data[offset + 2] = 244;
-    image.data[offset + 3] = Math.round(7 + intensity * 62);
+    image.data[offset + 3] = Math.round(6 + intensity * 72);
   }
   field.render.putImageData(image, 0, 0);
   fx.save();
