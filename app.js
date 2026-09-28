@@ -2,6 +2,8 @@ const canvas = document.querySelector('#flowCanvas');
 const ctx = canvas.getContext('2d');
 const fxCanvas = document.createElement('canvas');
 const fx = fxCanvas.getContext('2d');
+const fieldSourceCanvas = document.createElement('canvas');
+const fieldSource = fieldSourceCanvas.getContext('2d', { willReadFrequently: true });
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 const familiesEl = document.querySelector('#families');
@@ -25,6 +27,11 @@ let randomSample = null;
 let frame = 0;
 let lastTime = performance.now();
 const imageCache = new Map();
+const flowFieldCache = new Map();
+const FLOW_GRID = 128;
+
+fieldSourceCanvas.width = FLOW_GRID;
+fieldSourceCanvas.height = FLOW_GRID;
 
 function loadImage(src) {
   if (imageCache.has(src)) return imageCache.get(src);
@@ -71,6 +78,99 @@ function imageRect() {
   const availableHeight = canvas.height - top - 24 * dpr;
   const size = Math.min(canvas.width - 36 * dpr, availableHeight);
   return { x: (canvas.width - size) / 2, y: top + (availableHeight - size) / 2, size };
+}
+
+function buildGeodesicField(alpha, crop, key) {
+  if (flowFieldCache.has(key)) return flowFieldCache.get(key);
+  fieldSource.clearRect(0, 0, FLOW_GRID, FLOW_GRID);
+  if (crop) {
+    fieldSource.drawImage(alpha, crop.sx, crop.sy, crop.size, crop.size, 0, 0, FLOW_GRID, FLOW_GRID);
+  } else {
+    fieldSource.drawImage(alpha, 0, 0, FLOW_GRID, FLOW_GRID);
+  }
+  const pixels = fieldSource.getImageData(0, 0, FLOW_GRID, FLOW_GRID).data;
+  const occupied = new Uint8Array(FLOW_GRID * FLOW_GRID);
+  const distance = new Int16Array(FLOW_GRID * FLOW_GRID);
+  distance.fill(-1);
+
+  for (let i = 0; i < occupied.length; i += 1) occupied[i] = pixels[i * 4 + 3] > 24 ? 1 : 0;
+
+  let seed = -1;
+  let seedScore = Infinity;
+  for (let y = 0; y < FLOW_GRID; y += 1) {
+    for (let x = 0; x < FLOW_GRID; x += 1) {
+      const index = y * FLOW_GRID + x;
+      if (!occupied[index]) continue;
+      const score = x + (FLOW_GRID - 1 - y) * .42;
+      if (score < seedScore) {
+        seedScore = score;
+        seed = index;
+      }
+    }
+  }
+
+  const queue = new Int32Array(FLOW_GRID * FLOW_GRID);
+  let head = 0;
+  let tail = 0;
+  let maxDistance = 1;
+  if (seed >= 0) {
+    queue[tail++] = seed;
+    distance[seed] = 0;
+  }
+  const steps = [[1, 0], [-1, 0], [0, 1], [0, -1]];
+  while (head < tail) {
+    const index = queue[head++];
+    const x = index % FLOW_GRID;
+    const y = Math.floor(index / FLOW_GRID);
+    const nextDistance = distance[index] + 1;
+    for (const [dx, dy] of steps) {
+      const nx = x + dx;
+      const ny = y + dy;
+      if (nx < 0 || nx >= FLOW_GRID || ny < 0 || ny >= FLOW_GRID) continue;
+      const next = ny * FLOW_GRID + nx;
+      if (!occupied[next] || distance[next] >= 0) continue;
+      distance[next] = nextDistance;
+      maxDistance = Math.max(maxDistance, nextDistance);
+      queue[tail++] = next;
+    }
+  }
+
+  const renderCanvas = document.createElement('canvas');
+  renderCanvas.width = FLOW_GRID;
+  renderCanvas.height = FLOW_GRID;
+  const render = renderCanvas.getContext('2d');
+  const field = { occupied, distance, maxDistance, canvas: renderCanvas, render };
+  flowFieldCache.set(key, field);
+  return field;
+}
+
+function drawGeodesicFlow(rect, time, field) {
+  const image = field.render.createImageData(FLOW_GRID, FLOW_GRID);
+  const period = Math.max(24, Math.min(52, field.maxDistance * .18));
+  const travel = time * .022;
+  for (let i = 0; i < field.occupied.length; i += 1) {
+    const distance = field.distance[i];
+    if (!field.occupied[i] || distance < 0) continue;
+    const phase = ((distance - travel) % period + period) % period;
+    const front = Math.exp(-Math.pow(phase / (period * .19), 2));
+    const wakePhase = ((phase - period * .22) % period + period) % period;
+    const wake = Math.exp(-Math.pow(wakePhase / (period * .34), 2)) * .3;
+    const intensity = Math.min(1, front + wake);
+    const offset = i * 4;
+    image.data[offset] = 91;
+    image.data[offset + 1] = 211;
+    image.data[offset + 2] = 244;
+    image.data[offset + 3] = Math.round(7 + intensity * 62);
+  }
+  field.render.putImageData(image, 0, 0);
+  fx.save();
+  fx.imageSmoothingEnabled = true;
+  fx.imageSmoothingQuality = 'high';
+  fx.globalCompositeOperation = 'lighter';
+  fx.shadowColor = 'rgba(88, 210, 244, .18)';
+  fx.shadowBlur = rect.size * .009;
+  fx.drawImage(field.canvas, rect.x, rect.y, rect.size, rect.size);
+  fx.restore();
 }
 
 function updateInterface() {
@@ -265,9 +365,11 @@ async function draw(time) {
     ctx.restore();
 
     fx.clearRect(0, 0, fxCanvas.width, fxCanvas.height);
-    drawDirectionalField(rect, time);
-    drawMaskFlowTexture(rect, time);
-    if (!crop) drawPathParticles(rect, time, variant.paths);
+    const fieldKey = crop
+      ? `${familyId}:sample:${randomSample}`
+      : `${familyId}:variant:${variantIndex}`;
+    const flowField = buildGeodesicField(alpha, crop, fieldKey);
+    drawGeodesicFlow(rect, time, flowField);
     fx.globalCompositeOperation = 'destination-in';
     if (crop) {
       fx.drawImage(alpha, crop.sx, crop.sy, crop.size, crop.size, rect.x, rect.y, rect.size, rect.size);
