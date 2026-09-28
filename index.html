@@ -96,12 +96,33 @@
 
       <section id="method" class="method-section section-shell">
         <div class="section-heading compact">
-          <div><p class="eyebrow"><span></span> Research workflow</p><h2>One model. Five families.</h2></div>
+          <div><p class="eyebrow"><span></span> Conditional diffusion pipeline</p><h2>From five families<br />to verified RAW SDF.</h2></div>
         </div>
-        <div class="pipeline">
-          <article><b>01</b><span>CONDITION</span><h3>Family embedding</h3><p>A single U-Net backbone receives one of five discrete family conditions, F0 through F4, instead of training separate generators.</p></article>
-          <article><b>02</b><span>GENERATE</span><h3>Native 256² SDF</h3><p>V-prediction, cosine diffusion, EMA weights, and DDIM-100 produce a fluid-positive signed distance field.</p></article>
-          <article><b>03</b><span>VERIFY</span><h3>Family-specific gates</h3><p>RAW geometry QC precedes conservative cleanup. F1 quality failures remain failures and cannot be hidden by projection.</p></article>
+        <div class="pipeline method-pipeline">
+          <article>
+            <b>01</b><span>PREPARE</span>
+            <div class="method-visual data-visual" aria-hidden="true"><div><i>F0</i><i>F1</i><i>F2</i><i>F3</i><i>F4</i></div><strong>5 × 5,000</strong></div>
+            <h3>Build the SDF dataset</h3>
+            <p>A 250-sample pilot is checked first. After release, 5,000 frozen SDFs are built for each of F0–F4: 25,000 training geometries in total.</p>
+          </article>
+          <article>
+            <b>02</b><span>TRAIN</span>
+            <div class="method-visual model-visual" aria-hidden="true"><div><i>F0</i><i>F1</i><i>F2</i><i>F3</i><i>F4</i></div><u>→</u><strong>ONE<br />MODEL</strong></div>
+            <h3>Learn with one model</h3>
+            <p>A one-epoch smoke test precedes 50-epoch unified training. The family ID tells the same conditional diffusion model which channel grammar to learn.</p>
+          </article>
+          <article>
+            <b>03</b><span>GENERATE</span>
+            <div class="method-visual denoise-visual" aria-hidden="true"><i></i><i></i><i></i><i></i><u>100 STEPS</u></div>
+            <h3>Turn noise into RAW SDF</h3>
+            <p>The reverse process progressively removes noise and produces 256 native 256 × 256 RAW SDF samples for each family.</p>
+          </article>
+          <article>
+            <b>04</b><span>VERIFY</span>
+            <div class="method-visual gate-visual" aria-hidden="true"><i>SDF &gt; 0</i><u>→</u><i>MASK</i><u>→</u><strong>PASS</strong></div>
+            <h3>Threshold, then gate</h3>
+            <p>SDF &gt; 0 becomes the fluid mask. Family-specific geometry gates report PASS or FAIL without projection or morphology; CFD/CHT remains a separate validation step.</p>
+          </article>
         </div>
       </section>
 
