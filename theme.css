@@ -84,7 +84,6 @@ footer{border-color:#242528;font:700 10px Arial,sans-serif;color:#777}footer a{c
 .spacecraft-button:hover img{opacity:1;transform:translateX(3px)}
 .spacecraft-button.is-launching img{animation:orbitLaunch .52s ease-out}
 .spacecraft-button span{display:block;font:700 11px Arial,sans-serif;letter-spacing:.12em}
-.spacecraft-generator p{margin:10px 0 0;font:700 9px Arial,sans-serif;letter-spacing:.07em;color:#737a7d}
 @keyframes orbitLaunch{0%{transform:translateX(0);opacity:.92}45%{transform:translateX(9px);opacity:1}100%{transform:translateX(0);opacity:.92}}
 .result-grid{grid-template-columns:repeat(5,minmax(0,1fr))}
 .result-grid article{padding:30px 22px 36px;min-width:0}

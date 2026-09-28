@@ -15,7 +15,6 @@ const failMetric = document.querySelector('#failMetric');
 const passCount = document.querySelector('#passCount');
 const failCount = document.querySelector('#failCount');
 const generateNext = document.querySelector('#generateNext');
-const sampleReadout = document.querySelector('#sampleReadout');
 
 let database;
 let passDatabase;
@@ -92,12 +91,6 @@ function updateInterface() {
     port.hidden = familyId === 'F2' || familyId === 'F4';
   });
   [variant.sdf, variant.mask, variant.alpha].forEach(loadImage);
-  if (passDatabase) {
-    const count = passDatabase[familyId].passSamples.length;
-    sampleReadout.textContent = randomSample === null
-      ? `${familyId} · ${count} PASS RESULTS`
-      : `${familyId} · SAMPLE #${String(randomSample).padStart(3, '0')} · PASS`;
-  }
 }
 
 function drawBackdrop() {
@@ -157,6 +150,58 @@ function drawDirectionalField(rect, time) {
       fx.fillRect(x, rect.y, rect.size * .25, rect.size);
     }
   }
+  fx.restore();
+}
+
+function drawMaskFlowTexture(rect, time) {
+  fx.save();
+  fx.beginPath();
+  fx.rect(rect.x, rect.y, rect.size, rect.size);
+  fx.clip();
+  fx.globalCompositeOperation = 'lighter';
+
+  const travel = (time * .000028) % 1;
+  for (let wave = 0; wave < 3; wave += 1) {
+    const progress = (travel + wave / 3) % 1;
+    const center = rect.x - rect.size * .2 + progress * rect.size * 1.4;
+    const width = rect.size * .24;
+    const wash = fx.createLinearGradient(center - width, 0, center + width, 0);
+    wash.addColorStop(0, 'rgba(48, 166, 205, 0)');
+    wash.addColorStop(.3, 'rgba(70, 194, 230, .025)');
+    wash.addColorStop(.5, 'rgba(174, 242, 255, .14)');
+    wash.addColorStop(.7, 'rgba(70, 194, 230, .025)');
+    wash.addColorStop(1, 'rgba(48, 166, 205, 0)');
+    fx.fillStyle = wash;
+    fx.fillRect(rect.x, rect.y, rect.size, rect.size);
+  }
+
+  const streamCount = familyId === 'F1' ? 20 : familyId === 'F2' ? 17 : 15;
+  for (let stream = 0; stream < streamCount; stream += 1) {
+    const phase = ((time * (.000018 + (stream % 4) * .0000015)) + stream * .137) % 1;
+    const head = rect.x - rect.size * .18 + phase * rect.size * 1.36;
+    const length = rect.size * (.12 + (stream % 5) * .015);
+    const y = rect.y + ((stream + .5) / streamCount) * rect.size;
+    const amplitude = rect.size * (.0035 + (stream % 3) * .0012);
+    const streamGradient = fx.createLinearGradient(head - length, 0, head, 0);
+    streamGradient.addColorStop(0, 'rgba(60, 176, 214, 0)');
+    streamGradient.addColorStop(.55, 'rgba(79, 202, 237, .07)');
+    streamGradient.addColorStop(.9, 'rgba(170, 240, 255, .25)');
+    streamGradient.addColorStop(1, 'rgba(220, 252, 255, .34)');
+    fx.strokeStyle = streamGradient;
+    fx.lineWidth = rect.size * (.0045 + (stream % 3) * .0008);
+    fx.lineCap = 'round';
+    fx.shadowColor = 'rgba(92, 215, 246, .22)';
+    fx.shadowBlur = rect.size * .012;
+    fx.beginPath();
+    fx.moveTo(head - length, y);
+    fx.bezierCurveTo(
+      head - length * .66, y + Math.sin(stream * 1.7 + time * .00055) * amplitude,
+      head - length * .34, y - Math.cos(stream * 1.3 + time * .00048) * amplitude,
+      head, y
+    );
+    fx.stroke();
+  }
+  fx.shadowBlur = 0;
   fx.restore();
 }
 
@@ -221,6 +266,7 @@ async function draw(time) {
 
     fx.clearRect(0, 0, fxCanvas.width, fxCanvas.height);
     drawDirectionalField(rect, time);
+    drawMaskFlowTexture(rect, time);
     if (!crop) drawPathParticles(rect, time, variant.paths);
     fx.globalCompositeOperation = 'destination-in';
     if (crop) {
@@ -291,11 +337,11 @@ generateNext.addEventListener('click', () => {
 });
 
 Promise.all([
-  fetch('assets/geometry/geometry-data.json?v=pass-randomizer-1').then((response) => {
+  fetch('assets/geometry/geometry-data.json?v=pass-flow-3').then((response) => {
     if (!response.ok) throw new Error(`Geometry data: ${response.status}`);
     return response.json();
   }),
-  fetch('assets/geometry/pass-atlases.json?v=pass-randomizer-1').then((response) => {
+  fetch('assets/geometry/pass-atlases.json?v=pass-flow-3').then((response) => {
     if (!response.ok) throw new Error(`PASS atlas data: ${response.status}`);
     return response.json();
   })
