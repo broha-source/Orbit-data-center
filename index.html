@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Radiator Flow Field: interactive orbital data-center radiator geometry explorer." />
     <title>Radiator Flow Field — Orbit Data Center</title>
-    <link rel="stylesheet" href="styles.css?v=family-readability-2" />
-    <link rel="stylesheet" href="theme.css?v=family-readability-2" />
+    <link rel="stylesheet" href="styles.css?v=ux-refresh-1" />
+    <link rel="stylesheet" href="theme.css?v=ux-refresh-1" />
   </head>
   <body>
     <div class="noise" aria-hidden="true"></div>
@@ -17,8 +17,8 @@
       </a>
       <nav aria-label="Primary navigation">
         <a href="#demo">Demo</a>
-        <a href="#method">Method</a>
         <a href="#results">Results</a>
+        <a href="#method">Method</a>
       </nav>
     </header>
 
@@ -35,7 +35,8 @@
 
       <section id="demo" class="demo-section section-shell">
         <div class="section-heading demo-heading">
-          <div><p class="eyebrow"><span></span> Generative AI-based diversification of flow-channel designs for large-scale orbital data center radiators</p><h2>Radiator Flow Field</h2></div>
+          <div><p class="eyebrow"><span></span> AI DIFFUSION DESIGN EXPLORER</p><h2>Radiator Flow Field</h2></div>
+          <p class="demo-summary"><b>AI Diffusion at a glance</b><span>AI learns five flow-channel families, turns noise into new radiator designs, and checks each result before release.</span></p>
         </div>
 
         <div class="demo-frame">
@@ -50,7 +51,8 @@
               <button data-family="F4">F4</button>
             </div>
             <label for="condition"><span id="variableLabel">Pass count</span><output id="conditionOut">7</output></label>
-            <input id="condition" type="range" min="0" max="2" value="0" step="1" />
+            <input id="condition" type="range" min="0" max="100" value="0" step="1" aria-describedby="conditionHelp" />
+            <p id="conditionHelp" class="slider-help">Move freely across the learned design range.</p>
             <label>Representation</label>
             <div class="segmented two" id="representations">
               <button data-view="sdf">RAW SDF</button>
@@ -82,15 +84,28 @@
             <div class="panel-title"><span>METRICS</span><b>02</b></div>
             <article><span>Pass rate</span><strong id="passMetric">81.6<small> %</small></strong><em id="passCount" class="ok">209 / 256</em></article>
             <article><span>Fail rate</span><strong id="failMetric">18.4<small> %</small></strong><em id="failCount">47 / 256</em></article>
-            <article><span>Model device</span><strong class="spec-metric">NVIDIA L4</strong></article>
+            <article><span>GPU for training</span><strong class="spec-metric">NVIDIA L4</strong></article>
             <div class="spacecraft-generator">
               <button id="generateNext" class="spacecraft-button" type="button" aria-label="Generate another random PASS geometry">
-                <img src="assets/orbit-generate-button.png" alt="Satellite orbiting Earth" />
-                <span>GENERATE NEXT</span>
+                <span class="launch-visual"><img src="assets/orbit-generate-button.png" alt="Satellite orbiting Earth" /><i aria-hidden="true">▶</i></span>
+                <strong>GENERATE NEXT</strong>
+                <small>Random verified design</small>
               </button>
             </div>
           </aside>
         </div>
+      </section>
+
+      <section id="results" class="results-section section-shell">
+        <div class="results-intro"><p class="eyebrow"><span></span> Generation quality control</p><h2>1,280 designs.<br />Measured by family.</h2><p>Five family conditions with 256 generated RAW SDF samples per family. Pass rates are reported before projection or geometry substitution.</p></div>
+        <div class="result-grid">
+          <article><header><b>F0</b><span>SERPENTINE</span></header><img src="assets/geometry/f0_1_mask.png" alt="F0 generated serpentine mask" /><strong>81.6%</strong><p>209 / 256 RAW PASS</p><ul><li>37 connectivity failures</li><li>5 isolated-fluid failures</li><li>4 minimum-wall failures</li></ul></article>
+          <article><header><b>F1</b><span>PARALLEL</span></header><img src="assets/geometry/f1_1_mask.png" alt="F1 generated parallel-channel mask" /><strong>99.6%</strong><p>255 / 256 RAW PASS</p><ul><li>1 channel-count failure</li><li>Full-width parallel headers</li><li>Actual generated mask shown</li></ul></article>
+          <article><header><b>F2</b><span>CIRCULAR PIN-FIN</span></header><img src="assets/geometry/f2_2_mask.png" alt="F2 generated circular pin-fin mask" /><strong>100%</strong><p>256 / 256 RAW PASS</p><ul><li>6 × 6 to 9 × 9 pin grids</li><li>Circular obstacle field</li><li>No RAW gate failures</li></ul></article>
+          <article><header><b>F3</b><span>SPIRAL</span></header><img src="assets/geometry/f3_2_mask.png" alt="F3 generated spiral mask" /><strong>98.8%</strong><p>253 / 256 RAW PASS</p><ul><li>1 connectivity failure</li><li>1 isolated-fluid failure</li><li>1 minimum-width failure</li></ul></article>
+          <article><header><b>F4</b><span>SPIDER-NETTED</span></header><img src="assets/geometry/f4_1_mask.png" alt="F4 generated spider-netted mask" /><strong>97.3%</strong><p>249 / 256 RAW PASS</p><ul><li>3 ring-count failures</li><li>2 minimum-width failures</li><li>2 connectivity / isolation failures</li></ul></article>
+        </div>
+        <div class="research-note"><b>QUALITY PRINCIPLE</b><p>RAW model performance, conservative cleanup, and final release decisions are reported separately. Geometry validity is a pre-screening step—not a substitute for CFD/CHT validation.</p></div>
       </section>
 
       <section id="method" class="method-section section-shell">
@@ -124,21 +139,9 @@
           </article>
         </div>
       </section>
-
-      <section id="results" class="results-section section-shell">
-        <div class="results-intro"><p class="eyebrow"><span></span> Generation quality control</p><h2>1,280 designs.<br />Measured by family.</h2><p>Five family conditions with 256 generated RAW SDF samples per family. Pass rates are reported before projection or geometry substitution.</p></div>
-        <div class="result-grid">
-          <article><header><b>F0</b><span>SERPENTINE</span></header><img src="assets/geometry/f0_1_mask.png" alt="F0 generated serpentine mask" /><strong>81.6%</strong><p>209 / 256 RAW PASS</p><ul><li>37 connectivity failures</li><li>5 isolated-fluid failures</li><li>4 minimum-wall failures</li></ul></article>
-          <article><header><b>F1</b><span>PARALLEL</span></header><img src="assets/geometry/f1_1_mask.png" alt="F1 generated parallel-channel mask" /><strong>99.6%</strong><p>255 / 256 RAW PASS</p><ul><li>1 channel-count failure</li><li>Full-width parallel headers</li><li>Actual generated mask shown</li></ul></article>
-          <article><header><b>F2</b><span>CIRCULAR PIN-FIN</span></header><img src="assets/geometry/f2_2_mask.png" alt="F2 generated circular pin-fin mask" /><strong>100%</strong><p>256 / 256 RAW PASS</p><ul><li>6 × 6 to 9 × 9 pin grids</li><li>Circular obstacle field</li><li>No RAW gate failures</li></ul></article>
-          <article><header><b>F3</b><span>SPIRAL</span></header><img src="assets/geometry/f3_2_mask.png" alt="F3 generated spiral mask" /><strong>98.8%</strong><p>253 / 256 RAW PASS</p><ul><li>1 connectivity failure</li><li>1 isolated-fluid failure</li><li>1 minimum-width failure</li></ul></article>
-          <article><header><b>F4</b><span>SPIDER-NETTED</span></header><img src="assets/geometry/f4_1_mask.png" alt="F4 generated spider-netted mask" /><strong>97.3%</strong><p>249 / 256 RAW PASS</p><ul><li>3 ring-count failures</li><li>2 minimum-width failures</li><li>2 connectivity / isolation failures</li></ul></article>
-        </div>
-        <div class="research-note"><b>QUALITY PRINCIPLE</b><p>RAW model performance, conservative cleanup, and final release decisions are reported separately. Geometry validity is a pre-screening step—not a substitute for CFD/CHT validation.</p></div>
-      </section>
     </main>
 
     <footer><span>RADIATOR FLOW FIELD</span><p>Unified Conditional Diffusion · 1,280 RAW SDF Samples</p><a href="#top">Back to top ↑</a></footer>
-    <script src="app.js?v=single-stream-1" defer></script>
+    <script src="app.js?v=ux-refresh-1" defer></script>
   </body>
 </html>

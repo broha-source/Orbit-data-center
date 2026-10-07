@@ -48,6 +48,14 @@ function loadImage(src) {
 function currentFamily() { return database.families[familyId]; }
 function currentVariant() { return currentFamily().variants[variantIndex]; }
 
+function sliderCondition(family) {
+  const progress = Number(slider.value) / 100;
+  const values = family.variants.map((variant) => Number.parseFloat(variant.value));
+  const value = values[0] + (values[values.length - 1] - values[0]) * progress;
+  const rounded = Math.round(value);
+  return familyId === 'F2' ? `${rounded} × ${rounded}` : String(rounded);
+}
+
 function atlasCrop(passFamily, sample) {
   const sheetIndex = Math.floor(sample / passFamily.samplesPerSheet);
   const localIndex = sample % passFamily.samplesPerSheet;
@@ -180,10 +188,10 @@ function drawGeodesicFlow(rect, time, field) {
 function updateInterface() {
   const family = currentFamily();
   const variant = currentVariant();
-  slider.max = family.variants.length - 1;
-  slider.value = variantIndex;
   variableLabel.textContent = family.variable;
-  conditionOut.textContent = variant.value;
+  conditionOut.textContent = sliderCondition(family);
+  slider.setAttribute('aria-valuetext', `${family.variable}: ${conditionOut.textContent}`);
+  slider.style.setProperty('--slider-progress', `${slider.value}%`);
   viewerLabel.textContent = randomSample === null
     ? `${familyId} / ${family.name}`
     : `${familyId} / ${family.name} · PASS #${String(randomSample).padStart(3, '0')}`;
@@ -410,6 +418,7 @@ familiesEl.addEventListener('click', (event) => {
   if (!button) return;
   familyId = button.dataset.family;
   variantIndex = 0;
+  slider.value = 0;
   randomSample = null;
   familiesEl.querySelectorAll('button').forEach((item) => item.classList.toggle('active', item === button));
   updateInterface();
@@ -423,7 +432,9 @@ representationsEl.addEventListener('click', (event) => {
 });
 
 slider.addEventListener('input', () => {
-  variantIndex = Number(slider.value);
+  const family = currentFamily();
+  const progress = Number(slider.value) / 100;
+  variantIndex = Math.round(progress * (family.variants.length - 1));
   randomSample = null;
   updateInterface();
 });
