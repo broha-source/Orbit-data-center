@@ -8,6 +8,8 @@ body{background:#000;color:#fff;font-family:Arial,Helvetica,sans-serif}
 .brand-mark:before{width:4px;height:4px;background:#fff;box-shadow:none}.brand-mark i{width:38px;height:9px;border-color:rgba(255,255,255,.75)}
 nav{margin-left:70px;gap:30px}nav a,.repo-link{font:700 11px Arial,sans-serif;color:#fff;letter-spacing:.02em}
 nav a{position:relative}nav a:after{content:"";position:absolute;left:0;bottom:-7px;width:0;height:1px;background:#fff;transition:.25s}nav a:hover:after{width:100%}.repo-link{margin-left:auto}
+.lab-mark{margin-left:auto;display:flex;align-items:center;height:44px;max-width:min(24vw,250px)}
+.lab-mark img{display:block;width:auto;max-width:100%;height:36px;object-fit:contain}
 .section-shell{padding-left:7.8vw;padding-right:7.8vw}
 .hero{min-height:100vh;height:100vh;padding:72px 0 0;display:block;position:relative;background:#000}
 .hero:after{content:"";position:absolute;inset:auto 0 0;height:14%;z-index:2;background:linear-gradient(transparent,#000);pointer-events:none}
@@ -108,4 +110,4 @@ footer{border-color:#242528;font:700 10px Arial,sans-serif;color:#777}footer a{c
 .result-grid strong{font-size:clamp(42px,4vw,66px);margin:28px 0 2px}
 .result-grid article>p{font-size:11px}.result-grid ul{padding-top:20px;margin-top:20px}.result-grid li{font-size:11px;line-height:1.4}
 @media(max-width:1200px){.section-heading.demo-heading{grid-template-columns:1fr}.demo-summary{max-width:720px}.demo-frame{grid-template-columns:250px 1fr}.metrics{display:none}.method-pipeline{grid-template-columns:repeat(2,1fr)}.method-pipeline article:nth-child(2){border-right:0}.method-pipeline article:nth-child(-n+2){border-bottom:1px solid #333}.result-grid{grid-template-columns:repeat(2,1fr)}.result-grid article:nth-child(2n){border-right:0}}
-@media(max-width:760px){.demo-section{padding-left:20px;padding-right:20px}.demo-summary span{font-size:16px}.demo-frame{grid-template-columns:1fr}.viewer{min-height:560px}.controls{padding:24px 20px}.method-pipeline{grid-template-columns:1fr}.method-pipeline article{border-right:0;border-bottom:1px solid #333}.result-grid{grid-template-columns:1fr}.result-grid article{border-right:0}}
+@media(max-width:760px){.lab-mark{max-width:42vw;height:36px}.lab-mark img{height:27px}.demo-section{padding-left:20px;padding-right:20px}.demo-summary span{font-size:16px}.demo-frame{grid-template-columns:1fr}.viewer{min-height:560px}.controls{padding:24px 20px}.method-pipeline{grid-template-columns:1fr}.method-pipeline article{border-right:0;border-bottom:1px solid #333}.result-grid{grid-template-columns:1fr}.result-grid article{border-right:0}}
