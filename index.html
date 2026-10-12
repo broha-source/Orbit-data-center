@@ -6,7 +6,7 @@
     <meta name="description" content="Radiator Flow Field: interactive orbital data-center radiator geometry explorer." />
     <title>Radiator Flow Field — Orbit Data Center</title>
     <link rel="stylesheet" href="styles.css?v=ux-refresh-1" />
-    <link rel="stylesheet" href="theme.css?v=verified-counts-4" />
+    <link rel="stylesheet" href="theme.css?v=matched-representations-1" />
   </head>
   <body>
     <div class="noise" aria-hidden="true"></div>
@@ -62,7 +62,7 @@
               <button class="active" data-view="cad">CAD</button>
             </div>
             <div class="legend">
-              <span><i class="fluid"></i> Actual signed-distance field</span>
+              <span><i class="fluid"></i> CAD-derived SDF preview</span>
               <span><i class="solid"></i> STEP-derived orthographic geometry</span>
             </div>
             <p class="hint family-key">
@@ -145,7 +145,7 @@
     </main>
 
     <footer><span>RADIATOR FLOW FIELD</span><p>Unified Conditional Diffusion · 1,280 RAW SDF Samples</p><a href="#top">Back to top ↑</a></footer>
-    <script src="cad-viewer.bundle.js?v=verified-counts-4" defer></script>
-    <script src="app.js?v=verified-counts-4" defer></script>
+    <script type="module" src="cad-viewer.js?v=matched-representations-1"></script>
+    <script src="app.js?v=matched-representations-1" defer></script>
   </body>
 </html>

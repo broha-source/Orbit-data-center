@@ -29,15 +29,15 @@ const cadSampleIds = [1, 4, 8, 11, 15, 18, 21, 25, 28, 32, 35, 39, 42, 45, 49, 5
 // Catalog-verified representative CADs. Values are real geometric counts,
 // never inferred from a file's position in the 30-model subset.
 const conditionModels = {
-  F0: { 7: [37], 9: [34], 11: [32], 13: [29], 15: [31] },
-  F1: { 7: [69], 8: [31], 9: [5], 10: [2], 11: [6], 12: [1], 13: [23] },
+  F0: { 7: [37], 9: [34], 11: [32], 13: [29] },
+  F1: { 6: [69], 7: [82], 8: [31], 9: [5], 10: [2], 11: [6], 12: [1], 13: [23] },
   F2: { 6: [3], 7: [55], 8: [4], 9: [61] },
   F3: { 6: [15], 7: [8], 8: [35], 9: [41] },
-  F4: { 4: [25], 5: [1], 6: [14] }
+  F4: { 4: [1], 5: [5], 6: [14] }
 };
 const conditionConfig = {
-  F0: { label: 'Pass count', min: 7, max: 15, step: 2, suffix: ' passes' },
-  F1: { label: 'Channel count', min: 7, max: 13, step: 1, suffix: ' channels' },
+  F0: { label: 'Pass count', min: 7, max: 13, step: 2, suffix: ' passes' },
+  F1: { label: 'Channel count', min: 6, max: 13, step: 1, suffix: ' channels' },
   F2: { label: 'Pin grid', min: 6, max: 9, step: 1, format: (value) => `${value} × ${value}` },
   F3: { label: 'Band count', min: 6, max: 9, step: 1, suffix: ' bands' },
   F4: { label: 'Ring count', min: 4, max: 6, step: 1, suffix: ' rings' }

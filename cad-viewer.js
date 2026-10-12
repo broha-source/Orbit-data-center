@@ -21,6 +21,16 @@ const edgeMaterial = new THREE.LineBasicMaterial({ color: 0x6f7477, transparent:
 let model = null;
 let requestId = 0;
 let modelSpan = 1;
+let representation = 'cad';
+
+function updateRepresentation() {
+  const sdf = representation === 'sdf';
+  renderer.setClearColor(sdf ? 0x071015 : 0xffffff, 1);
+  scene.background = new THREE.Color(sdf ? 0x071015 : 0xffffff);
+  faceMaterial.color.setHex(sdf ? 0x10262e : 0xfafafa);
+  edgeMaterial.color.setHex(sdf ? 0x68d9f5 : 0x6f7477);
+  edgeMaterial.opacity = sdf ? 0.92 : 0.96;
+}
 
 function disposeModel() {
   if (!model) return;
@@ -89,6 +99,10 @@ function loadModel({ familyId = 'F0', file = 'F0_0001.glb', label = 'CAD 01 / 30
 }
 
 addEventListener('cad-model-change', (event) => loadModel(event.detail));
+addEventListener('cad-view-change', (event) => {
+  representation = event.detail.view;
+  updateRepresentation();
+});
 
 function resize() {
   const rect = host.getBoundingClientRect();
@@ -104,6 +118,7 @@ function render() {
   requestAnimationFrame(render);
 }
 render();
+updateRepresentation();
 
 loadModel({ familyId: 'F0', file: 'F0_0001.glb', label: 'CAD 01 / 30' });
 dispatchEvent(new CustomEvent('cad-viewer-ready'));
