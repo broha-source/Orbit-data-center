@@ -6,7 +6,7 @@
     <meta name="description" content="Radiator Flow Field: interactive orbital data-center radiator geometry explorer." />
     <title>Radiator Flow Field — Orbit Data Center</title>
     <link rel="stylesheet" href="styles.css?v=ux-refresh-1" />
-    <link rel="stylesheet" href="theme.css?v=true-sdf-2" />
+    <link rel="stylesheet" href="theme.css?v=text-cleanup-1" />
   </head>
   <body>
     <div class="noise" aria-hidden="true"></div>
@@ -38,8 +38,8 @@
 
       <section id="demo" class="demo-section section-shell">
         <div class="section-heading demo-heading">
-          <div><p class="eyebrow"><span></span> AI DIFFUSION DESIGN EXPLORER</p><h2>Radiator Flow Field</h2></div>
-          <p class="demo-summary"><b>AI Diffusion at a glance</b><span>AI learns five flow-channel families, turns noise into new radiator designs, and checks each result before release.</span></p>
+          <div><h2>Radiator Flow Field</h2></div>
+          <p class="demo-summary"><b>GENERATED WITH AI DIFFUSION</b><span>A conditional diffusion model creates new radiator flow-channel designs across five geometry families.</span></p>
         </div>
 
         <div class="demo-frame">
@@ -62,8 +62,8 @@
               <button class="active" data-view="cad">CAD</button>
             </div>
             <div class="legend">
-              <span><i class="fluid"></i> CAD-derived SDF preview</span>
-              <span><i class="solid"></i> STEP-derived orthographic geometry</span>
+              <span><i class="fluid"></i> SDF</span>
+              <span><i class="solid"></i> CAD</span>
             </div>
             <p class="hint family-key">
               <span><b>F0</b> Serpentine</span>
@@ -79,12 +79,11 @@
               <span><i></i> <b id="viewerLabel">F0 / SERPENTINE</b></span>
             </div>
             <canvas id="flowCanvas" aria-hidden="true"></canvas>
-            <div id="cadViewer" aria-label="Clean orthographic STEP-derived CAD geometry"></div>
+            <div id="cadViewer" aria-label="SDF and CAD geometry viewer"></div>
             <div id="cadLoading" class="cad-loading" role="status">LOADING CAD MODEL</div>
           </div>
 
           <aside class="metrics">
-            <div class="panel-title"><span>METRICS</span><b>02</b></div>
             <article><span>Pass rate</span><strong id="passMetric">81.6<small> %</small></strong><em id="passCount" class="ok">209 / 256</em></article>
             <article><span>Fail rate</span><strong id="failMetric">18.4<small> %</small></strong><em id="failCount">47 / 256</em></article>
             <article><span>GPU for training</span><strong class="spec-metric">NVIDIA L4</strong></article>
@@ -145,7 +144,7 @@
     </main>
 
     <footer><span>RADIATOR FLOW FIELD</span><p>Unified Conditional Diffusion · 1,280 RAW SDF Samples</p><a href="#top">Back to top ↑</a></footer>
-    <script type="module" src="cad-viewer.js?v=true-sdf-2"></script>
-    <script src="app.js?v=true-sdf-2" defer></script>
+    <script type="module" src="cad-viewer.js?v=text-cleanup-1"></script>
+    <script src="app.js?v=text-cleanup-1" defer></script>
   </body>
 </html>
