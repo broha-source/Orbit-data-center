@@ -12,8 +12,6 @@ const slider = document.querySelector('#condition');
 const variableLabel = document.querySelector('#variableLabel');
 const conditionOut = document.querySelector('#conditionOut');
 const viewerLabel = document.querySelector('#viewerLabel');
-const viewSource = document.querySelector('#viewSource');
-const viewResolution = document.querySelector('#viewResolution');
 const passMetric = document.querySelector('#passMetric');
 const failMetric = document.querySelector('#failMetric');
 const passCount = document.querySelector('#passCount');
@@ -28,6 +26,13 @@ let variantIndex = 0;
 let randomSample = null;
 let cadSampleIndex = 0;
 const cadSampleIds = [1, 4, 8, 11, 15, 18, 21, 25, 28, 32, 35, 39, 42, 45, 49, 52, 56, 59, 62, 66, 69, 73, 76, 80, 83, 86, 90, 93, 97, 100];
+const conditionConfig = {
+  F0: { label: 'Pass count', min: 7, max: 15, step: 2, suffix: ' passes' },
+  F1: { label: 'Channel count', min: 7, max: 13, step: 1, suffix: ' channels' },
+  F2: { label: 'Pin grid', min: 6, max: 9, step: 1, format: (value) => `${value} × ${value}` },
+  F3: { label: 'Band count', min: 6, max: 9, step: 1, suffix: ' bands' },
+  F4: { label: 'Ring count', min: 4, max: 6, step: 1, suffix: ' rings' }
+};
 let frame = 0;
 let lastTime = performance.now();
 const imageCache = new Map();
@@ -51,6 +56,37 @@ function loadImage(src) {
 
 function currentFamily() { return database.families[familyId]; }
 function currentVariant() { return currentFamily().variants[variantIndex]; }
+
+function currentCondition() { return Number(slider.value); }
+
+function formatCondition(config, value) {
+  return config.format ? config.format(value) : `${value}${config.suffix || ''}`;
+}
+
+function conditionProgress(config, value) {
+  return (value - config.min) / Math.max(config.max - config.min, 1);
+}
+
+function sampleIndexFromCondition(config, value) {
+  return Math.round(conditionProgress(config, value) * (cadSampleIds.length - 1));
+}
+
+function conditionFromSampleIndex(config, index) {
+  const raw = config.min + (index / (cadSampleIds.length - 1)) * (config.max - config.min);
+  return Math.max(config.min, Math.min(config.max, config.min + Math.round((raw - config.min) / config.step) * config.step));
+}
+
+function syncVariantToCondition(value) {
+  const family = currentFamily();
+  const target = Number(value);
+  let nearest = 0;
+  let distance = Infinity;
+  family.variants.forEach((variant, index) => {
+    const parsed = Number.parseFloat(variant.value);
+    if (Math.abs(parsed - target) < distance) { nearest = index; distance = Math.abs(parsed - target); }
+  });
+  variantIndex = nearest;
+}
 
 function sliderCondition(family) {
   const progress = Number(slider.value) / 100;
@@ -192,15 +228,15 @@ function drawGeodesicFlow(rect, time, field) {
 function updateInterface() {
   const family = currentFamily();
   const variant = currentVariant();
+  const config = conditionConfig[familyId];
+  const conditionValue = currentCondition();
   const cadSampleId = cadSampleIds[cadSampleIndex];
   const cadFile = `${familyId}_${String(cadSampleId).padStart(4, '0')}.glb`;
-  variableLabel.textContent = 'Design sample';
-  conditionOut.textContent = `${String(cadSampleIndex + 1).padStart(2, '0')} / 30`;
-  slider.setAttribute('aria-valuetext', `CAD sample ${cadSampleIndex + 1} of 30`);
-  slider.style.setProperty('--slider-progress', `${slider.value}%`);
-  viewerLabel.textContent = `${familyId} / ${family.name} · ${view === 'sdf' ? 'RAW SDF' : 'CAD'} #${String(cadSampleId).padStart(3, '0')}`;
-  viewSource.textContent = view === 'sdf' ? 'RAW SDF' : 'STEP → GLB';
-  viewResolution.textContent = view === 'sdf' ? '256 × 256' : '30 MODELS';
+  variableLabel.textContent = config.label;
+  conditionOut.textContent = formatCondition(config, conditionValue);
+  slider.setAttribute('aria-valuetext', formatCondition(config, conditionValue));
+  slider.style.setProperty('--slider-progress', `${conditionProgress(config, conditionValue) * 100}%`);
+  viewerLabel.textContent = `${familyId} / ${family.name}`;
   passMetric.innerHTML = `${family.metrics.passRate}<small> %</small>`;
   failMetric.innerHTML = `${family.metrics.failRate}<small> %</small>`;
   passCount.textContent = `${family.metrics.pass} / 256`;
@@ -429,7 +465,11 @@ familiesEl.addEventListener('click', (event) => {
   familyId = button.dataset.family;
   variantIndex = 0;
   cadSampleIndex = 0;
-  slider.value = 0;
+  const config = conditionConfig[familyId];
+  slider.min = String(config.min);
+  slider.max = String(config.max);
+  slider.step = String(config.step);
+  slider.value = String(config.min);
   randomSample = null;
   familiesEl.querySelectorAll('button').forEach((item) => item.classList.toggle('active', item === button));
   updateInterface();
@@ -441,19 +481,15 @@ representationsEl.addEventListener('click', (event) => {
   view = button.dataset.view;
   representationsEl.querySelectorAll('button').forEach((item) => item.classList.toggle('active', item === button));
   document.querySelector('.viewer').classList.toggle('sdf-mode', view === 'sdf');
-  const family = currentFamily();
-  const sampleId = cadSampleIds[cadSampleIndex];
-  viewerLabel.textContent = `${familyId} / ${family.name} · ${view === 'sdf' ? 'RAW SDF' : 'CAD'} #${String(sampleId).padStart(3, '0')}`;
-  viewSource.textContent = view === 'sdf' ? 'RAW SDF' : 'STEP → GLB';
-  viewResolution.textContent = view === 'sdf' ? '256 × 256' : '30 MODELS';
+  viewerLabel.textContent = `${familyId} / ${currentFamily().name}`;
   dispatchEvent(new CustomEvent('cad-view-change', { detail: { view } }));
 });
 
 slider.addEventListener('input', () => {
-  const family = currentFamily();
-  const progress = Number(slider.value) / 100;
-  variantIndex = Math.round(progress * (family.variants.length - 1));
-  cadSampleIndex = Math.round(progress * (cadSampleIds.length - 1));
+  const config = conditionConfig[familyId];
+  const value = currentCondition();
+  syncVariantToCondition(value);
+  cadSampleIndex = sampleIndexFromCondition(config, value);
   randomSample = null;
   updateInterface();
 });
@@ -463,7 +499,9 @@ generateNext.addEventListener('click', () => {
   while (next === cadSampleIndex) next = Math.floor(Math.random() * cadSampleIds.length);
   cadSampleIndex = next;
   randomSample = cadSampleIds[next];
-  slider.value = String(Math.round(next / (cadSampleIds.length - 1) * 100));
+  const config = conditionConfig[familyId];
+  slider.value = String(conditionFromSampleIndex(config, next));
+  syncVariantToCondition(currentCondition());
   generateNext.classList.remove('is-launching');
   requestAnimationFrame(() => generateNext.classList.add('is-launching'));
   setTimeout(() => generateNext.classList.remove('is-launching'), 520);
@@ -483,6 +521,11 @@ Promise.all([
   .then(([geometryData, atlasData]) => {
     database = geometryData;
     passDatabase = atlasData;
+    const config = conditionConfig[familyId];
+    slider.min = String(config.min);
+    slider.max = String(config.max);
+    slider.step = String(config.step);
+    slider.value = String(config.min);
     updateInterface();
   })
   .catch((error) => {

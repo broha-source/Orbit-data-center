@@ -6,7 +6,7 @@
     <meta name="description" content="Radiator Flow Field: interactive orbital data-center radiator geometry explorer." />
     <title>Radiator Flow Field — Orbit Data Center</title>
     <link rel="stylesheet" href="styles.css?v=ux-refresh-1" />
-    <link rel="stylesheet" href="theme.css?v=catalog-cad-2" />
+    <link rel="stylesheet" href="theme.css?v=condition-cad-1" />
   </head>
   <body>
     <div class="noise" aria-hidden="true"></div>
@@ -44,7 +44,7 @@
 
         <div class="demo-frame">
           <aside class="controls">
-            <div class="panel-title"><span>GENERATION CONTROL</span><b>01</b></div>
+            <div class="panel-title"><span>GENERATION CONTROL</span></div>
             <label>Geometry family</label>
             <div class="segmented family-tabs" id="families">
               <button class="active" data-family="F0">F0</button>
@@ -77,7 +77,6 @@
           <div class="viewer">
             <div class="viewer-bar">
               <span><i></i> <b id="viewerLabel">F0 / SERPENTINE</b></span>
-              <div><button id="viewSource" class="view-active">STEP → GLB</button><button id="viewResolution">30 MODELS</button></div>
             </div>
             <canvas id="flowCanvas" aria-hidden="true"></canvas>
             <div id="cadViewer" aria-label="Clean orthographic STEP-derived CAD geometry"></div>
@@ -146,7 +145,7 @@
     </main>
 
     <footer><span>RADIATOR FLOW FIELD</span><p>Unified Conditional Diffusion · 1,280 RAW SDF Samples</p><a href="#top">Back to top ↑</a></footer>
-    <script src="cad-viewer.bundle.js?v=catalog-cad-2" defer></script>
-    <script src="app.js?v=catalog-cad-2" defer></script>
+    <script src="cad-viewer.bundle.js?v=condition-cad-1" defer></script>
+    <script src="app.js?v=condition-cad-1" defer></script>
   </body>
 </html>
