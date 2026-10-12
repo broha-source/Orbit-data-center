@@ -19,18 +19,12 @@ const loader = new GLTFLoader();
 const faceMaterial = new THREE.MeshBasicMaterial({ color: 0xfafafa, side: THREE.DoubleSide, toneMapped: false });
 const edgeMaterial = new THREE.LineBasicMaterial({ color: 0x6f7477, transparent: true, opacity: 0.96, toneMapped: false });
 let model = null;
-let endpointGroup = null;
 let requestId = 0;
 let modelSpan = 1;
 
 function disposeModel() {
   if (!model) return;
   scene.remove(model);
-  if (endpointGroup) {
-    scene.remove(endpointGroup);
-    endpointGroup.traverse((child) => child.geometry?.dispose());
-    endpointGroup = null;
-  }
   model.traverse((child) => {
     if (child.geometry) child.geometry.dispose();
     if (child.material && child.material !== faceMaterial && child.material !== edgeMaterial) child.material.dispose?.();
@@ -58,15 +52,6 @@ function frameModel(object) {
   const size = box.getSize(new THREE.Vector3());
   object.position.sub(center);
   modelSpan = Math.max(size.x, size.y, 1);
-  endpointGroup = new THREE.Group();
-  const markerGeometry = new THREE.PlaneGeometry(modelSpan * 0.012, modelSpan * 0.045);
-  const inlet = new THREE.Mesh(markerGeometry, new THREE.MeshBasicMaterial({ color: 0x2768d7, toneMapped: false }));
-  const outlet = new THREE.Mesh(markerGeometry.clone(), new THREE.MeshBasicMaterial({ color: 0xb52e31, toneMapped: false }));
-  const markerZ = size.z * 0.5 + modelSpan * 0.015;
-  inlet.position.set(-size.x * 0.5, -size.y * 0.5, markerZ);
-  outlet.position.set(size.x * 0.5, size.y * 0.5, markerZ);
-  endpointGroup.add(inlet, outlet);
-  scene.add(endpointGroup);
   camera.near = 0.01;
   camera.far = Math.max(modelSpan * 20, 100);
   camera.position.set(0, 0, Math.max(modelSpan * 3, size.z * 4 + 10));
