@@ -24,8 +24,17 @@ let familyId = 'F0';
 let view = 'cad';
 let variantIndex = 0;
 let randomSample = null;
-let cadSampleIndex = 0;
+let cadSampleId = 1;
 const cadSampleIds = [1, 4, 8, 11, 15, 18, 21, 25, 28, 32, 35, 39, 42, 45, 49, 52, 56, 59, 62, 66, 69, 73, 76, 80, 83, 86, 90, 93, 97, 100];
+// Catalog-verified representative CADs. Values are real geometric counts,
+// never inferred from a file's position in the 30-model subset.
+const conditionModels = {
+  F0: { 7: [1], 9: [2], 11: [3], 13: [13], 15: [32] },
+  F1: { 7: [25], 8: [4], 9: [15], 10: [8], 11: [28], 12: [42], 13: [1] },
+  F2: { 6: [12], 7: [15], 8: [21], 9: [84] },
+  F3: { 6: [15], 7: [35], 8: [4], 9: [1] },
+  F4: { 4: [25], 5: [1], 6: [4] }
+};
 const conditionConfig = {
   F0: { label: 'Pass count', min: 7, max: 15, step: 2, suffix: ' passes' },
   F1: { label: 'Channel count', min: 7, max: 13, step: 1, suffix: ' channels' },
@@ -67,13 +76,9 @@ function conditionProgress(config, value) {
   return (value - config.min) / Math.max(config.max - config.min, 1);
 }
 
-function sampleIndexFromCondition(config, value) {
-  return Math.round(conditionProgress(config, value) * (cadSampleIds.length - 1));
-}
-
-function conditionFromSampleIndex(config, index) {
-  const raw = config.min + (index / (cadSampleIds.length - 1)) * (config.max - config.min);
-  return Math.max(config.min, Math.min(config.max, config.min + Math.round((raw - config.min) / config.step) * config.step));
+function sampleForCondition(value) {
+  const models = conditionModels[familyId][String(value)] || [];
+  return models[0] || 1;
 }
 
 function syncVariantToCondition(value) {
@@ -230,7 +235,6 @@ function updateInterface() {
   const variant = currentVariant();
   const config = conditionConfig[familyId];
   const conditionValue = currentCondition();
-  const cadSampleId = cadSampleIds[cadSampleIndex];
   const cadFile = `${familyId}_${String(cadSampleId).padStart(4, '0')}.glb`;
   variableLabel.textContent = config.label;
   conditionOut.textContent = formatCondition(config, conditionValue);
@@ -246,7 +250,7 @@ function updateInterface() {
     detail: {
       familyId,
       file: cadFile,
-      label: `CAD ${String(cadSampleIndex + 1).padStart(2, '0')} / 30`
+      label: `${formatCondition(config, conditionValue)} representative CAD`
     }
   }));
 }
@@ -464,7 +468,7 @@ familiesEl.addEventListener('click', (event) => {
   if (!button) return;
   familyId = button.dataset.family;
   variantIndex = 0;
-  cadSampleIndex = 0;
+  cadSampleId = sampleForCondition(conditionConfig[familyId].min);
   const config = conditionConfig[familyId];
   slider.min = String(config.min);
   slider.max = String(config.max);
@@ -489,18 +493,19 @@ slider.addEventListener('input', () => {
   const config = conditionConfig[familyId];
   const value = currentCondition();
   syncVariantToCondition(value);
-  cadSampleIndex = sampleIndexFromCondition(config, value);
+  cadSampleId = sampleForCondition(value);
   randomSample = null;
   updateInterface();
 });
 
 generateNext.addEventListener('click', () => {
-  let next = Math.floor(Math.random() * cadSampleIds.length);
-  while (next === cadSampleIndex) next = Math.floor(Math.random() * cadSampleIds.length);
-  cadSampleIndex = next;
-  randomSample = cadSampleIds[next];
   const config = conditionConfig[familyId];
-  slider.value = String(conditionFromSampleIndex(config, next));
+  const values = Object.keys(conditionModels[familyId]).map(Number);
+  let nextValue = values[Math.floor(Math.random() * values.length)];
+  while (values.length > 1 && nextValue === currentCondition()) nextValue = values[Math.floor(Math.random() * values.length)];
+  slider.value = String(nextValue);
+  cadSampleId = sampleForCondition(nextValue);
+  randomSample = cadSampleId;
   syncVariantToCondition(currentCondition());
   generateNext.classList.remove('is-launching');
   requestAnimationFrame(() => generateNext.classList.add('is-launching'));
@@ -526,6 +531,7 @@ Promise.all([
     slider.max = String(config.max);
     slider.step = String(config.step);
     slider.value = String(config.min);
+    cadSampleId = sampleForCondition(config.min);
     updateInterface();
   })
   .catch((error) => {
