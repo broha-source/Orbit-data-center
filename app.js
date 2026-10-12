@@ -12,6 +12,8 @@ const slider = document.querySelector('#condition');
 const variableLabel = document.querySelector('#variableLabel');
 const conditionOut = document.querySelector('#conditionOut');
 const viewerLabel = document.querySelector('#viewerLabel');
+const viewSource = document.querySelector('#viewSource');
+const viewResolution = document.querySelector('#viewResolution');
 const passMetric = document.querySelector('#passMetric');
 const failMetric = document.querySelector('#failMetric');
 const passCount = document.querySelector('#passCount');
@@ -21,7 +23,7 @@ const generateNext = document.querySelector('#generateNext');
 let database;
 let passDatabase;
 let familyId = 'F0';
-let view = 'shaded';
+let view = 'cad';
 let variantIndex = 0;
 let randomSample = null;
 let cadSampleIndex = 0;
@@ -192,18 +194,18 @@ function updateInterface() {
   const variant = currentVariant();
   const cadSampleId = cadSampleIds[cadSampleIndex];
   const cadFile = `${familyId}_${String(cadSampleId).padStart(4, '0')}.glb`;
-  variableLabel.textContent = 'CAD sample';
+  variableLabel.textContent = 'Design sample';
   conditionOut.textContent = `${String(cadSampleIndex + 1).padStart(2, '0')} / 30`;
   slider.setAttribute('aria-valuetext', `CAD sample ${cadSampleIndex + 1} of 30`);
   slider.style.setProperty('--slider-progress', `${slider.value}%`);
-  viewerLabel.textContent = `${familyId} / ${family.name} · CAD #${String(cadSampleId).padStart(3, '0')}`;
+  viewerLabel.textContent = `${familyId} / ${family.name} · ${view === 'sdf' ? 'RAW SDF' : 'CAD'} #${String(cadSampleId).padStart(3, '0')}`;
+  viewSource.textContent = view === 'sdf' ? 'RAW SDF' : 'STEP → GLB';
+  viewResolution.textContent = view === 'sdf' ? '256 × 256' : '30 MODELS';
   passMetric.innerHTML = `${family.metrics.passRate}<small> %</small>`;
   failMetric.innerHTML = `${family.metrics.failRate}<small> %</small>`;
   passCount.textContent = `${family.metrics.pass} / 256`;
   failCount.textContent = `${family.metrics.fail} / 256`;
-  document.querySelectorAll('.port').forEach((port) => {
-    port.hidden = familyId === 'F2' || familyId === 'F4';
-  });
+  [variant.sdf, variant.mask, variant.alpha].forEach(loadImage);
   dispatchEvent(new CustomEvent('cad-model-change', {
     detail: {
       familyId,
@@ -438,6 +440,12 @@ representationsEl.addEventListener('click', (event) => {
   if (!button) return;
   view = button.dataset.view;
   representationsEl.querySelectorAll('button').forEach((item) => item.classList.toggle('active', item === button));
+  document.querySelector('.viewer').classList.toggle('sdf-mode', view === 'sdf');
+  const family = currentFamily();
+  const sampleId = cadSampleIds[cadSampleIndex];
+  viewerLabel.textContent = `${familyId} / ${family.name} · ${view === 'sdf' ? 'RAW SDF' : 'CAD'} #${String(sampleId).padStart(3, '0')}`;
+  viewSource.textContent = view === 'sdf' ? 'RAW SDF' : 'STEP → GLB';
+  viewResolution.textContent = view === 'sdf' ? '256 × 256' : '30 MODELS';
   dispatchEvent(new CustomEvent('cad-view-change', { detail: { view } }));
 });
 
@@ -482,7 +490,5 @@ Promise.all([
     viewerLabel.textContent = 'GEOMETRY DATA UNAVAILABLE';
   });
 
-if (!document.querySelector('#cadViewer')) {
-  addEventListener('resize', resizeCanvas);
-  requestAnimationFrame(animate);
-}
+addEventListener('resize', resizeCanvas);
+requestAnimationFrame(animate);
