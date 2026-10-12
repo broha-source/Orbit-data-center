@@ -21,9 +21,11 @@ const generateNext = document.querySelector('#generateNext');
 let database;
 let passDatabase;
 let familyId = 'F0';
-let view = 'mask';
+let view = 'shaded';
 let variantIndex = 0;
 let randomSample = null;
+let cadSampleIndex = 0;
+const cadSampleIds = [1, 4, 8, 11, 15, 18, 21, 25, 28, 32, 35, 39, 42, 45, 49, 52, 56, 59, 62, 66, 69, 73, 76, 80, 83, 86, 90, 93, 97, 100];
 let frame = 0;
 let lastTime = performance.now();
 const imageCache = new Map();
@@ -188,13 +190,13 @@ function drawGeodesicFlow(rect, time, field) {
 function updateInterface() {
   const family = currentFamily();
   const variant = currentVariant();
-  variableLabel.textContent = family.variable;
-  conditionOut.textContent = sliderCondition(family);
-  slider.setAttribute('aria-valuetext', `${family.variable}: ${conditionOut.textContent}`);
+  const cadSampleId = cadSampleIds[cadSampleIndex];
+  const cadFile = `${familyId}_${String(cadSampleId).padStart(4, '0')}.glb`;
+  variableLabel.textContent = 'CAD sample';
+  conditionOut.textContent = `${String(cadSampleIndex + 1).padStart(2, '0')} / 30`;
+  slider.setAttribute('aria-valuetext', `CAD sample ${cadSampleIndex + 1} of 30`);
   slider.style.setProperty('--slider-progress', `${slider.value}%`);
-  viewerLabel.textContent = randomSample === null
-    ? `${familyId} / ${family.name}`
-    : `${familyId} / ${family.name} · PASS #${String(randomSample).padStart(3, '0')}`;
+  viewerLabel.textContent = `${familyId} / ${family.name} · CAD #${String(cadSampleId).padStart(3, '0')}`;
   passMetric.innerHTML = `${family.metrics.passRate}<small> %</small>`;
   failMetric.innerHTML = `${family.metrics.failRate}<small> %</small>`;
   passCount.textContent = `${family.metrics.pass} / 256`;
@@ -202,7 +204,13 @@ function updateInterface() {
   document.querySelectorAll('.port').forEach((port) => {
     port.hidden = familyId === 'F2' || familyId === 'F4';
   });
-  [variant.sdf, variant.mask, variant.alpha].forEach(loadImage);
+  dispatchEvent(new CustomEvent('cad-model-change', {
+    detail: {
+      familyId,
+      file: cadFile,
+      label: `CAD ${String(cadSampleIndex + 1).padStart(2, '0')} / 30`
+    }
+  }));
 }
 
 function drawBackdrop() {
@@ -418,6 +426,7 @@ familiesEl.addEventListener('click', (event) => {
   if (!button) return;
   familyId = button.dataset.family;
   variantIndex = 0;
+  cadSampleIndex = 0;
   slider.value = 0;
   randomSample = null;
   familiesEl.querySelectorAll('button').forEach((item) => item.classList.toggle('active', item === button));
@@ -429,24 +438,24 @@ representationsEl.addEventListener('click', (event) => {
   if (!button) return;
   view = button.dataset.view;
   representationsEl.querySelectorAll('button').forEach((item) => item.classList.toggle('active', item === button));
+  dispatchEvent(new CustomEvent('cad-view-change', { detail: { view } }));
 });
 
 slider.addEventListener('input', () => {
   const family = currentFamily();
   const progress = Number(slider.value) / 100;
   variantIndex = Math.round(progress * (family.variants.length - 1));
+  cadSampleIndex = Math.round(progress * (cadSampleIds.length - 1));
   randomSample = null;
   updateInterface();
 });
 
 generateNext.addEventListener('click', () => {
-  if (!passDatabase) return;
-  const samples = passDatabase[familyId].passSamples;
-  let next = samples[Math.floor(Math.random() * samples.length)];
-  if (samples.length > 1) {
-    while (next === randomSample) next = samples[Math.floor(Math.random() * samples.length)];
-  }
-  randomSample = next;
+  let next = Math.floor(Math.random() * cadSampleIds.length);
+  while (next === cadSampleIndex) next = Math.floor(Math.random() * cadSampleIds.length);
+  cadSampleIndex = next;
+  randomSample = cadSampleIds[next];
+  slider.value = String(Math.round(next / (cadSampleIds.length - 1) * 100));
   generateNext.classList.remove('is-launching');
   requestAnimationFrame(() => generateNext.classList.add('is-launching'));
   setTimeout(() => generateNext.classList.remove('is-launching'), 520);
@@ -473,5 +482,7 @@ Promise.all([
     viewerLabel.textContent = 'GEOMETRY DATA UNAVAILABLE';
   });
 
-addEventListener('resize', resizeCanvas);
-requestAnimationFrame(animate);
+if (!document.querySelector('#cadViewer')) {
+  addEventListener('resize', resizeCanvas);
+  requestAnimationFrame(animate);
+}
