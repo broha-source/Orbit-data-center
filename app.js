@@ -29,11 +29,11 @@ const cadSampleIds = [1, 4, 8, 11, 15, 18, 21, 25, 28, 32, 35, 39, 42, 45, 49, 5
 // Catalog-verified representative CADs. Values are real geometric counts,
 // never inferred from a file's position in the 30-model subset.
 const conditionModels = {
-  F0: { 7: [1], 9: [2], 11: [3], 13: [13], 15: [32] },
-  F1: { 7: [25], 8: [4], 9: [15], 10: [8], 11: [28], 12: [42], 13: [1] },
-  F2: { 6: [12], 7: [15], 8: [21], 9: [4] },
-  F3: { 6: [15], 7: [35], 8: [4], 9: [1] },
-  F4: { 4: [25], 5: [1], 6: [4] }
+  F0: { 7: [37], 9: [34], 11: [32], 13: [29], 15: [31] },
+  F1: { 7: [69], 8: [31], 9: [5], 10: [2], 11: [6], 12: [1], 13: [23] },
+  F2: { 6: [23], 7: [55], 8: [4], 9: [61] },
+  F3: { 6: [15], 7: [8], 8: [35], 9: [41] },
+  F4: { 4: [25], 5: [1], 6: [14] }
 };
 const conditionConfig = {
   F0: { label: 'Pass count', min: 7, max: 15, step: 2, suffix: ' passes' },
