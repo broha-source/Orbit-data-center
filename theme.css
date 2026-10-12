@@ -3,9 +3,9 @@
 body{background:#000;color:#fff;font-family:Arial,Helvetica,sans-serif}
 .noise{opacity:.022}
 .topbar{height:78px;padding:0 3.3vw;background:linear-gradient(#000,rgba(0,0,0,.2),transparent);border:0;backdrop-filter:none}
-.brand{font-size:14px;font-weight:800;font-style:italic;letter-spacing:.12em}.brand b{color:#fff;font-weight:800}
-.brand-mark{width:34px;height:20px;border:0;border-bottom:2px solid #fff;border-radius:50%;transform:skewX(-14deg)}
-.brand-mark:before{width:4px;height:4px;background:#fff;box-shadow:none}.brand-mark i{width:38px;height:9px;border-color:rgba(255,255,255,.75)}
+.odc-wordmark{position:relative;display:inline-flex;align-items:center;gap:.04em;width:112px;color:#f7f9fb;font-family:"Arial Narrow",Arial,sans-serif;font-size:27px;font-weight:600;font-style:normal;line-height:1;letter-spacing:.08em;transform:skewX(-9deg) scaleX(1.16);transform-origin:left center;text-shadow:0 0 18px rgba(162,218,235,.12)}
+.odc-wordmark>span{display:inline-block}.odc-wordmark>span:first-child{font-weight:500;transform:scaleX(1.08)}.odc-wordmark>span:nth-child(2){margin-left:.02em}.odc-wordmark .odc-c{position:relative;margin-left:-.03em}
+.odc-wordmark .odc-c:after{content:"";position:absolute;left:-.08em;top:52%;width:1.2em;height:1px;background:linear-gradient(90deg,transparent,#f7f9fb 22%,#f7f9fb 70%,transparent);transform:rotate(-16deg) scaleX(1.25);transform-origin:center;box-shadow:0 0 5px rgba(255,255,255,.38)}
 nav{margin-left:70px;gap:30px}nav a,.repo-link{font:700 11px Arial,sans-serif;color:#fff;letter-spacing:.02em}
 nav a{position:relative}nav a:after{content:"";position:absolute;left:0;bottom:-7px;width:0;height:1px;background:#fff;transition:.25s}nav a:hover:after{width:100%}.repo-link{margin-left:auto}
 .lab-mark{margin-left:auto;display:flex;align-items:center;height:44px;max-width:min(24vw,250px)}
