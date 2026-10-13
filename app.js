@@ -17,6 +17,15 @@ const failMetric = document.querySelector('#failMetric');
 const passCount = document.querySelector('#passCount');
 const failCount = document.querySelector('#failCount');
 const generateNext = document.querySelector('#generateNext');
+const heroVideo = document.querySelector('.hero-video');
+
+function applyHeroPlaybackRate() {
+  if (!heroVideo) return;
+  heroVideo.defaultPlaybackRate = 1.5;
+  heroVideo.playbackRate = 1.5;
+}
+applyHeroPlaybackRate();
+heroVideo?.addEventListener('loadedmetadata', applyHeroPlaybackRate);
 
 let database;
 let passDatabase;
@@ -509,7 +518,7 @@ generateNext.addEventListener('click', () => {
   syncVariantToCondition(currentCondition());
   generateNext.classList.remove('is-launching');
   requestAnimationFrame(() => generateNext.classList.add('is-launching'));
-  setTimeout(() => generateNext.classList.remove('is-launching'), 520);
+    setTimeout(() => generateNext.classList.remove('is-launching'), 1100);
   updateInterface();
 });
 

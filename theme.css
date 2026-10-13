@@ -87,16 +87,21 @@ footer{border-color:#242528;font:700 10px Arial,sans-serif;color:#777}footer a{c
 .metrics strong{font-size:36px;margin-top:12px}
 .metrics strong.spec-metric{font-size:25px!important}
 .metrics em{font-size:10px;top:29px}
-.spacecraft-generator{margin-top:24px;padding-top:22px;border-top:1px solid #333;text-align:center}
-.spacecraft-button{position:relative;overflow:hidden;width:100%;padding:16px 14px 15px;border:1px solid #73777b;background:radial-gradient(circle at 50% 34%,#1b2227 0,#0c0f12 58%,#070809 100%);color:#fff;cursor:pointer;box-shadow:inset 0 0 32px rgba(112,204,235,.06),0 12px 30px rgba(0,0,0,.24);transition:border-color .25s,box-shadow .25s,transform .25s}
+.spacecraft-generator{margin:0 0 10px;padding:0 0 20px;border-bottom:1px solid #333;text-align:center}
+.spacecraft-button{position:relative;overflow:hidden;width:100%;padding:18px 14px 16px;border:1px solid #59656c;background:radial-gradient(circle at 50% 37%,#16272f 0,#0a1014 54%,#050708 100%);color:#fff;cursor:pointer;box-shadow:inset 0 0 38px rgba(86,205,239,.08),0 12px 30px rgba(0,0,0,.24);transition:border-color .25s,box-shadow .25s,transform .25s}
 .spacecraft-button:before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.08) 48%,transparent 72%);transform:translateX(-120%);transition:transform .6s ease}.spacecraft-button:hover:before{transform:translateX(120%)}
 .spacecraft-button:hover{border-color:#fff;box-shadow:inset 0 0 38px rgba(112,204,235,.12),0 15px 38px rgba(0,0,0,.34);transform:translateY(-3px)}
 .spacecraft-button:active{transform:translateY(0) scale(.985)}
-.launch-visual{position:relative;display:block}.spacecraft-button img{display:block;width:100%;height:82px;object-fit:contain;margin:0 auto 8px;opacity:.92;transition:opacity .25s,transform .35s}.spacecraft-button:hover img{opacity:1;transform:scale(1.025)}
-.launch-visual i{position:absolute;right:7px;bottom:3px;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;padding-left:2px;background:#fff;color:#050607;font:700 14px Arial,sans-serif;box-shadow:0 0 0 6px rgba(255,255,255,.09),0 0 24px rgba(122,218,247,.22)}
-.spacecraft-button.is-launching img{animation:orbitLaunch .52s ease-out}.spacecraft-button.is-launching .launch-visual i{animation:playPulse .52s ease-out}
+.launch-visual{position:relative;display:grid;place-items:center;width:118px;height:104px;margin:0 auto 9px}.orbit-ring{position:absolute;width:110px;height:66px;border:1px dashed rgba(178,224,239,.58);border-radius:50%;transform:rotate(-15deg)}
+.earth-play{position:relative;width:64px;height:64px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 34% 30%,#315363 0,#142c37 42%,#07151c 72%);border:1px solid #a9c7d1;box-shadow:inset -10px -8px 18px rgba(0,0,0,.45),0 0 0 7px rgba(125,218,244,.06),0 0 24px rgba(93,207,239,.18);transition:transform .28s,box-shadow .28s}
+.earth-play:before,.earth-play:after{content:"";position:absolute;border:1px solid rgba(188,226,236,.32);border-radius:48% 52% 43% 57%}.earth-play:before{width:25px;height:17px;left:9px;top:12px;transform:rotate(-22deg)}.earth-play:after{width:19px;height:23px;right:8px;bottom:10px;transform:rotate(28deg)}
+.earth-play i{position:relative;z-index:2;width:31px;height:31px;border-radius:50%;display:grid;place-items:center;padding-left:2px;background:#fff;color:#071015;font:700 11px Arial,sans-serif;box-shadow:0 0 18px rgba(255,255,255,.28)}
+.data-satellite{position:absolute;left:50%;top:-8px;width:25px;height:14px;transform:translateX(-50%) rotate(15deg);transform-origin:50% 41px}.data-satellite:before,.data-satellite:after{content:"";position:absolute;top:4px;width:8px;height:6px;border:1px solid #b7d1d9;background:repeating-linear-gradient(90deg,#21363e 0 2px,#8ab4c0 3px 4px)}.data-satellite:before{left:-7px}.data-satellite:after{right:-7px}.data-satellite i{position:absolute;left:8px;top:3px;width:9px;height:8px;border:1px solid #fff;background:#1b2b31}.data-satellite b{position:absolute;left:12px;top:-5px;width:1px;height:7px;background:#d9edf3}
+.spacecraft-button:hover .earth-play{transform:scale(1.07);box-shadow:inset -10px -8px 18px rgba(0,0,0,.45),0 0 0 9px rgba(125,218,244,.1),0 0 34px rgba(93,207,239,.3)}.spacecraft-button:hover .orbit-ring{animation:orbitIdle 3.4s linear infinite}
+.spacecraft-button.is-launching .orbit-ring{animation:orbitLaunch 1.05s cubic-bezier(.22,.7,.28,1)}.spacecraft-button.is-launching .earth-play{animation:playPulse .62s ease-out}
 .spacecraft-button strong{display:block;font:700 13px Arial,sans-serif;letter-spacing:.12em}.spacecraft-button small{display:block;margin-top:7px;color:#8f969a;font:500 10px Arial,sans-serif;letter-spacing:.04em}
-@keyframes orbitLaunch{0%{transform:translateX(0);opacity:.92}45%{transform:translateX(9px);opacity:1}100%{transform:translateX(0);opacity:.92}}
+@keyframes orbitIdle{to{transform:rotate(345deg)}}
+@keyframes orbitLaunch{0%{transform:rotate(-15deg) scale(1)}65%{transform:rotate(520deg) scale(1.08)}100%{transform:rotate(705deg) scale(1)}}
 @keyframes playPulse{45%{transform:scale(1.17);box-shadow:0 0 0 10px rgba(255,255,255,.04),0 0 34px rgba(122,218,247,.4)}}
 .method-pipeline{grid-template-columns:repeat(4,minmax(0,1fr))}
 .method-pipeline article{min-height:440px;padding:36px 26px 34px}

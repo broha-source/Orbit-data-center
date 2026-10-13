@@ -22,8 +22,8 @@ camera.position.set(0, 0, 100);
 camera.up.set(0, 1, 0);
 
 const loader = new GLTFLoader();
-const faceMaterial = new THREE.MeshBasicMaterial({ color: 0xfafafa, side: THREE.DoubleSide, toneMapped: false });
-const edgeMaterial = new THREE.LineBasicMaterial({ color: 0x6f7477, transparent: true, opacity: 0.96, toneMapped: false });
+const faceMaterial = new THREE.MeshBasicMaterial({ color: 0xf3f5f6, side: THREE.DoubleSide, toneMapped: false });
+const edgeMaterial = new THREE.LineBasicMaterial({ color: 0x858c91, transparent: true, opacity: 1, toneMapped: false });
 const maskMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide, toneMapped: false });
 const sdfTarget = new THREE.WebGLRenderTarget(256, 256, { depthBuffer: true, stencilBuffer: false });
 let model = null;

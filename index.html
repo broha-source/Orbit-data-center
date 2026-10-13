@@ -6,7 +6,7 @@
     <meta name="description" content="Radiator Flow Field: interactive orbital data-center radiator geometry explorer." />
     <title>Radiator Flow Field — Orbit Data Center</title>
     <link rel="stylesheet" href="styles.css?v=ux-refresh-1" />
-    <link rel="stylesheet" href="theme.css?v=odc-wordmark-1" />
+    <link rel="stylesheet" href="theme.css?v=generate-orbit-1" />
   </head>
   <body>
     <div class="noise" aria-hidden="true"></div>
@@ -83,16 +83,19 @@
           </div>
 
           <aside class="metrics">
-            <article><span>Pass rate</span><strong id="passMetric">81.6<small> %</small></strong><em id="passCount" class="ok">209 / 256</em></article>
-            <article><span>Fail rate</span><strong id="failMetric">18.4<small> %</small></strong><em id="failCount">47 / 256</em></article>
-            <article><span>GPU for training</span><strong class="spec-metric">NVIDIA L4</strong></article>
             <div class="spacecraft-generator">
               <button id="generateNext" class="spacecraft-button" type="button" aria-label="Generate another random PASS geometry">
-                <span class="launch-visual"><img src="assets/orbit-generate-button.png" alt="Satellite orbiting Earth" /><i aria-hidden="true">▶</i></span>
+                <span class="launch-visual" aria-hidden="true">
+                  <span class="orbit-ring"><span class="data-satellite"><i></i><b></b></span></span>
+                  <span class="earth-play"><i>▶</i></span>
+                </span>
                 <strong>GENERATE NEXT</strong>
                 <small>Random verified design</small>
               </button>
             </div>
+            <article><span>Pass rate</span><strong id="passMetric">81.6<small> %</small></strong><em id="passCount" class="ok">209 / 256</em></article>
+            <article><span>Fail rate</span><strong id="failMetric">18.4<small> %</small></strong><em id="failCount">47 / 256</em></article>
+            <article><span>GPU for training</span><strong class="spec-metric">NVIDIA L4</strong></article>
           </aside>
         </div>
       </section>
@@ -143,7 +146,7 @@
     </main>
 
     <footer><span>RADIATOR FLOW FIELD</span><p>Unified Conditional Diffusion · 1,280 RAW SDF Samples</p><a href="#top">Back to top ↑</a></footer>
-    <script type="module" src="cad-viewer.js?v=text-cleanup-1"></script>
-    <script src="app.js?v=text-cleanup-1" defer></script>
+    <script type="module" src="cad-viewer.js?v=generate-orbit-1"></script>
+    <script src="app.js?v=generate-orbit-1" defer></script>
   </body>
 </html>
