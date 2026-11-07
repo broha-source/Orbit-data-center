@@ -65,7 +65,7 @@ async function show() {
   $('#sampleStatus').textContent = '';
   $('#thicknessMetric').textContent=presentation.stats.thickness.toFixed(1);
   $('#lengthMetric').textContent=Math.round(presentation.stats.length).toLocaleString();
-  $('#volumeMetric').textContent='N/A';
+  $('#areaFractionMetric').textContent=(sample.volume_fraction*100).toFixed(1);
   $('#conditionOut').textContent = `${passes[Number(slider.value)]} passes`;
   slider.setAttribute('aria-valuetext', $('#conditionOut').textContent);
   slider.style.setProperty('--slider-progress', `${Number(slider.value) * 25}%`);
