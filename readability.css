@@ -1,0 +1,37 @@
+/* Readable research content, from quality control through the footer. */
+#results .eyebrow,#method .eyebrow,#progress .eyebrow{font-size:18px;line-height:1.5;letter-spacing:.035em}
+#results .results-intro>p:last-child{font-size:21px;line-height:1.65;max-width:680px}
+#results .results-intro>p:last-child b{font-size:25px;color:#f2f5f6}
+#results .result-grid header b{font-size:clamp(25px,2vw,34px);line-height:1.2}
+#results .result-grid header{min-height:76px;align-items:center}
+#results .result-grid article>p{font-size:16px;line-height:1.6;color:#c4cdd2}
+#results .result-grid h4{font-size:18px;line-height:1.4;color:#e1e6e9;margin:26px 0 12px}
+#results .result-grid li{font-size:17px;line-height:1.65;color:#bfc9cf;padding:9px 0;overflow-wrap:break-word}
+#results .research-note{grid-template-columns:minmax(170px,.3fr) 1fr;gap:32px;padding:36px}
+#results .research-note>b{font-size:17px;line-height:1.5;color:#e0e7eb}
+#results .research-note p{font-size:20px;line-height:1.75;color:#c1cbd0}
+#method .workflow-gallery h3{font-size:26px;line-height:1.3;margin-top:28px}
+#method .workflow-gallery article>p{font-size:21px;line-height:1.75;max-width:1100px;color:#c5cfd5}
+#method .workflow-gallery header b{font-size:38px;color:#7c919c}
+#method .workflow-gallery header span{font-size:16px;letter-spacing:.075em;color:#cbd5da}
+#method .workflow-picture figcaption{font-size:17px;line-height:1.5;margin-top:12px;color:#bbc8d0}
+#progress .research-stages article{padding:32px 26px}
+#progress .research-stages article>span{font-size:18px;color:#98abb5}
+#progress .research-stages h3{font-size:24px;line-height:1.35;min-height:100px}
+#progress .research-stages strong{font-size:52px;line-height:1.2}
+#progress .research-stages p{font-size:20px;line-height:1.75;color:#c2cdd3}
+#progress figcaption{font-size:16px;line-height:1.55;color:#b5c2ca;margin-top:12px}
+#progress .research-stages figure img{height:200px}
+#progress .stage-table{margin-top:44px}
+#progress .stage-table table{font-size:19px;line-height:1.6;min-width:1000px}
+#progress .stage-table caption{font-size:21px;color:#d1dce2;padding:22px 0;text-align:left}
+#progress .stage-table th,#progress .stage-table td{padding:23px 18px;vertical-align:middle;font-variant-numeric:tabular-nums}
+#progress .stage-table thead th{font-size:18px;color:#c8d9e2}
+#progress .stage-table tbody th{width:34%;font-size:19px;font-weight:600}
+#progress .parity-note{grid-template-columns:1fr 1fr;gap:40px;padding:38px}
+#progress .parity-note h3{font-size:28px;line-height:1.3;margin:0 0 22px}
+#progress .parity-note p{font-size:21px;line-height:1.85;color:#c6d0d6;margin:0 0 20px}
+footer{height:auto;min-height:125px;padding-top:30px;padding-bottom:30px;gap:24px;font-size:15px;line-height:1.65;color:#a9b8c0;flex-wrap:wrap}
+footer p{font-size:15px}footer a{font-size:16px}
+@media(max-width:1200px){#progress .research-stages{grid-template-columns:repeat(2,minmax(0,1fr))}#progress .parity-note{grid-template-columns:1fr}#progress .research-stages h3{min-height:75px}}
+@media(max-width:760px){#results .results-intro>p:last-child{font-size:19px}#results .results-intro>p:last-child b{font-size:23px}#results .research-note{grid-template-columns:1fr;padding:25px;gap:20px}#results .research-note p,#method .workflow-gallery article>p,#progress .research-stages p,#progress .parity-note p{font-size:19px;line-height:1.75}#method .workflow-gallery h3{font-size:24px}#method .workflow-picture figcaption{font-size:16px}#progress .research-stages{grid-template-columns:1fr}#progress .research-stages h3{min-height:0}#progress .parity-note{padding:25px;gap:24px}#progress .parity-note h3{font-size:25px}footer p{display:block;margin:0}}
