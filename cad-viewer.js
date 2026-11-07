@@ -95,14 +95,15 @@ function renderSignedDistance() {
     const edge = Math.exp(-Math.abs(signed) / 2.4);
     const i = (y * 256 + x) * 4;
     if (normalized >= 0) {
-      image.data[i] = Math.round(8 + normalized * 18 + edge * 226);
-      image.data[i + 1] = Math.round(55 + normalized * 132 + edge * 190);
-      image.data[i + 2] = Math.round(74 + normalized * 145 + edge * 174);
+      image.data[i] = Math.round(187 + edge * 39 + normalized * 9);
+      image.data[i + 1] = Math.round(181 + edge * 39 + normalized * 8);
+      image.data[i + 2] = Math.round(169 + edge * 39 + normalized * 7);
     } else {
       const n = -normalized;
-      image.data[i] = Math.round(20 + n * 52 + edge * 214);
-      image.data[i + 1] = Math.round(15 + n * 24 + edge * 202);
-      image.data[i + 2] = Math.round(49 + n * 81 + edge * 206);
+      const halo = Math.exp(-Math.abs(signed) / 4.2);
+      image.data[i] = Math.round(67 + n * 5 + halo * 104);
+      image.data[i + 1] = Math.round(86 + n * 6 + halo * 95);
+      image.data[i + 2] = Math.round(103 + n * 7 + halo * 81);
     }
     image.data[i + 3] = 255;
   }
