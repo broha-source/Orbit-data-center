@@ -10,6 +10,9 @@
 #cadViewer #sdfSample,#cadViewer #cadSample{position:static;display:block;width:100%;height:auto;aspect-ratio:1;object-fit:contain;border:1px solid #d3dce1;image-rendering:auto}
 #demo .viewer-generator{right:23px;top:calc(50% + 33px)}
 #demo .dual-view-note{font-size:16px;color:#e3edf1;font-weight:600;letter-spacing:.06em}
+#demo .representation-summary{border-top:1px solid #41464a;margin-top:28px;padding-top:26px;text-align:center}
+#demo .representation-summary>span{display:block;font:700 12px/1.5 Arial,sans-serif;letter-spacing:.06em;color:#bbc8cf}
+#demo .representation-summary .dual-view-note{margin:10px 0 0;line-height:1.5}
 #demo .metrics .metric-kicker{font-size:17px;line-height:1.5;letter-spacing:.055em;color:#a3dce9;padding-bottom:24px}
 #demo .metrics article{padding:36px 0}
 #demo .metrics article>span{font-size:21px;line-height:1.4;display:block;padding-right:8px;color:#e1e9ed}
