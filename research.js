@@ -1,12 +1,41 @@
 const ids = { F0: 'Serpentine', F1: 'Parallel', F2: 'Pin', F3: 'Spiral', F4: 'Spider Web' };
 const $ = (selector) => document.querySelector(selector);
-let manifest, selected, family = 'F0', representation = 'cad', renderToken = 0;
+let manifest, selected, family = 'F0', renderToken = 0;
 const bags = new Map();
 const passes = [5, 7, 9, 11, 13];
 const slider = $('#condition');
-const image = document.createElement('img');
-image.className = 'research-sample';
-$('#cadViewer').append(image);
+const image = $('#cadSample');
+const sdfCanvas = $('#sdfSample');
+const presentationCache = new Map();
+async function loadAsset(path) { const image = new Image(); image.src = `assets/research/${path}`; await image.decode(); return image; }
+async function buildPresentation(sample) {
+  if(presentationCache.has(sample.id)) return presentationCache.get(sample.id);
+  const [cad,sdf] = await Promise.all([loadAsset(sample.cad),loadAsset(sample.sdf)]);
+  const size=768;
+  const canvas=document.createElement('canvas');canvas.width=canvas.height=size;
+  const ctx=canvas.getContext('2d',{willReadFrequently:true});ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
+  ctx.drawImage(sdf,0,0,size,size);const field=ctx.getImageData(0,0,size,size);
+  ctx.drawImage(cad,0,0,size,size);const shape=ctx.getImageData(0,0,size,size);
+  for(let i=0;i<field.data.length;i+=4) {
+    const value=field.data[i]/255;
+    const coverage=1-shape.data[i]/255;
+    const depth=Math.max(0,Math.min(1,(.5-value)*2));
+    const halo=Math.exp(-Math.max(0,(value-.5)*2)*5.5);
+    const inside=[191+Math.exp(-depth*5)*32,185+Math.exp(-depth*5)*32,174+Math.exp(-depth*5)*32];
+    const outside=[70+halo*99,89+halo*91,107+halo*78];
+    for(let c=0;c<3;c++) field.data[i+c]=Math.round(outside[c]*(1-coverage)+inside[c]*coverage);
+    field.data[i+3]=255;
+  }
+  ctx.putImageData(field,0,0);
+  const native=document.createElement('canvas');native.width=native.height=256;
+  const nativeContext=native.getContext('2d',{willReadFrequently:true});nativeContext.drawImage(cad,0,0,256,256);
+  const rgba=nativeContext.getImageData(0,0,256,256).data;const mask=new Uint8Array(256*256);
+  for(let i=0;i<mask.length;i++)mask[i]=rgba[i*4]<128?1:0;
+  const stats=tileGeometry(mask,256);
+  const result={canvas,stats}; presentationCache.set(sample.id,result);
+  if(presentationCache.size>12)presentationCache.delete(presentationCache.keys().next().value);
+  return result;
+}
 const video = $('.hero-video');
 if (video) { video.playbackRate = 1.5; video.defaultPlaybackRate = 1.5; }
 function choose() {
@@ -25,15 +54,18 @@ function choose() {
 async function show() {
   const token = ++renderToken;
   const sample = selected;
-  const source = `assets/research/${sample[representation]}`;
-  const next = new Image(); next.src = source;
-  try { await next.decode(); } catch { if (token === renderToken) $('#sampleStatus').textContent = 'Sample unavailable. Please try another design.'; return; }
+  let presentation;
+  try { presentation = await buildPresentation(sample); } catch { if (token === renderToken) $('#sampleStatus').textContent = 'Sample unavailable. Please try another design.'; return; }
   if (token !== renderToken) return;
-  image.src = source; image.alt = `${sample.family} ${representation.toUpperCase()} — ${sample.id}, PASS`;
+  image.src = `assets/research/${sample.cad}`; image.alt = `${sample.family} CAD — ${sample.id}, PASS`;
   image.dataset.sampleId = sample.id;
+  sdfCanvas.width=sdfCanvas.height=768;sdfCanvas.getContext('2d').drawImage(presentation.canvas,0,0);
+  sdfCanvas.dataset.sampleId=sample.id;sdfCanvas.setAttribute('aria-label',`${sample.family} SDF colour preview — ${sample.id}`);
   $('#viewerLabel').textContent = sample.family;
   $('#sampleStatus').textContent = '';
-  $('#sampleFacts').textContent = `Channel width: ${sample.channel_width_px} px · Volume fraction: ${(sample.volume_fraction * 100).toFixed(1)}%`;
+  $('#thicknessMetric').textContent=presentation.stats.thickness.toFixed(1);
+  $('#lengthMetric').textContent=Math.round(presentation.stats.length).toLocaleString();
+  $('#volumeMetric').textContent='N/A';
   $('#conditionOut').textContent = `${passes[Number(slider.value)]} passes`;
   slider.setAttribute('aria-valuetext', $('#conditionOut').textContent);
   slider.style.setProperty('--slider-progress', `${Number(slider.value) * 25}%`);
@@ -45,12 +77,6 @@ $('#families').addEventListener('click', e => {
   $('#passCondition').hidden = family !== 'F0';
   $('#families').querySelectorAll('button').forEach(b => { b.classList.toggle('active', b === button); b.setAttribute('aria-pressed', String(b === button)); });
   choose();
-});
-$('#representations').addEventListener('click', e => {
-  const button = e.target.closest('button[data-view]'); if (!button || !selected) return;
-  representation = button.dataset.view;
-  $('#representations').querySelectorAll('button').forEach(b => { b.classList.toggle('active', b === button); b.setAttribute('aria-pressed', String(b === button)); });
-  show();
 });
 slider.addEventListener('input', () => { if (manifest) choose(); });
 $('#generateNext').addEventListener('click', () => {

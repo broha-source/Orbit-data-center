@@ -1,0 +1,15 @@
+#demo .viewer{min-height:690px;background:#fff}
+#demo #cadViewer{inset:66px 190px 0 0;padding:30px 16px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-content:center;gap:22px;background:#fff}
+#cadViewer figure{margin:0;min-width:0;display:flex;flex-direction:column;gap:15px}
+#cadViewer figcaption{margin:0;color:#52636e;font:700 17px/1.2 Arial,sans-serif;letter-spacing:.11em;text-align:center}
+#cadViewer #sdfSample,#cadViewer #cadSample{position:static;display:block;width:100%;height:auto;aspect-ratio:1;object-fit:contain;border:1px solid #d3dce1;image-rendering:auto}
+#demo .viewer-generator{right:23px;top:calc(50% + 33px)}
+#demo .dual-view-note{font-size:16px;color:#e3edf1;font-weight:600;letter-spacing:.06em}
+#demo .metrics .metric-kicker{font-size:17px;line-height:1.5;letter-spacing:.055em;color:#a3dce9;padding-bottom:24px}
+#demo .metrics article{padding:36px 0}
+#demo .metrics article>span{font-size:21px;line-height:1.4;display:block;padding-right:8px;color:#e1e9ed}
+#demo .metrics article>strong{font-size:42px;line-height:1.25;margin-top:22px;color:#fff}
+#demo .metrics article>em{font-size:15px;position:static;display:block;margin-top:9px;color:#9caeb8}
+@media(max-width:1400px){#demo #cadViewer{inset:66px 0 180px;padding:25px;gap:20px}#demo .viewer-generator{top:auto;bottom:22px;right:50%;transform:translateX(50%)}#demo .metrics article>span{font-size:20px}}
+@media(max-width:1200px){#demo .metrics article{padding:26px 20px}#demo .metrics .metric-kicker{font-size:18px}#demo .metrics article>strong{font-size:38px}}
+@media(max-width:560px){#demo .viewer{min-height:980px}#demo #cadViewer{grid-template-columns:1fr;padding:24px;gap:24px;align-content:start;overflow:auto}#cadViewer figure{max-width:290px;width:100%;justify-self:center}#demo .metrics article>span{font-size:22px}}
