@@ -1,5 +1,7 @@
 /* Cinematic aerospace theme inspired by full-screen launch storytelling. */
 /* Content-sized interactive controls */
+.section-heading.demo-heading h2{font-size:clamp(22px,2.05vw,39px);line-height:1.08;white-space:nowrap;letter-spacing:-.04em}
+@media(max-width:1200px){.section-heading.demo-heading h2{font-size:clamp(18px,4.15vw,45px)}}
 .controls .segmented.family-tabs{width:max-content;max-width:100%;grid-template-columns:max-content}
 .controls .family-tabs button{width:100%;padding:12px 22px!important;min-height:48px!important}
 .viewer .viewer-generator{width:max-content;height:auto;max-width:calc(100% - 36px)}
