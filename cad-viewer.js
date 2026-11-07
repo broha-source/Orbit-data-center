@@ -22,8 +22,8 @@ camera.position.set(0, 0, 100);
 camera.up.set(0, 1, 0);
 
 const loader = new GLTFLoader();
-const faceMaterial = new THREE.MeshBasicMaterial({ color: 0xf3f5f6, side: THREE.DoubleSide, toneMapped: false });
-const edgeMaterial = new THREE.LineBasicMaterial({ color: 0x858c91, transparent: true, opacity: 1, toneMapped: false });
+const faceMaterial = new THREE.MeshBasicMaterial({ color: 0x050708, transparent: true, opacity: .85, side: THREE.DoubleSide, depthWrite: false, toneMapped: false });
+const edgeMaterial = new THREE.LineBasicMaterial({ color: 0x20272b, transparent: true, opacity: .9, toneMapped: false });
 const maskMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide, toneMapped: false });
 const sdfTarget = new THREE.WebGLRenderTarget(256, 256, { depthBuffer: true, stencilBuffer: false });
 let model = null;
@@ -95,18 +95,59 @@ function renderSignedDistance() {
     const edge = Math.exp(-Math.abs(signed) / 2.4);
     const i = (y * 256 + x) * 4;
     if (normalized >= 0) {
-      image.data[i] = Math.round(7 + normalized * 16 + edge * 150);
-      image.data[i + 1] = Math.round(47 + normalized * 105 + edge * 96);
-      image.data[i + 2] = Math.round(66 + normalized * 128 + edge * 82);
+      image.data[i] = Math.round(8 + normalized * 18 + edge * 226);
+      image.data[i + 1] = Math.round(55 + normalized * 132 + edge * 190);
+      image.data[i + 2] = Math.round(74 + normalized * 145 + edge * 174);
     } else {
       const n = -normalized;
-      image.data[i] = Math.round(6 + n * 13 + edge * 150);
-      image.data[i + 1] = Math.round(12 + n * 19 + edge * 100);
-      image.data[i + 2] = Math.round(30 + n * 42 + edge * 96);
+      image.data[i] = Math.round(20 + n * 52 + edge * 214);
+      image.data[i + 1] = Math.round(15 + n * 24 + edge * 202);
+      image.data[i + 2] = Math.round(49 + n * 81 + edge * 206);
     }
     image.data[i + 3] = 255;
   }
   sdfContext.putImageData(image, 0, 0);
+}
+
+function publishGeometryMetrics() {
+  if (!model) return;
+  const pixels = new Uint8Array(256 * 256 * 4);
+  const previousBackground = scene.background;
+  const hiddenLines = [];
+  model.traverse((child) => {
+    if (child.isLineSegments) { hiddenLines.push(child); child.visible = false; }
+    if (child.isMesh) child.material = maskMaterial;
+  });
+  scene.background = null;
+  renderer.setRenderTarget(sdfTarget);
+  renderer.setClearColor(0x000000, 1);
+  renderer.clear();
+  renderer.render(scene, camera);
+  renderer.readRenderTargetPixels(sdfTarget, 0, 0, 256, 256, pixels);
+  renderer.setRenderTarget(null);
+  scene.background = previousBackground;
+  model.traverse((child) => { if (child.isMesh) child.material = faceMaterial; });
+  hiddenLines.forEach((line) => { line.visible = true; });
+
+  let filled = 0;
+  let boundary = 0;
+  const occupied = (x, y) => pixels[(y * 256 + x) * 4] > 127;
+  for (let y = 0; y < 256; y += 1) for (let x = 0; x < 256; x += 1) {
+    if (!occupied(x, y)) continue;
+    filled += 1;
+    if (!x || !occupied(x - 1, y)) boundary += 1;
+    if (x === 255 || !occupied(x + 1, y)) boundary += 1;
+    if (!y || !occupied(x, y - 1)) boundary += 1;
+    if (y === 255 || !occupied(x, y + 1)) boundary += 1;
+  }
+  const pixelSize = modelSpan * 1.16 / 256;
+  const area = filled * pixelSize * pixelSize;
+  const perimeter = Math.max(boundary * pixelSize, 1);
+  const thickness = Math.max(2 * area / perimeter, .1);
+  const length = Math.max(area / thickness, 1);
+  const box = new THREE.Box3().setFromObject(model);
+  const depth = Math.max(box.getSize(new THREE.Vector3()).z, 1);
+  dispatchEvent(new CustomEvent('cad-geometry-metrics', { detail: { volume: area * depth, thickness, length } }));
 }
 
 function disposeModel() {
@@ -169,6 +210,7 @@ function loadModel({ familyId = 'F0', file = 'F0_0001.glb', label = 'CAD 01 / 30
     scene.add(model);
     frameModel(model);
     renderSignedDistance();
+    publishGeometryMetrics();
     loading.hidden = true;
   }, undefined, () => {
     if (activeRequest !== requestId) return;

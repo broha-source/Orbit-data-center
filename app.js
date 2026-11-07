@@ -12,10 +12,9 @@ const slider = document.querySelector('#condition');
 const variableLabel = document.querySelector('#variableLabel');
 const conditionOut = document.querySelector('#conditionOut');
 const viewerLabel = document.querySelector('#viewerLabel');
-const passMetric = document.querySelector('#passMetric');
-const failMetric = document.querySelector('#failMetric');
-const passCount = document.querySelector('#passCount');
-const failCount = document.querySelector('#failCount');
+const volumeMetric = document.querySelector('#volumeMetric');
+const thicknessMetric = document.querySelector('#thicknessMetric');
+const lengthMetric = document.querySelector('#lengthMetric');
 const generateNext = document.querySelector('#generateNext');
 const heroVideo = document.querySelector('.hero-video');
 
@@ -250,10 +249,6 @@ function updateInterface() {
   slider.setAttribute('aria-valuetext', formatCondition(config, conditionValue));
   slider.style.setProperty('--slider-progress', `${conditionProgress(config, conditionValue) * 100}%`);
   viewerLabel.textContent = `${familyId} / ${family.name}`;
-  passMetric.innerHTML = `${family.metrics.passRate}<small> %</small>`;
-  failMetric.innerHTML = `${family.metrics.failRate}<small> %</small>`;
-  passCount.textContent = `${family.metrics.pass} / 256`;
-  failCount.textContent = `${family.metrics.fail} / 256`;
   [variant.sdf, variant.mask, variant.alpha].forEach(loadImage);
   dispatchEvent(new CustomEvent('cad-model-change', {
     detail: {
@@ -263,6 +258,13 @@ function updateInterface() {
     }
   }));
 }
+
+addEventListener('cad-geometry-metrics', (event) => {
+  const { volume, thickness, length } = event.detail;
+  volumeMetric.textContent = Math.round(volume).toLocaleString();
+  thicknessMetric.textContent = thickness.toFixed(1);
+  lengthMetric.textContent = Math.round(length).toLocaleString();
+});
 
 function drawBackdrop() {
   ctx.fillStyle = '#050607';

@@ -6,7 +6,7 @@
     <meta name="description" content="Radiator Flow Field: interactive orbital data-center radiator geometry explorer." />
     <title>Radiator Flow Field — Orbit Data Center</title>
     <link rel="stylesheet" href="styles.css?v=ux-refresh-1" />
-    <link rel="stylesheet" href="theme.css?v=header-brand-1" />
+    <link rel="stylesheet" href="theme.css?v=explorer-ux-2" />
   </head>
   <body>
     <div class="noise" aria-hidden="true"></div>
@@ -45,11 +45,11 @@
             <div class="panel-title"><span>GENERATION CONTROL</span></div>
             <label>Geometry family</label>
             <div class="segmented family-tabs" id="families">
-              <button class="active" data-family="F0">F0</button>
-              <button data-family="F1">F1</button>
-              <button data-family="F2">F2</button>
-              <button data-family="F3">F3</button>
-              <button data-family="F4">F4</button>
+              <button class="active" data-family="F0"><strong>Serpentine</strong><small>F0</small></button>
+              <button data-family="F1"><strong>Parallel</strong><small>F1</small></button>
+              <button data-family="F2"><strong>Circular pin-fin</strong><small>F2</small></button>
+              <button data-family="F3"><strong>Spiral</strong><small>F3</small></button>
+              <button data-family="F4"><strong>Spider-netted</strong><small>F4</small></button>
             </div>
             <label for="condition"><span id="variableLabel">Pass count</span><output id="conditionOut">7</output></label>
             <input id="condition" type="range" min="0" max="100" value="0" step="1" aria-describedby="conditionHelp" />
@@ -63,13 +63,6 @@
               <span><i class="fluid"></i> SDF</span>
               <span><i class="solid"></i> CAD</span>
             </div>
-            <p class="hint family-key">
-              <span><b>F0</b> Serpentine</span>
-              <span><b>F1</b> Parallel</span>
-              <span><b>F2</b> Circular pin-fin</span>
-              <span><b>F3</b> Spiral</span>
-              <span><b>F4</b> Spider-netted</span>
-            </p>
           </aside>
 
           <div class="viewer">
@@ -79,22 +72,23 @@
             <canvas id="flowCanvas" aria-hidden="true"></canvas>
             <div id="cadViewer" aria-label="SDF and CAD geometry viewer"></div>
             <div id="cadLoading" class="cad-loading" role="status">LOADING CAD MODEL</div>
-          </div>
-
-          <aside class="metrics">
-            <div class="spacecraft-generator">
-              <button id="generateNext" class="spacecraft-button" type="button" aria-label="Generate another random PASS geometry">
+            <div class="spacecraft-generator viewer-generator">
+              <button id="generateNext" class="spacecraft-button" type="button" aria-label="Generate another random verified geometry">
                 <span class="launch-visual" aria-hidden="true">
                   <span class="orbit-ring"><span class="data-satellite"><i></i><b></b></span></span>
                   <span class="earth-play"><i>▶</i></span>
                 </span>
-                <strong>GENERATE NEXT</strong>
-                <small>Random verified design</small>
+                <span class="generate-copy"><strong>GENERATE NEXT</strong><small>Explore a new verified design</small></span>
               </button>
             </div>
-            <article><span>Pass rate</span><strong id="passMetric">81.6<small> %</small></strong><em id="passCount" class="ok">209 / 256</em></article>
-            <article><span>Fail rate</span><strong id="failMetric">18.4<small> %</small></strong><em id="failCount">47 / 256</em></article>
-            <article><span>GPU for training</span><strong class="spec-metric">NVIDIA L4</strong></article>
+          </div>
+
+          <aside class="metrics">
+            <div class="metric-kicker">GEOMETRY ESTIMATE</div>
+            <article><span>Internal volume</span><strong id="volumeMetric">—</strong><em>mm³</em></article>
+            <article><span>Average thickness</span><strong id="thicknessMetric">—</strong><em>mm</em></article>
+            <article><span>Total flow length</span><strong id="lengthMetric">—</strong><em>mm</em></article>
+            <p class="metric-note">Estimated from the current CAD projection.</p>
           </aside>
         </div>
       </section>
@@ -145,7 +139,7 @@
     </main>
 
     <footer><span>RADIATOR FLOW FIELD</span><p>Unified Conditional Diffusion · 1,280 RAW SDF Samples</p><a href="#top">Back to top ↑</a></footer>
-    <script type="module" src="cad-viewer.js?v=generate-orbit-1"></script>
-    <script src="app.js?v=generate-orbit-1" defer></script>
+    <script type="module" src="cad-viewer.js?v=explorer-ux-2"></script>
+    <script src="app.js?v=explorer-ux-2" defer></script>
   </body>
 </html>
