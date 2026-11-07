@@ -1,7 +1,7 @@
-#demo .viewer{min-height:690px;background:#fff}
-#demo #cadViewer{inset:66px 190px 0 0;padding:30px 16px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-content:center;gap:22px;background:#fff}
+#demo .viewer{min-height:690px;background:#292d30}
+#demo #cadViewer{inset:66px 190px 0 0;padding:30px 16px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-content:center;gap:22px;background:#292d30}
 #cadViewer figure{margin:0;min-width:0;display:flex;flex-direction:column;gap:15px}
-#cadViewer figcaption{order:2;margin:0;color:#52636e;font:700 18px/1.2 Arial,sans-serif;letter-spacing:.11em;text-align:center}
+#cadViewer figcaption{order:2;margin:0;color:#dce5eb;font:700 18px/1.2 Arial,sans-serif;letter-spacing:.11em;text-align:center}
 #demo .viewer-bar{background:#08090a;justify-content:center;text-align:center}
 #demo .viewer-bar b{font-size:23px;line-height:1.25;letter-spacing:.02em}
 #demo .viewer-bar>span i{display:none}

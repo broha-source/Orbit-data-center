@@ -2,8 +2,6 @@ const ids = { F0: 'Serpentine', F1: 'Parallel', F2: 'Pin', F3: 'Spiral', F4: 'Sp
 const $ = (selector) => document.querySelector(selector);
 let manifest, selected, family = 'F0', renderToken = 0;
 const bags = new Map();
-const passes = [5, 7, 9, 11, 13];
-const slider = $('#condition');
 const image = $('#cadSample');
 const sdfCanvas = $('#sdfSample');
 const presentationCache = new Map();
@@ -39,11 +37,10 @@ async function buildPresentation(sample) {
 const video = $('.hero-video');
 if (video) { video.playbackRate = 1.5; video.defaultPlaybackRate = 1.5; }
 function choose() {
-  const pass = passes[Number(slider.value)];
-  const key = `${family}:${family === 'F0' ? pass : 'all'}`;
+  const key = family;
   let bag = bags.get(key);
   if (!bag?.length) {
-    bag = manifest.samples.filter(s => s.family === ids[family] && (family !== 'F0' || s.pass_count === pass));
+    bag = manifest.samples.filter(s => s.family === ids[family]);
     for (let i = bag.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [bag[i], bag[j]] = [bag[j], bag[i]]; }
   }
   if (bag.length > 1 && bag[bag.length - 1].id === selected?.id) [bag[0], bag[bag.length - 1]] = [bag[bag.length - 1], bag[0]];
@@ -67,19 +64,14 @@ async function show() {
   $('#thicknessMetric').textContent=(presentation.stats.thickness*mmPerPixel).toFixed(1);
   $('#lengthMetric').textContent=Math.round(presentation.stats.length*mmPerPixel).toLocaleString();
   $('#volumeMetric').textContent=Number(sample.internal_volume_L).toFixed(3);
-  $('#conditionOut').textContent = `${passes[Number(slider.value)]} passes`;
-  slider.setAttribute('aria-valuetext', $('#conditionOut').textContent);
-  slider.style.setProperty('--slider-progress', `${Number(slider.value) * 25}%`);
   [sample.cad, sample.sdf].forEach(path => { const preload = new Image(); preload.src = `assets/research/${path}`; });
 }
 $('#families').addEventListener('click', e => {
   const button = e.target.closest('button[data-family]'); if (!button || !manifest) return;
   family = button.dataset.family;
-  $('#passCondition').hidden = family !== 'F0';
   $('#families').querySelectorAll('button').forEach(b => { b.classList.toggle('active', b === button); b.setAttribute('aria-pressed', String(b === button)); });
   choose();
 });
-slider.addEventListener('input', () => { if (manifest) choose(); });
 $('#generateNext').addEventListener('click', () => {
   if (!manifest) return; choose();
   const button = $('#generateNext'); button.classList.remove('is-launching');
