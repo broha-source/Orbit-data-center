@@ -6,7 +6,7 @@
     <meta name="description" content="Radiator Flow Field: interactive orbital data-center radiator geometry explorer." />
     <title>Radiator Flow Field — Orbit Data Center</title>
     <link rel="stylesheet" href="styles.css?v=ux-refresh-1" />
-    <link rel="stylesheet" href="theme.css?v=alignment-1" />
+    <link rel="stylesheet" href="theme.css?v=alignment-names-2" />
   </head>
   <body>
     <div class="noise" aria-hidden="true"></div>
@@ -47,9 +47,9 @@
             <div class="segmented family-tabs" id="families">
               <button class="active" data-family="F0"><strong>Serpentine</strong></button>
               <button data-family="F1"><strong>Parallel</strong></button>
-              <button data-family="F2"><strong>Circular pin-fin</strong></button>
+              <button data-family="F2"><strong>Pin</strong></button>
               <button data-family="F3"><strong>Spiral</strong></button>
-              <button data-family="F4"><strong>Spider-netted</strong></button>
+              <button data-family="F4"><strong>Spider Web</strong></button>
             </div>
             <label for="condition"><span id="variableLabel">Pass count</span><output id="conditionOut">7</output></label>
             <input id="condition" type="range" min="0" max="100" value="0" step="1" aria-describedby="conditionHelp" />
@@ -67,7 +67,7 @@
 
           <div class="viewer">
             <div class="viewer-bar">
-              <span><i></i> <b id="viewerLabel">F0 / SERPENTINE</b></span>
+              <span><i></i> <b id="viewerLabel">Serpentine</b></span>
             </div>
             <canvas id="flowCanvas" aria-hidden="true"></canvas>
             <div id="cadViewer" aria-label="SDF and CAD geometry viewer"></div>
@@ -93,11 +93,11 @@
       <section id="results" class="results-section section-shell">
         <div class="results-intro results-intro-compact"><p class="eyebrow"><span></span> Generation quality control</p><p>Five family conditions with 256 generated RAW SDF samples per family. Pass rates are reported before projection or geometry substitution.</p></div>
         <div class="result-grid">
-          <article><header><b>F0</b><span>SERPENTINE</span></header><img src="assets/geometry/f0_1_mask.png" alt="F0 generated serpentine mask" /><strong>81.6%</strong><p>209 / 256 RAW PASS</p><ul><li>37 connectivity failures</li><li>5 isolated-fluid failures</li><li>4 minimum-wall failures</li></ul></article>
-          <article><header><b>F1</b><span>PARALLEL</span></header><img src="assets/geometry/f1_1_mask.png" alt="F1 generated parallel-channel mask" /><strong>99.6%</strong><p>255 / 256 RAW PASS</p><ul><li>1 channel-count failure</li><li>Full-width parallel headers</li><li>Actual generated mask shown</li></ul></article>
-          <article><header><b>F2</b><span>CIRCULAR PIN-FIN</span></header><img src="assets/geometry/f2_2_mask.png" alt="F2 generated circular pin-fin mask" /><strong>100%</strong><p>256 / 256 RAW PASS</p><ul><li>6 × 6 to 9 × 9 pin grids</li><li>Circular obstacle field</li><li>No RAW gate failures</li></ul></article>
-          <article><header><b>F3</b><span>SPIRAL</span></header><img src="assets/geometry/f3_2_mask.png" alt="F3 generated spiral mask" /><strong>98.8%</strong><p>253 / 256 RAW PASS</p><ul><li>1 connectivity failure</li><li>1 isolated-fluid failure</li><li>1 minimum-width failure</li></ul></article>
-          <article><header><b>F4</b><span>SPIDER-NETTED</span></header><img src="assets/geometry/f4_1_mask.png" alt="F4 generated spider-netted mask" /><strong>97.3%</strong><p>249 / 256 RAW PASS</p><ul><li>3 ring-count failures</li><li>2 minimum-width failures</li><li>2 connectivity / isolation failures</li></ul></article>
+          <article><header><b>F0</b><span>Serpentine</span></header><img src="assets/geometry/f0_1_mask.png" alt="F0 generated serpentine mask" /><strong>81.6%</strong><p>209 / 256 RAW PASS</p><ul><li>37 connectivity failures</li><li>5 isolated-fluid failures</li><li>4 minimum-wall failures</li></ul></article>
+          <article><header><b>F1</b><span>Parallel</span></header><img src="assets/geometry/f1_1_mask.png" alt="F1 generated parallel-channel mask" /><strong>99.6%</strong><p>255 / 256 RAW PASS</p><ul><li>1 channel-count failure</li><li>Full-width parallel headers</li><li>Actual generated mask shown</li></ul></article>
+          <article><header><b>F2</b><span>Pin</span></header><img src="assets/geometry/f2_2_mask.png" alt="F2 generated circular pin-fin mask" /><strong>100%</strong><p>256 / 256 RAW PASS</p><ul><li>6 × 6 to 9 × 9 pin grids</li><li>Circular obstacle field</li><li>No RAW gate failures</li></ul></article>
+          <article><header><b>F3</b><span>Spiral</span></header><img src="assets/geometry/f3_2_mask.png" alt="F3 generated spiral mask" /><strong>98.8%</strong><p>253 / 256 RAW PASS</p><ul><li>1 connectivity failure</li><li>1 isolated-fluid failure</li><li>1 minimum-width failure</li></ul></article>
+          <article><header><b>F4</b><span>Spider Web</span></header><img src="assets/geometry/f4_1_mask.png" alt="F4 generated spider-netted mask" /><strong>97.3%</strong><p>249 / 256 RAW PASS</p><ul><li>3 ring-count failures</li><li>2 minimum-width failures</li><li>2 connectivity / isolation failures</li></ul></article>
         </div>
         <div class="research-note"><b>QUALITY PRINCIPLE</b><p>RAW model performance, conservative cleanup, and final release decisions are reported separately. Geometry validity is a pre-screening step—not a substitute for CFD/CHT validation.</p></div>
       </section>
@@ -137,6 +137,6 @@
 
     <footer><span>RADIATOR FLOW FIELD</span><p>Unified Conditional Diffusion · 1,280 RAW SDF Samples</p><a href="#top">Back to top ↑</a></footer>
     <script type="module" src="cad-viewer.js?v=sdf-ivory-slate-1"></script>
-    <script src="app.js?v=explorer-ux-2" defer></script>
+    <script src="app.js?v=alignment-names-2" defer></script>
   </body>
 </html>

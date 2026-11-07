@@ -12,6 +12,7 @@ const slider = document.querySelector('#condition');
 const variableLabel = document.querySelector('#variableLabel');
 const conditionOut = document.querySelector('#conditionOut');
 const viewerLabel = document.querySelector('#viewerLabel');
+const displayNames = { F0: 'Serpentine', F1: 'Parallel', F2: 'Pin', F3: 'Spiral', F4: 'Spider Web' };
 const volumeMetric = document.querySelector('#volumeMetric');
 const thicknessMetric = document.querySelector('#thicknessMetric');
 const lengthMetric = document.querySelector('#lengthMetric');
@@ -248,7 +249,7 @@ function updateInterface() {
   conditionOut.textContent = formatCondition(config, conditionValue);
   slider.setAttribute('aria-valuetext', formatCondition(config, conditionValue));
   slider.style.setProperty('--slider-progress', `${conditionProgress(config, conditionValue) * 100}%`);
-  viewerLabel.textContent = `${familyId} / ${family.name}`;
+  viewerLabel.textContent = displayNames[familyId];
   [variant.sdf, variant.mask, variant.alpha].forEach(loadImage);
   dispatchEvent(new CustomEvent('cad-model-change', {
     detail: {
@@ -496,7 +497,7 @@ representationsEl.addEventListener('click', (event) => {
   view = button.dataset.view;
   representationsEl.querySelectorAll('button').forEach((item) => item.classList.toggle('active', item === button));
   document.querySelector('.viewer').classList.toggle('sdf-mode', view === 'sdf');
-  viewerLabel.textContent = `${familyId} / ${currentFamily().name}`;
+  viewerLabel.textContent = displayNames[familyId];
   dispatchEvent(new CustomEvent('cad-view-change', { detail: { view } }));
 });
 

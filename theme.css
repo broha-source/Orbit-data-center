@@ -2,7 +2,7 @@
 /* Content-sized interactive controls */
 .section-heading.demo-heading h2{font-size:clamp(22px,2.05vw,39px);line-height:1.08;white-space:nowrap;letter-spacing:-.04em}
 @media(max-width:1200px){.section-heading.demo-heading h2{font-size:clamp(18px,4.15vw,45px)}}
-.controls .segmented.family-tabs{width:max-content;max-width:100%;grid-template-columns:max-content;margin-left:auto;margin-right:auto}
+.controls #families.segmented.family-tabs{display:grid;width:max-content;max-width:100%;grid-template-columns:max-content;margin:0 auto!important;align-self:center;justify-self:center}
 .controls .family-tabs button{width:100%;padding:12px 22px!important;min-height:48px!important}
 .viewer .viewer-generator{width:max-content;height:auto;max-width:calc(100% - 36px)}
 .viewer-generator .spacecraft-button{width:max-content;height:auto;max-width:100%;flex-direction:row;gap:16px;padding:19px 22px;border-radius:9px;background:linear-gradient(180deg,#e8fbff,#a8dce8);border:1px solid #fff;color:#071a23;box-shadow:inset 0 1px #fff,0 5px 0 #35798a,0 10px 25px #0005;animation:ctaGlow 3s ease-in-out infinite}
@@ -69,6 +69,8 @@ footer{border-color:#242528;font:700 10px Arial,sans-serif;color:#777}footer a{c
 
 /* Five-family RAW SDF explorer */
 .demo-section{padding-left:2.2vw;padding-right:2.2vw}
+.demo-section .demo-heading{width:100%;max-width:none}
+.demo-section .demo-heading .demo-summary{max-width:none!important;width:100%;text-align:right!important;justify-self:stretch;margin-right:0}
 .demo-frame{grid-template-columns:290px minmax(540px,1fr) 250px;min-height:690px}
 .controls,.metrics{padding:26px 22px}
 .panel-title{font-size:12px;margin-bottom:32px;padding-bottom:23px;letter-spacing:.08em}
