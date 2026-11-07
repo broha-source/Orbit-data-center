@@ -3,13 +3,12 @@
 body{background:#000;color:#fff;font-family:Arial,Helvetica,sans-serif}
 .noise{opacity:.022}
 .topbar{height:78px;padding:0 3.3vw;background:linear-gradient(#000,rgba(0,0,0,.2),transparent);border:0;backdrop-filter:none}
-.odc-wordmark{position:relative;display:inline-flex;align-items:center;gap:.04em;width:112px;color:#f7f9fb;font-family:"Arial Narrow",Arial,sans-serif;font-size:27px;font-weight:600;font-style:normal;line-height:1;letter-spacing:.08em;transform:skewX(-9deg) scaleX(1.16);transform-origin:left center;text-shadow:0 0 18px rgba(162,218,235,.12)}
-.odc-wordmark>span{display:inline-block}.odc-wordmark>span:first-child{font-weight:500;transform:scaleX(1.08)}.odc-wordmark>span:nth-child(2){margin-left:.02em}.odc-wordmark .odc-c{position:relative;margin-left:-.03em}
-.odc-wordmark .odc-c:after{content:"";position:absolute;left:-.08em;top:52%;width:1.2em;height:1px;background:linear-gradient(90deg,transparent,#f7f9fb 22%,#f7f9fb 70%,transparent);transform:rotate(-16deg) scaleX(1.25);transform-origin:center;box-shadow:0 0 5px rgba(255,255,255,.38)}
-nav{margin-left:70px;gap:30px}nav a,.repo-link{font:700 11px Arial,sans-serif;color:#fff;letter-spacing:.02em}
+.header-brand{display:flex;align-items:center;gap:17px;color:#f7f9fb;white-space:nowrap}
+.header-brand img{display:block;width:auto;height:38px;object-fit:contain}
+.brand-divider{width:1px;height:24px;background:rgba(255,255,255,.34)}
+.orbit-data-center{font:600 16px/1 "Arial Narrow",Arial,sans-serif;font-style:italic;letter-spacing:.055em;text-transform:uppercase;text-shadow:0 0 16px rgba(162,218,235,.12)}
+nav{margin-left:54px;gap:30px}nav a,.repo-link{font:700 11px Arial,sans-serif;color:#fff;letter-spacing:.02em}
 nav a{position:relative}nav a:after{content:"";position:absolute;left:0;bottom:-7px;width:0;height:1px;background:#fff;transition:.25s}nav a:hover:after{width:100%}.repo-link{margin-left:auto}
-.lab-mark{margin-left:auto;display:flex;align-items:center;height:44px;max-width:min(24vw,250px)}
-.lab-mark img{display:block;width:auto;max-width:100%;height:36px;object-fit:contain}
 .section-shell{padding-left:7.8vw;padding-right:7.8vw}
 .hero{min-height:100vh;height:100vh;padding:72px 0 0;display:block;position:relative;background:#000}
 .hero:after{content:"";position:absolute;inset:auto 0 0;height:14%;z-index:2;background:linear-gradient(transparent,#000);pointer-events:none}
@@ -122,4 +121,4 @@ footer{border-color:#242528;font:700 10px Arial,sans-serif;color:#777}footer a{c
 .result-grid strong{font-size:clamp(42px,4vw,66px);margin:28px 0 2px}
 .result-grid article>p{font-size:11px}.result-grid ul{padding-top:20px;margin-top:20px}.result-grid li{font-size:11px;line-height:1.4}
 @media(max-width:1200px){.section-heading.demo-heading{grid-template-columns:1fr}.demo-summary{max-width:720px}.demo-frame{grid-template-columns:250px 1fr}.metrics{display:none}.method-pipeline{grid-template-columns:repeat(2,1fr)}.method-pipeline article:nth-child(2){border-right:0}.method-pipeline article:nth-child(-n+2){border-bottom:1px solid #333}.result-grid{grid-template-columns:repeat(2,1fr)}.result-grid article:nth-child(2n){border-right:0}}
-@media(max-width:760px){.lab-mark{max-width:42vw;height:36px}.lab-mark img{height:27px}.demo-section{padding-left:20px;padding-right:20px}.demo-summary span{font-size:16px}.demo-frame{grid-template-columns:1fr}.viewer{min-height:560px}.controls{padding:24px 20px}.method-pipeline{grid-template-columns:1fr}.method-pipeline article{border-right:0;border-bottom:1px solid #333}.result-grid{grid-template-columns:1fr}.result-grid article{border-right:0}}
+@media(max-width:760px){.header-brand{gap:10px}.header-brand img{height:30px}.brand-divider{height:19px}.orbit-data-center{font-size:12px;letter-spacing:.035em}.demo-section{padding-left:20px;padding-right:20px}.demo-summary span{font-size:16px}.demo-frame{grid-template-columns:1fr}.viewer{min-height:560px}.controls{padding:24px 20px}.method-pipeline{grid-template-columns:1fr}.method-pipeline article{border-right:0;border-bottom:1px solid #333}.result-grid{grid-template-columns:1fr}.result-grid article{border-right:0}}
