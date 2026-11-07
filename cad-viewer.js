@@ -200,8 +200,7 @@ function styleModel(object) {
 
 function loadModel({ familyId = 'F0', file = 'F0_0001.glb', label = 'CAD 01 / 30' }) {
   const activeRequest = ++requestId;
-  loading.hidden = false;
-  loading.textContent = `LOADING ${familyId} · ${label}`;
+  loading.hidden = true;
   loader.load(`assets/cad/${familyId}/${file}`, (gltf) => {
     if (activeRequest !== requestId) return;
     disposeModel();
@@ -215,6 +214,7 @@ function loadModel({ familyId = 'F0', file = 'F0_0001.glb', label = 'CAD 01 / 30
   }, undefined, () => {
     if (activeRequest !== requestId) return;
     loading.textContent = 'CAD MODEL COULD NOT BE LOADED';
+    loading.hidden = false;
   });
 }
 

@@ -71,7 +71,7 @@
             </div>
             <canvas id="flowCanvas" aria-hidden="true"></canvas>
             <div id="cadViewer" aria-label="SDF and CAD geometry viewer"></div>
-            <div id="cadLoading" class="cad-loading" role="status">LOADING CAD MODEL</div>
+            <div id="cadLoading" class="cad-loading" role="status" hidden></div>
             <div class="spacecraft-generator viewer-generator">
               <button id="generateNext" class="spacecraft-button" type="button" aria-label="Generate another random verified geometry">
                 <span class="generate-copy"><strong>GENERATE NEXT DESIGN</strong></span>
@@ -136,7 +136,7 @@
     </main>
 
     <footer><span>RADIATOR FLOW FIELD</span><p>Unified Conditional Diffusion · 1,280 RAW SDF Samples</p><a href="#top">Back to top ↑</a></footer>
-    <script type="module" src="cad-viewer.js?v=explorer-ux-2"></script>
+    <script type="module" src="cad-viewer.js?v=no-loading-1"></script>
     <script src="app.js?v=explorer-ux-2" defer></script>
   </body>
 </html>
