@@ -19,7 +19,8 @@
    "volume_fraction": 0.231,
    "cad": "images/samples/serpentine/serpentine_000_cad.png",
    "sdf": "images/samples/serpentine/serpentine_000_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.693
   },
   {
    "id": "serpentine_001",
@@ -29,7 +30,8 @@
    "volume_fraction": 0.262,
    "cad": "images/samples/serpentine/serpentine_001_cad.png",
    "sdf": "images/samples/serpentine/serpentine_001_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.786
   },
   {
    "id": "serpentine_002",
@@ -39,7 +41,8 @@
    "volume_fraction": 0.268,
    "cad": "images/samples/serpentine/serpentine_002_cad.png",
    "sdf": "images/samples/serpentine/serpentine_002_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.804
   },
   {
    "id": "serpentine_003",
@@ -49,7 +52,8 @@
    "volume_fraction": 0.309,
    "cad": "images/samples/serpentine/serpentine_003_cad.png",
    "sdf": "images/samples/serpentine/serpentine_003_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.927
   },
   {
    "id": "serpentine_004",
@@ -59,7 +63,8 @@
    "volume_fraction": 0.325,
    "cad": "images/samples/serpentine/serpentine_004_cad.png",
    "sdf": "images/samples/serpentine/serpentine_004_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.975
   },
   {
    "id": "serpentine_005",
@@ -69,7 +74,8 @@
    "volume_fraction": 0.336,
    "cad": "images/samples/serpentine/serpentine_005_cad.png",
    "sdf": "images/samples/serpentine/serpentine_005_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.008
   },
   {
    "id": "serpentine_006",
@@ -79,7 +85,8 @@
    "volume_fraction": 0.354,
    "cad": "images/samples/serpentine/serpentine_006_cad.png",
    "sdf": "images/samples/serpentine/serpentine_006_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.062
   },
   {
    "id": "serpentine_007",
@@ -89,7 +96,8 @@
    "volume_fraction": 0.364,
    "cad": "images/samples/serpentine/serpentine_007_cad.png",
    "sdf": "images/samples/serpentine/serpentine_007_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.092
   },
   {
    "id": "serpentine_008",
@@ -99,7 +107,8 @@
    "volume_fraction": 0.367,
    "cad": "images/samples/serpentine/serpentine_008_cad.png",
    "sdf": "images/samples/serpentine/serpentine_008_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.101
   },
   {
    "id": "serpentine_009",
@@ -109,7 +118,8 @@
    "volume_fraction": 0.366,
    "cad": "images/samples/serpentine/serpentine_009_cad.png",
    "sdf": "images/samples/serpentine/serpentine_009_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.098
   },
   {
    "id": "serpentine_010",
@@ -119,7 +129,8 @@
    "volume_fraction": 0.248,
    "cad": "images/samples/serpentine/serpentine_010_cad.png",
    "sdf": "images/samples/serpentine/serpentine_010_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.744
   },
   {
    "id": "serpentine_011",
@@ -129,7 +140,8 @@
    "volume_fraction": 0.286,
    "cad": "images/samples/serpentine/serpentine_011_cad.png",
    "sdf": "images/samples/serpentine/serpentine_011_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.858
   },
   {
    "id": "serpentine_012",
@@ -139,7 +151,8 @@
    "volume_fraction": 0.363,
    "cad": "images/samples/serpentine/serpentine_012_cad.png",
    "sdf": "images/samples/serpentine/serpentine_012_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.089
   },
   {
    "id": "serpentine_013",
@@ -149,7 +162,8 @@
    "volume_fraction": 0.403,
    "cad": "images/samples/serpentine/serpentine_013_cad.png",
    "sdf": "images/samples/serpentine/serpentine_013_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.209
   },
   {
    "id": "serpentine_014",
@@ -159,7 +173,8 @@
    "volume_fraction": 0.458,
    "cad": "images/samples/serpentine/serpentine_014_cad.png",
    "sdf": "images/samples/serpentine/serpentine_014_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.374
   },
   {
    "id": "serpentine_015",
@@ -169,7 +184,8 @@
    "volume_fraction": 0.487,
    "cad": "images/samples/serpentine/serpentine_015_cad.png",
    "sdf": "images/samples/serpentine/serpentine_015_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.461
   },
   {
    "id": "serpentine_016",
@@ -179,7 +195,8 @@
    "volume_fraction": 0.466,
    "cad": "images/samples/serpentine/serpentine_016_cad.png",
    "sdf": "images/samples/serpentine/serpentine_016_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.398
   },
   {
    "id": "serpentine_017",
@@ -189,7 +206,8 @@
    "volume_fraction": 0.55,
    "cad": "images/samples/serpentine/serpentine_017_cad.png",
    "sdf": "images/samples/serpentine/serpentine_017_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.65
   },
   {
    "id": "serpentine_018",
@@ -199,7 +217,8 @@
    "volume_fraction": 0.544,
    "cad": "images/samples/serpentine/serpentine_018_cad.png",
    "sdf": "images/samples/serpentine/serpentine_018_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.632
   },
   {
    "id": "serpentine_019",
@@ -209,7 +228,8 @@
    "volume_fraction": 0.523,
    "cad": "images/samples/serpentine/serpentine_019_cad.png",
    "sdf": "images/samples/serpentine/serpentine_019_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.569
   },
   {
    "id": "serpentine_020",
@@ -219,7 +239,8 @@
    "volume_fraction": 0.279,
    "cad": "images/samples/serpentine/serpentine_020_cad.png",
    "sdf": "images/samples/serpentine/serpentine_020_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.837
   },
   {
    "id": "serpentine_021",
@@ -229,7 +250,8 @@
    "volume_fraction": 0.281,
    "cad": "images/samples/serpentine/serpentine_021_cad.png",
    "sdf": "images/samples/serpentine/serpentine_021_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.843
   },
   {
    "id": "serpentine_022",
@@ -239,7 +261,8 @@
    "volume_fraction": 0.366,
    "cad": "images/samples/serpentine/serpentine_022_cad.png",
    "sdf": "images/samples/serpentine/serpentine_022_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.098
   },
   {
    "id": "serpentine_023",
@@ -249,7 +272,8 @@
    "volume_fraction": 0.418,
    "cad": "images/samples/serpentine/serpentine_023_cad.png",
    "sdf": "images/samples/serpentine/serpentine_023_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.254
   },
   {
    "id": "serpentine_024",
@@ -259,7 +283,8 @@
    "volume_fraction": 0.433,
    "cad": "images/samples/serpentine/serpentine_024_cad.png",
    "sdf": "images/samples/serpentine/serpentine_024_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.299
   },
   {
    "id": "serpentine_025",
@@ -269,7 +294,8 @@
    "volume_fraction": 0.441,
    "cad": "images/samples/serpentine/serpentine_025_cad.png",
    "sdf": "images/samples/serpentine/serpentine_025_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.323
   },
   {
    "id": "serpentine_026",
@@ -279,7 +305,8 @@
    "volume_fraction": 0.511,
    "cad": "images/samples/serpentine/serpentine_026_cad.png",
    "sdf": "images/samples/serpentine/serpentine_026_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.533
   },
   {
    "id": "serpentine_027",
@@ -289,7 +316,8 @@
    "volume_fraction": 0.568,
    "cad": "images/samples/serpentine/serpentine_027_cad.png",
    "sdf": "images/samples/serpentine/serpentine_027_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.704
   },
   {
    "id": "serpentine_028",
@@ -299,7 +327,8 @@
    "volume_fraction": 0.55,
    "cad": "images/samples/serpentine/serpentine_028_cad.png",
    "sdf": "images/samples/serpentine/serpentine_028_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.65
   },
   {
    "id": "serpentine_029",
@@ -309,7 +338,8 @@
    "volume_fraction": 0.53,
    "cad": "images/samples/serpentine/serpentine_029_cad.png",
    "sdf": "images/samples/serpentine/serpentine_029_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.59
   },
   {
    "id": "serpentine_030",
@@ -319,7 +349,8 @@
    "volume_fraction": 0.26,
    "cad": "images/samples/serpentine/serpentine_030_cad.png",
    "sdf": "images/samples/serpentine/serpentine_030_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.78
   },
   {
    "id": "serpentine_031",
@@ -329,7 +360,8 @@
    "volume_fraction": 0.471,
    "cad": "images/samples/serpentine/serpentine_031_cad.png",
    "sdf": "images/samples/serpentine/serpentine_031_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.413
   },
   {
    "id": "serpentine_032",
@@ -339,7 +371,8 @@
    "volume_fraction": 0.469,
    "cad": "images/samples/serpentine/serpentine_032_cad.png",
    "sdf": "images/samples/serpentine/serpentine_032_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.407
   },
   {
    "id": "serpentine_033",
@@ -349,7 +382,8 @@
    "volume_fraction": 0.448,
    "cad": "images/samples/serpentine/serpentine_033_cad.png",
    "sdf": "images/samples/serpentine/serpentine_033_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.344
   },
   {
    "id": "serpentine_034",
@@ -359,7 +393,8 @@
    "volume_fraction": 0.54,
    "cad": "images/samples/serpentine/serpentine_034_cad.png",
    "sdf": "images/samples/serpentine/serpentine_034_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.62
   },
   {
    "id": "serpentine_035",
@@ -369,7 +404,8 @@
    "volume_fraction": 0.519,
    "cad": "images/samples/serpentine/serpentine_035_cad.png",
    "sdf": "images/samples/serpentine/serpentine_035_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.557
   },
   {
    "id": "serpentine_036",
@@ -379,7 +415,8 @@
    "volume_fraction": 0.461,
    "cad": "images/samples/serpentine/serpentine_036_cad.png",
    "sdf": "images/samples/serpentine/serpentine_036_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.383
   },
   {
    "id": "serpentine_037",
@@ -389,7 +426,8 @@
    "volume_fraction": 0.525,
    "cad": "images/samples/serpentine/serpentine_037_cad.png",
    "sdf": "images/samples/serpentine/serpentine_037_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.575
   },
   {
    "id": "serpentine_038",
@@ -399,7 +437,8 @@
    "volume_fraction": 0.456,
    "cad": "images/samples/serpentine/serpentine_038_cad.png",
    "sdf": "images/samples/serpentine/serpentine_038_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.368
   },
   {
    "id": "serpentine_039",
@@ -409,7 +448,8 @@
    "volume_fraction": 0.521,
    "cad": "images/samples/serpentine/serpentine_039_cad.png",
    "sdf": "images/samples/serpentine/serpentine_039_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.563
   },
   {
    "id": "serpentine_040",
@@ -419,7 +459,8 @@
    "volume_fraction": 0.389,
    "cad": "images/samples/serpentine/serpentine_040_cad.png",
    "sdf": "images/samples/serpentine/serpentine_040_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.167
   },
   {
    "id": "serpentine_041",
@@ -429,7 +470,8 @@
    "volume_fraction": 0.374,
    "cad": "images/samples/serpentine/serpentine_041_cad.png",
    "sdf": "images/samples/serpentine/serpentine_041_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.122
   },
   {
    "id": "serpentine_042",
@@ -439,7 +481,8 @@
    "volume_fraction": 0.492,
    "cad": "images/samples/serpentine/serpentine_042_cad.png",
    "sdf": "images/samples/serpentine/serpentine_042_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.476
   },
   {
    "id": "serpentine_043",
@@ -449,7 +492,8 @@
    "volume_fraction": 0.522,
    "cad": "images/samples/serpentine/serpentine_043_cad.png",
    "sdf": "images/samples/serpentine/serpentine_043_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.566
   },
   {
    "id": "serpentine_044",
@@ -459,7 +503,8 @@
    "volume_fraction": 0.509,
    "cad": "images/samples/serpentine/serpentine_044_cad.png",
    "sdf": "images/samples/serpentine/serpentine_044_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.527
   },
   {
    "id": "serpentine_045",
@@ -469,7 +514,8 @@
    "volume_fraction": 0.51,
    "cad": "images/samples/serpentine/serpentine_045_cad.png",
    "sdf": "images/samples/serpentine/serpentine_045_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.53
   },
   {
    "id": "serpentine_046",
@@ -479,7 +525,8 @@
    "volume_fraction": 0.528,
    "cad": "images/samples/serpentine/serpentine_046_cad.png",
    "sdf": "images/samples/serpentine/serpentine_046_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.584
   },
   {
    "id": "serpentine_047",
@@ -489,7 +536,8 @@
    "volume_fraction": 0.555,
    "cad": "images/samples/serpentine/serpentine_047_cad.png",
    "sdf": "images/samples/serpentine/serpentine_047_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.665
   },
   {
    "id": "serpentine_048",
@@ -499,7 +547,8 @@
    "volume_fraction": 0.487,
    "cad": "images/samples/serpentine/serpentine_048_cad.png",
    "sdf": "images/samples/serpentine/serpentine_048_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.461
   },
   {
    "id": "serpentine_049",
@@ -509,7 +558,8 @@
    "volume_fraction": 0.538,
    "cad": "images/samples/serpentine/serpentine_049_cad.png",
    "sdf": "images/samples/serpentine/serpentine_049_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.614
   },
   {
    "id": "parallel_000",
@@ -519,7 +569,8 @@
    "volume_fraction": 0.43,
    "cad": "images/samples/parallel/parallel_000_cad.png",
    "sdf": "images/samples/parallel/parallel_000_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.29
   },
   {
    "id": "parallel_001",
@@ -529,7 +580,8 @@
    "volume_fraction": 0.401,
    "cad": "images/samples/parallel/parallel_001_cad.png",
    "sdf": "images/samples/parallel/parallel_001_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.203
   },
   {
    "id": "parallel_002",
@@ -539,7 +591,8 @@
    "volume_fraction": 0.441,
    "cad": "images/samples/parallel/parallel_002_cad.png",
    "sdf": "images/samples/parallel/parallel_002_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.323
   },
   {
    "id": "parallel_003",
@@ -549,7 +602,8 @@
    "volume_fraction": 0.441,
    "cad": "images/samples/parallel/parallel_003_cad.png",
    "sdf": "images/samples/parallel/parallel_003_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.323
   },
   {
    "id": "parallel_004",
@@ -559,7 +613,8 @@
    "volume_fraction": 0.476,
    "cad": "images/samples/parallel/parallel_004_cad.png",
    "sdf": "images/samples/parallel/parallel_004_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.428
   },
   {
    "id": "parallel_005",
@@ -569,7 +624,8 @@
    "volume_fraction": 0.418,
    "cad": "images/samples/parallel/parallel_005_cad.png",
    "sdf": "images/samples/parallel/parallel_005_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.254
   },
   {
    "id": "parallel_006",
@@ -579,7 +635,8 @@
    "volume_fraction": 0.421,
    "cad": "images/samples/parallel/parallel_006_cad.png",
    "sdf": "images/samples/parallel/parallel_006_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.263
   },
   {
    "id": "parallel_007",
@@ -589,7 +646,8 @@
    "volume_fraction": 0.47,
    "cad": "images/samples/parallel/parallel_007_cad.png",
    "sdf": "images/samples/parallel/parallel_007_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.41
   },
   {
    "id": "parallel_008",
@@ -599,7 +657,8 @@
    "volume_fraction": 0.558,
    "cad": "images/samples/parallel/parallel_008_cad.png",
    "sdf": "images/samples/parallel/parallel_008_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.674
   },
   {
    "id": "parallel_009",
@@ -609,7 +668,8 @@
    "volume_fraction": 0.533,
    "cad": "images/samples/parallel/parallel_009_cad.png",
    "sdf": "images/samples/parallel/parallel_009_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.599
   },
   {
    "id": "parallel_010",
@@ -619,7 +679,8 @@
    "volume_fraction": 0.544,
    "cad": "images/samples/parallel/parallel_010_cad.png",
    "sdf": "images/samples/parallel/parallel_010_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.632
   },
   {
    "id": "parallel_011",
@@ -629,7 +690,8 @@
    "volume_fraction": 0.526,
    "cad": "images/samples/parallel/parallel_011_cad.png",
    "sdf": "images/samples/parallel/parallel_011_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.578
   },
   {
    "id": "parallel_012",
@@ -639,7 +701,8 @@
    "volume_fraction": 0.536,
    "cad": "images/samples/parallel/parallel_012_cad.png",
    "sdf": "images/samples/parallel/parallel_012_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.608
   },
   {
    "id": "parallel_013",
@@ -649,7 +712,8 @@
    "volume_fraction": 0.539,
    "cad": "images/samples/parallel/parallel_013_cad.png",
    "sdf": "images/samples/parallel/parallel_013_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.617
   },
   {
    "id": "parallel_014",
@@ -659,7 +723,8 @@
    "volume_fraction": 0.464,
    "cad": "images/samples/parallel/parallel_014_cad.png",
    "sdf": "images/samples/parallel/parallel_014_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.392
   },
   {
    "id": "parallel_015",
@@ -669,7 +734,8 @@
    "volume_fraction": 0.54,
    "cad": "images/samples/parallel/parallel_015_cad.png",
    "sdf": "images/samples/parallel/parallel_015_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.62
   },
   {
    "id": "parallel_016",
@@ -679,7 +745,8 @@
    "volume_fraction": 0.472,
    "cad": "images/samples/parallel/parallel_016_cad.png",
    "sdf": "images/samples/parallel/parallel_016_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.416
   },
   {
    "id": "parallel_017",
@@ -689,7 +756,8 @@
    "volume_fraction": 0.507,
    "cad": "images/samples/parallel/parallel_017_cad.png",
    "sdf": "images/samples/parallel/parallel_017_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.521
   },
   {
    "id": "parallel_018",
@@ -699,7 +767,8 @@
    "volume_fraction": 0.617,
    "cad": "images/samples/parallel/parallel_018_cad.png",
    "sdf": "images/samples/parallel/parallel_018_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.851
   },
   {
    "id": "parallel_019",
@@ -709,7 +778,8 @@
    "volume_fraction": 0.607,
    "cad": "images/samples/parallel/parallel_019_cad.png",
    "sdf": "images/samples/parallel/parallel_019_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.821
   },
   {
    "id": "parallel_020",
@@ -719,7 +789,8 @@
    "volume_fraction": 0.404,
    "cad": "images/samples/parallel/parallel_020_cad.png",
    "sdf": "images/samples/parallel/parallel_020_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.212
   },
   {
    "id": "parallel_021",
@@ -729,7 +800,8 @@
    "volume_fraction": 0.606,
    "cad": "images/samples/parallel/parallel_021_cad.png",
    "sdf": "images/samples/parallel/parallel_021_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.818
   },
   {
    "id": "parallel_022",
@@ -739,7 +811,8 @@
    "volume_fraction": 0.583,
    "cad": "images/samples/parallel/parallel_022_cad.png",
    "sdf": "images/samples/parallel/parallel_022_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.749
   },
   {
    "id": "parallel_023",
@@ -749,7 +822,8 @@
    "volume_fraction": 0.616,
    "cad": "images/samples/parallel/parallel_023_cad.png",
    "sdf": "images/samples/parallel/parallel_023_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.848
   },
   {
    "id": "parallel_024",
@@ -759,7 +833,8 @@
    "volume_fraction": 0.591,
    "cad": "images/samples/parallel/parallel_024_cad.png",
    "sdf": "images/samples/parallel/parallel_024_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.773
   },
   {
    "id": "parallel_025",
@@ -769,7 +844,8 @@
    "volume_fraction": 0.499,
    "cad": "images/samples/parallel/parallel_025_cad.png",
    "sdf": "images/samples/parallel/parallel_025_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.497
   },
   {
    "id": "parallel_026",
@@ -779,7 +855,8 @@
    "volume_fraction": 0.596,
    "cad": "images/samples/parallel/parallel_026_cad.png",
    "sdf": "images/samples/parallel/parallel_026_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.788
   },
   {
    "id": "parallel_027",
@@ -789,7 +866,8 @@
    "volume_fraction": 0.646,
    "cad": "images/samples/parallel/parallel_027_cad.png",
    "sdf": "images/samples/parallel/parallel_027_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.938
   },
   {
    "id": "parallel_028",
@@ -799,7 +877,8 @@
    "volume_fraction": 0.56,
    "cad": "images/samples/parallel/parallel_028_cad.png",
    "sdf": "images/samples/parallel/parallel_028_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.68
   },
   {
    "id": "parallel_029",
@@ -809,7 +888,8 @@
    "volume_fraction": 0.543,
    "cad": "images/samples/parallel/parallel_029_cad.png",
    "sdf": "images/samples/parallel/parallel_029_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.629
   },
   {
    "id": "pin_000",
@@ -819,7 +899,8 @@
    "volume_fraction": 0.595,
    "cad": "images/samples/pin/pin_000_cad.png",
    "sdf": "images/samples/pin/pin_000_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.785
   },
   {
    "id": "pin_001",
@@ -829,7 +910,8 @@
    "volume_fraction": 0.568,
    "cad": "images/samples/pin/pin_001_cad.png",
    "sdf": "images/samples/pin/pin_001_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.704
   },
   {
    "id": "pin_002",
@@ -839,7 +921,8 @@
    "volume_fraction": 0.554,
    "cad": "images/samples/pin/pin_002_cad.png",
    "sdf": "images/samples/pin/pin_002_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.662
   },
   {
    "id": "pin_003",
@@ -849,7 +932,8 @@
    "volume_fraction": 0.582,
    "cad": "images/samples/pin/pin_003_cad.png",
    "sdf": "images/samples/pin/pin_003_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.746
   },
   {
    "id": "pin_004",
@@ -859,7 +943,8 @@
    "volume_fraction": 0.552,
    "cad": "images/samples/pin/pin_004_cad.png",
    "sdf": "images/samples/pin/pin_004_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.656
   },
   {
    "id": "pin_005",
@@ -869,7 +954,8 @@
    "volume_fraction": 0.535,
    "cad": "images/samples/pin/pin_005_cad.png",
    "sdf": "images/samples/pin/pin_005_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.605
   },
   {
    "id": "pin_006",
@@ -879,7 +965,8 @@
    "volume_fraction": 0.588,
    "cad": "images/samples/pin/pin_006_cad.png",
    "sdf": "images/samples/pin/pin_006_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.764
   },
   {
    "id": "pin_007",
@@ -889,7 +976,8 @@
    "volume_fraction": 0.58,
    "cad": "images/samples/pin/pin_007_cad.png",
    "sdf": "images/samples/pin/pin_007_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.74
   },
   {
    "id": "pin_008",
@@ -899,7 +987,8 @@
    "volume_fraction": 0.543,
    "cad": "images/samples/pin/pin_008_cad.png",
    "sdf": "images/samples/pin/pin_008_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.629
   },
   {
    "id": "pin_009",
@@ -909,7 +998,8 @@
    "volume_fraction": 0.573,
    "cad": "images/samples/pin/pin_009_cad.png",
    "sdf": "images/samples/pin/pin_009_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.719
   },
   {
    "id": "pin_010",
@@ -919,7 +1009,8 @@
    "volume_fraction": 0.588,
    "cad": "images/samples/pin/pin_010_cad.png",
    "sdf": "images/samples/pin/pin_010_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.764
   },
   {
    "id": "pin_011",
@@ -929,7 +1020,8 @@
    "volume_fraction": 0.541,
    "cad": "images/samples/pin/pin_011_cad.png",
    "sdf": "images/samples/pin/pin_011_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.623
   },
   {
    "id": "pin_012",
@@ -939,7 +1031,8 @@
    "volume_fraction": 0.552,
    "cad": "images/samples/pin/pin_012_cad.png",
    "sdf": "images/samples/pin/pin_012_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.656
   },
   {
    "id": "pin_013",
@@ -949,7 +1042,8 @@
    "volume_fraction": 0.55,
    "cad": "images/samples/pin/pin_013_cad.png",
    "sdf": "images/samples/pin/pin_013_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.65
   },
   {
    "id": "pin_014",
@@ -959,7 +1053,8 @@
    "volume_fraction": 0.566,
    "cad": "images/samples/pin/pin_014_cad.png",
    "sdf": "images/samples/pin/pin_014_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.698
   },
   {
    "id": "pin_015",
@@ -969,7 +1064,8 @@
    "volume_fraction": 0.553,
    "cad": "images/samples/pin/pin_015_cad.png",
    "sdf": "images/samples/pin/pin_015_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.659
   },
   {
    "id": "pin_016",
@@ -979,7 +1075,8 @@
    "volume_fraction": 0.581,
    "cad": "images/samples/pin/pin_016_cad.png",
    "sdf": "images/samples/pin/pin_016_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.743
   },
   {
    "id": "pin_017",
@@ -989,7 +1086,8 @@
    "volume_fraction": 0.559,
    "cad": "images/samples/pin/pin_017_cad.png",
    "sdf": "images/samples/pin/pin_017_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.677
   },
   {
    "id": "pin_018",
@@ -999,7 +1097,8 @@
    "volume_fraction": 0.54,
    "cad": "images/samples/pin/pin_018_cad.png",
    "sdf": "images/samples/pin/pin_018_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.62
   },
   {
    "id": "pin_019",
@@ -1009,7 +1108,8 @@
    "volume_fraction": 0.567,
    "cad": "images/samples/pin/pin_019_cad.png",
    "sdf": "images/samples/pin/pin_019_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.701
   },
   {
    "id": "pin_020",
@@ -1019,7 +1119,8 @@
    "volume_fraction": 0.574,
    "cad": "images/samples/pin/pin_020_cad.png",
    "sdf": "images/samples/pin/pin_020_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.722
   },
   {
    "id": "pin_021",
@@ -1029,7 +1130,8 @@
    "volume_fraction": 0.579,
    "cad": "images/samples/pin/pin_021_cad.png",
    "sdf": "images/samples/pin/pin_021_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.737
   },
   {
    "id": "pin_022",
@@ -1039,7 +1141,8 @@
    "volume_fraction": 0.584,
    "cad": "images/samples/pin/pin_022_cad.png",
    "sdf": "images/samples/pin/pin_022_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.752
   },
   {
    "id": "pin_023",
@@ -1049,7 +1152,8 @@
    "volume_fraction": 0.567,
    "cad": "images/samples/pin/pin_023_cad.png",
    "sdf": "images/samples/pin/pin_023_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.701
   },
   {
    "id": "pin_024",
@@ -1059,7 +1163,8 @@
    "volume_fraction": 0.55,
    "cad": "images/samples/pin/pin_024_cad.png",
    "sdf": "images/samples/pin/pin_024_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.65
   },
   {
    "id": "pin_025",
@@ -1069,7 +1174,8 @@
    "volume_fraction": 0.577,
    "cad": "images/samples/pin/pin_025_cad.png",
    "sdf": "images/samples/pin/pin_025_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.731
   },
   {
    "id": "pin_026",
@@ -1079,7 +1185,8 @@
    "volume_fraction": 0.582,
    "cad": "images/samples/pin/pin_026_cad.png",
    "sdf": "images/samples/pin/pin_026_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.746
   },
   {
    "id": "pin_027",
@@ -1089,7 +1196,8 @@
    "volume_fraction": 0.579,
    "cad": "images/samples/pin/pin_027_cad.png",
    "sdf": "images/samples/pin/pin_027_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.737
   },
   {
    "id": "pin_028",
@@ -1099,7 +1207,8 @@
    "volume_fraction": 0.559,
    "cad": "images/samples/pin/pin_028_cad.png",
    "sdf": "images/samples/pin/pin_028_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.677
   },
   {
    "id": "pin_029",
@@ -1109,7 +1218,8 @@
    "volume_fraction": 0.594,
    "cad": "images/samples/pin/pin_029_cad.png",
    "sdf": "images/samples/pin/pin_029_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.782
   },
   {
    "id": "spiral_000",
@@ -1119,7 +1229,8 @@
    "volume_fraction": 0.262,
    "cad": "images/samples/spiral/spiral_000_cad.png",
    "sdf": "images/samples/spiral/spiral_000_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.786
   },
   {
    "id": "spiral_001",
@@ -1129,7 +1240,8 @@
    "volume_fraction": 0.248,
    "cad": "images/samples/spiral/spiral_001_cad.png",
    "sdf": "images/samples/spiral/spiral_001_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.744
   },
   {
    "id": "spiral_002",
@@ -1139,7 +1251,8 @@
    "volume_fraction": 0.247,
    "cad": "images/samples/spiral/spiral_002_cad.png",
    "sdf": "images/samples/spiral/spiral_002_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.741
   },
   {
    "id": "spiral_003",
@@ -1149,7 +1262,8 @@
    "volume_fraction": 0.261,
    "cad": "images/samples/spiral/spiral_003_cad.png",
    "sdf": "images/samples/spiral/spiral_003_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.783
   },
   {
    "id": "spiral_004",
@@ -1159,7 +1273,8 @@
    "volume_fraction": 0.244,
    "cad": "images/samples/spiral/spiral_004_cad.png",
    "sdf": "images/samples/spiral/spiral_004_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.732
   },
   {
    "id": "spiral_005",
@@ -1169,7 +1284,8 @@
    "volume_fraction": 0.257,
    "cad": "images/samples/spiral/spiral_005_cad.png",
    "sdf": "images/samples/spiral/spiral_005_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.771
   },
   {
    "id": "spiral_006",
@@ -1179,7 +1295,8 @@
    "volume_fraction": 0.254,
    "cad": "images/samples/spiral/spiral_006_cad.png",
    "sdf": "images/samples/spiral/spiral_006_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.762
   },
   {
    "id": "spiral_007",
@@ -1189,7 +1306,8 @@
    "volume_fraction": 0.242,
    "cad": "images/samples/spiral/spiral_007_cad.png",
    "sdf": "images/samples/spiral/spiral_007_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.726
   },
   {
    "id": "spiral_008",
@@ -1199,7 +1317,8 @@
    "volume_fraction": 0.301,
    "cad": "images/samples/spiral/spiral_008_cad.png",
    "sdf": "images/samples/spiral/spiral_008_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.903
   },
   {
    "id": "spiral_009",
@@ -1209,7 +1328,8 @@
    "volume_fraction": 0.268,
    "cad": "images/samples/spiral/spiral_009_cad.png",
    "sdf": "images/samples/spiral/spiral_009_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.804
   },
   {
    "id": "spiral_010",
@@ -1219,7 +1339,8 @@
    "volume_fraction": 0.283,
    "cad": "images/samples/spiral/spiral_010_cad.png",
    "sdf": "images/samples/spiral/spiral_010_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.849
   },
   {
    "id": "spiral_011",
@@ -1229,7 +1350,8 @@
    "volume_fraction": 0.298,
    "cad": "images/samples/spiral/spiral_011_cad.png",
    "sdf": "images/samples/spiral/spiral_011_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.894
   },
   {
    "id": "spiral_012",
@@ -1239,7 +1361,8 @@
    "volume_fraction": 0.296,
    "cad": "images/samples/spiral/spiral_012_cad.png",
    "sdf": "images/samples/spiral/spiral_012_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.888
   },
   {
    "id": "spiral_013",
@@ -1249,7 +1372,8 @@
    "volume_fraction": 0.292,
    "cad": "images/samples/spiral/spiral_013_cad.png",
    "sdf": "images/samples/spiral/spiral_013_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.876
   },
   {
    "id": "spiral_014",
@@ -1259,7 +1383,8 @@
    "volume_fraction": 0.273,
    "cad": "images/samples/spiral/spiral_014_cad.png",
    "sdf": "images/samples/spiral/spiral_014_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.819
   },
   {
    "id": "spiral_015",
@@ -1269,7 +1394,8 @@
    "volume_fraction": 0.279,
    "cad": "images/samples/spiral/spiral_015_cad.png",
    "sdf": "images/samples/spiral/spiral_015_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.837
   },
   {
    "id": "spiral_016",
@@ -1279,7 +1405,8 @@
    "volume_fraction": 0.294,
    "cad": "images/samples/spiral/spiral_016_cad.png",
    "sdf": "images/samples/spiral/spiral_016_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.882
   },
   {
    "id": "spiral_017",
@@ -1289,7 +1416,8 @@
    "volume_fraction": 0.247,
    "cad": "images/samples/spiral/spiral_017_cad.png",
    "sdf": "images/samples/spiral/spiral_017_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.741
   },
   {
    "id": "spiral_018",
@@ -1299,7 +1427,8 @@
    "volume_fraction": 0.296,
    "cad": "images/samples/spiral/spiral_018_cad.png",
    "sdf": "images/samples/spiral/spiral_018_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.888
   },
   {
    "id": "spiral_019",
@@ -1309,7 +1438,8 @@
    "volume_fraction": 0.312,
    "cad": "images/samples/spiral/spiral_019_cad.png",
    "sdf": "images/samples/spiral/spiral_019_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.936
   },
   {
    "id": "spiral_020",
@@ -1319,7 +1449,8 @@
    "volume_fraction": 0.257,
    "cad": "images/samples/spiral/spiral_020_cad.png",
    "sdf": "images/samples/spiral/spiral_020_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.771
   },
   {
    "id": "spiral_021",
@@ -1329,7 +1460,8 @@
    "volume_fraction": 0.289,
    "cad": "images/samples/spiral/spiral_021_cad.png",
    "sdf": "images/samples/spiral/spiral_021_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.867
   },
   {
    "id": "spiral_022",
@@ -1339,7 +1471,8 @@
    "volume_fraction": 0.304,
    "cad": "images/samples/spiral/spiral_022_cad.png",
    "sdf": "images/samples/spiral/spiral_022_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.912
   },
   {
    "id": "spiral_023",
@@ -1349,7 +1482,8 @@
    "volume_fraction": 0.297,
    "cad": "images/samples/spiral/spiral_023_cad.png",
    "sdf": "images/samples/spiral/spiral_023_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.891
   },
   {
    "id": "spiral_024",
@@ -1359,7 +1493,8 @@
    "volume_fraction": 0.287,
    "cad": "images/samples/spiral/spiral_024_cad.png",
    "sdf": "images/samples/spiral/spiral_024_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.861
   },
   {
    "id": "spiral_025",
@@ -1369,7 +1504,8 @@
    "volume_fraction": 0.3,
    "cad": "images/samples/spiral/spiral_025_cad.png",
    "sdf": "images/samples/spiral/spiral_025_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.9
   },
   {
    "id": "spiral_026",
@@ -1379,7 +1515,8 @@
    "volume_fraction": 0.35,
    "cad": "images/samples/spiral/spiral_026_cad.png",
    "sdf": "images/samples/spiral/spiral_026_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.05
   },
   {
    "id": "spiral_027",
@@ -1389,7 +1526,8 @@
    "volume_fraction": 0.328,
    "cad": "images/samples/spiral/spiral_027_cad.png",
    "sdf": "images/samples/spiral/spiral_027_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.984
   },
   {
    "id": "spiral_028",
@@ -1399,7 +1537,8 @@
    "volume_fraction": 0.307,
    "cad": "images/samples/spiral/spiral_028_cad.png",
    "sdf": "images/samples/spiral/spiral_028_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.921
   },
   {
    "id": "spiral_029",
@@ -1409,7 +1548,8 @@
    "volume_fraction": 0.337,
    "cad": "images/samples/spiral/spiral_029_cad.png",
    "sdf": "images/samples/spiral/spiral_029_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.011
   },
   {
    "id": "spider_web_000",
@@ -1419,7 +1559,8 @@
    "volume_fraction": 0.21,
    "cad": "images/samples/spider_web/spider_web_000_cad.png",
    "sdf": "images/samples/spider_web/spider_web_000_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.63
   },
   {
    "id": "spider_web_001",
@@ -1429,7 +1570,8 @@
    "volume_fraction": 0.212,
    "cad": "images/samples/spider_web/spider_web_001_cad.png",
    "sdf": "images/samples/spider_web/spider_web_001_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.636
   },
   {
    "id": "spider_web_002",
@@ -1439,7 +1581,8 @@
    "volume_fraction": 0.286,
    "cad": "images/samples/spider_web/spider_web_002_cad.png",
    "sdf": "images/samples/spider_web/spider_web_002_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.858
   },
   {
    "id": "spider_web_003",
@@ -1449,7 +1592,8 @@
    "volume_fraction": 0.273,
    "cad": "images/samples/spider_web/spider_web_003_cad.png",
    "sdf": "images/samples/spider_web/spider_web_003_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.819
   },
   {
    "id": "spider_web_004",
@@ -1459,7 +1603,8 @@
    "volume_fraction": 0.271,
    "cad": "images/samples/spider_web/spider_web_004_cad.png",
    "sdf": "images/samples/spider_web/spider_web_004_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.813
   },
   {
    "id": "spider_web_005",
@@ -1469,7 +1614,8 @@
    "volume_fraction": 0.269,
    "cad": "images/samples/spider_web/spider_web_005_cad.png",
    "sdf": "images/samples/spider_web/spider_web_005_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.807
   },
   {
    "id": "spider_web_006",
@@ -1479,7 +1625,8 @@
    "volume_fraction": 0.316,
    "cad": "images/samples/spider_web/spider_web_006_cad.png",
    "sdf": "images/samples/spider_web/spider_web_006_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.948
   },
   {
    "id": "spider_web_007",
@@ -1489,7 +1636,8 @@
    "volume_fraction": 0.314,
    "cad": "images/samples/spider_web/spider_web_007_cad.png",
    "sdf": "images/samples/spider_web/spider_web_007_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.942
   },
   {
    "id": "spider_web_008",
@@ -1499,7 +1647,8 @@
    "volume_fraction": 0.337,
    "cad": "images/samples/spider_web/spider_web_008_cad.png",
    "sdf": "images/samples/spider_web/spider_web_008_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.011
   },
   {
    "id": "spider_web_009",
@@ -1509,7 +1658,8 @@
    "volume_fraction": 0.35,
    "cad": "images/samples/spider_web/spider_web_009_cad.png",
    "sdf": "images/samples/spider_web/spider_web_009_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.05
   },
   {
    "id": "spider_web_010",
@@ -1519,7 +1669,8 @@
    "volume_fraction": 0.321,
    "cad": "images/samples/spider_web/spider_web_010_cad.png",
    "sdf": "images/samples/spider_web/spider_web_010_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.963
   },
   {
    "id": "spider_web_011",
@@ -1529,7 +1680,8 @@
    "volume_fraction": 0.378,
    "cad": "images/samples/spider_web/spider_web_011_cad.png",
    "sdf": "images/samples/spider_web/spider_web_011_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.134
   },
   {
    "id": "spider_web_012",
@@ -1539,7 +1691,8 @@
    "volume_fraction": 0.354,
    "cad": "images/samples/spider_web/spider_web_012_cad.png",
    "sdf": "images/samples/spider_web/spider_web_012_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.062
   },
   {
    "id": "spider_web_013",
@@ -1549,7 +1702,8 @@
    "volume_fraction": 0.367,
    "cad": "images/samples/spider_web/spider_web_013_cad.png",
    "sdf": "images/samples/spider_web/spider_web_013_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.101
   },
   {
    "id": "spider_web_014",
@@ -1559,7 +1713,8 @@
    "volume_fraction": 0.397,
    "cad": "images/samples/spider_web/spider_web_014_cad.png",
    "sdf": "images/samples/spider_web/spider_web_014_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.191
   },
   {
    "id": "spider_web_015",
@@ -1569,7 +1724,8 @@
    "volume_fraction": 0.369,
    "cad": "images/samples/spider_web/spider_web_015_cad.png",
    "sdf": "images/samples/spider_web/spider_web_015_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.107
   },
   {
    "id": "spider_web_016",
@@ -1579,7 +1735,8 @@
    "volume_fraction": 0.329,
    "cad": "images/samples/spider_web/spider_web_016_cad.png",
    "sdf": "images/samples/spider_web/spider_web_016_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.987
   },
   {
    "id": "spider_web_017",
@@ -1589,7 +1746,8 @@
    "volume_fraction": 0.405,
    "cad": "images/samples/spider_web/spider_web_017_cad.png",
    "sdf": "images/samples/spider_web/spider_web_017_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.215
   },
   {
    "id": "spider_web_018",
@@ -1599,7 +1757,8 @@
    "volume_fraction": 0.321,
    "cad": "images/samples/spider_web/spider_web_018_cad.png",
    "sdf": "images/samples/spider_web/spider_web_018_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 0.963
   },
   {
    "id": "spider_web_019",
@@ -1609,7 +1768,8 @@
    "volume_fraction": 0.338,
    "cad": "images/samples/spider_web/spider_web_019_cad.png",
    "sdf": "images/samples/spider_web/spider_web_019_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.014
   },
   {
    "id": "spider_web_020",
@@ -1619,7 +1779,8 @@
    "volume_fraction": 0.36,
    "cad": "images/samples/spider_web/spider_web_020_cad.png",
    "sdf": "images/samples/spider_web/spider_web_020_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.08
   },
   {
    "id": "spider_web_021",
@@ -1629,7 +1790,8 @@
    "volume_fraction": 0.385,
    "cad": "images/samples/spider_web/spider_web_021_cad.png",
    "sdf": "images/samples/spider_web/spider_web_021_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.155
   },
   {
    "id": "spider_web_022",
@@ -1639,7 +1801,8 @@
    "volume_fraction": 0.395,
    "cad": "images/samples/spider_web/spider_web_022_cad.png",
    "sdf": "images/samples/spider_web/spider_web_022_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.185
   },
   {
    "id": "spider_web_023",
@@ -1649,7 +1812,8 @@
    "volume_fraction": 0.395,
    "cad": "images/samples/spider_web/spider_web_023_cad.png",
    "sdf": "images/samples/spider_web/spider_web_023_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.185
   },
   {
    "id": "spider_web_024",
@@ -1659,7 +1823,8 @@
    "volume_fraction": 0.364,
    "cad": "images/samples/spider_web/spider_web_024_cad.png",
    "sdf": "images/samples/spider_web/spider_web_024_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.092
   },
   {
    "id": "spider_web_025",
@@ -1669,7 +1834,8 @@
    "volume_fraction": 0.379,
    "cad": "images/samples/spider_web/spider_web_025_cad.png",
    "sdf": "images/samples/spider_web/spider_web_025_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.137
   },
   {
    "id": "spider_web_026",
@@ -1679,7 +1845,8 @@
    "volume_fraction": 0.376,
    "cad": "images/samples/spider_web/spider_web_026_cad.png",
    "sdf": "images/samples/spider_web/spider_web_026_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.128
   },
   {
    "id": "spider_web_027",
@@ -1689,7 +1856,8 @@
    "volume_fraction": 0.349,
    "cad": "images/samples/spider_web/spider_web_027_cad.png",
    "sdf": "images/samples/spider_web/spider_web_027_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.047
   },
   {
    "id": "spider_web_028",
@@ -1699,7 +1867,8 @@
    "volume_fraction": 0.415,
    "cad": "images/samples/spider_web/spider_web_028_cad.png",
    "sdf": "images/samples/spider_web/spider_web_028_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.245
   },
   {
    "id": "spider_web_029",
@@ -1709,7 +1878,16 @@
    "volume_fraction": 0.412,
    "cad": "images/samples/spider_web/spider_web_029_cad.png",
    "sdf": "images/samples/spider_web/spider_web_029_sdf.png",
-   "gate": "PASS"
+   "gate": "PASS",
+   "internal_volume_L": 1.236
   }
- ]
+ ],
+ "assumed_scale": {
+  "tile_width_mm": 1000,
+  "tile_height_mm": 1000,
+  "channel_depth_mm": 3,
+  "mm_per_original_pixel": 3.90625,
+  "mm_per_image_pixel": 1.953125,
+  "internal_volume_L_derivation": "volume_fraction × 1 m × 1 m × 0.003 m × 1000 L/m³"
+ }
 }

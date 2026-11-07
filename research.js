@@ -63,9 +63,10 @@ async function show() {
   sdfCanvas.dataset.sampleId=sample.id;sdfCanvas.setAttribute('aria-label',`${sample.family} SDF colour preview — ${sample.id}`);
   $('#viewerLabel').textContent = sample.family;
   $('#sampleStatus').textContent = '';
-  $('#thicknessMetric').textContent=presentation.stats.thickness.toFixed(1);
-  $('#lengthMetric').textContent=Math.round(presentation.stats.length).toLocaleString();
-  $('#areaFractionMetric').textContent=(sample.volume_fraction*100).toFixed(1);
+  const mmPerPixel=1000/256;
+  $('#thicknessMetric').textContent=(presentation.stats.thickness*mmPerPixel).toFixed(1);
+  $('#lengthMetric').textContent=Math.round(presentation.stats.length*mmPerPixel).toLocaleString();
+  $('#volumeMetric').textContent=Number(sample.internal_volume_L).toFixed(3);
   $('#conditionOut').textContent = `${passes[Number(slider.value)]} passes`;
   slider.setAttribute('aria-valuetext', $('#conditionOut').textContent);
   slider.style.setProperty('--slider-progress', `${Number(slider.value) * 25}%`);
@@ -85,4 +86,4 @@ $('#generateNext').addEventListener('click', () => {
   requestAnimationFrame(() => button.classList.add('is-launching'));
   setTimeout(() => button.classList.remove('is-launching'), 750);
 });
-fetch('assets/research/data/samples_manifest.json').then(r => { if (!r.ok) throw new Error('Manifest unavailable'); return r.json(); }).then(data => { manifest = data; choose(); }).catch(() => { $('#sampleStatus').textContent = 'Sample data unavailable. Please refresh.'; });
+fetch('assets/research/data/samples_manifest.json?v=assumed-scale-1').then(r => { if (!r.ok) throw new Error('Manifest unavailable'); return r.json(); }).then(data => { manifest = data; choose(); }).catch(() => { $('#sampleStatus').textContent = 'Sample data unavailable. Please refresh.'; });
