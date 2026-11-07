@@ -1,10 +1,10 @@
 /* Cinematic aerospace theme inspired by full-screen launch storytelling. */
 /* Content-sized interactive controls */
-.viewer .viewer-generator{width:186px!important;height:186px!important}
-.viewer-generator .spacecraft-button{width:186px!important;height:186px!important;padding:32px!important;border-radius:50%!important;border:9px solid #292b2c!important;flex-direction:column!important;gap:0!important;background:radial-gradient(ellipse at 48% 48%,#515353 0%,#353737 33%,#181a1b 66%,#070808 85%)!important;box-shadow:inset 0 3px 4px #000,inset 0 -5px 8px #7778,0 0 0 2px #080909,0 0 0 6px #414343,0 0 0 10px #141515,0 15px 24px #000b!important;animation:none!important}
+.viewer .viewer-generator{width:148px!important;height:148px!important}
+.viewer-generator .spacecraft-button{width:148px!important;height:148px!important;padding:17px!important;border-radius:50%!important;border:7px solid #292b2c!important;flex-direction:column!important;gap:0!important;background:radial-gradient(ellipse at 48% 48%,#515353 0%,#353737 33%,#181a1b 66%,#070808 85%)!important;box-shadow:inset 0 3px 4px #000,inset 0 -5px 8px #7778,0 0 0 2px #080909,0 0 0 6px #414343,0 0 0 10px #141515,0 15px 24px #000b!important;animation:none!important}
 .viewer-generator .spacecraft-button:before{inset:6px 13px auto;height:59px;border-radius:90% 90% 45% 45%;background:linear-gradient(180deg,#fff8,#fff1);transform:none;transition:opacity .2s;opacity:.65;pointer-events:none}
 .viewer-generator .spacecraft-button:after{content:"";position:absolute;inset:0;border-radius:50%;border:1px solid #93979766;pointer-events:none}
-.viewer-generator .spacecraft-button strong{position:relative;z-index:1;color:#fff!important;font:800 14px/1.5 Arial,sans-serif!important;letter-spacing:.075em!important;white-space:normal!important;text-shadow:0 2px 4px #000}
+.viewer-generator .spacecraft-button strong{position:relative;z-index:1;color:#fff!important;font:800 15px/1.4 Arial,sans-serif!important;letter-spacing:.035em!important;white-space:normal!important;text-shadow:0 2px 4px #000}
 .viewer-generator .generate-arrow{display:none!important}
 .viewer-generator .spacecraft-button:hover{transform:scale(1.045)!important;filter:brightness(1.2)}
 .viewer-generator .spacecraft-button:active{transform:scale(.97)!important;filter:brightness(.9)}
