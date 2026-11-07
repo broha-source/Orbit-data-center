@@ -6,7 +6,7 @@
     <meta name="description" content="Radiator Flow Field: interactive orbital data-center radiator geometry explorer." />
     <title>Radiator Flow Field — Orbit Data Center</title>
     <link rel="stylesheet" href="styles.css?v=ux-refresh-1" />
-    <link rel="stylesheet" href="theme.css?v=explorer-ux-3" />
+    <link rel="stylesheet" href="theme.css?v=explorer-ux-4" />
   </head>
   <body>
     <div class="noise" aria-hidden="true"></div>
@@ -36,20 +36,20 @@
 
       <section id="demo" class="demo-section section-shell">
         <div class="section-heading demo-heading">
-          <div><h2>Radiator Flow Field</h2></div>
-          <p class="demo-summary"><b>GENERATED WITH AI DIFFUSION</b><span>A conditional diffusion model creates new radiator flow-channel designs across five geometry families.</span></p>
+          <div><h2>AI-generated Radiator Flow Path</h2></div>
+          <p class="demo-summary"><b>Explore Infinite Designs with AI</b></p>
         </div>
 
         <div class="demo-frame">
           <aside class="controls">
             <div class="panel-title"><span>GENERATION CONTROL</span></div>
-            <label>Geometry family</label>
+            <label class="condition-question">Condition:<strong>Which type do you want?</strong></label>
             <div class="segmented family-tabs" id="families">
-              <button class="active" data-family="F0"><strong>Serpentine</strong><small>F0</small></button>
-              <button data-family="F1"><strong>Parallel</strong><small>F1</small></button>
-              <button data-family="F2"><strong>Circular pin-fin</strong><small>F2</small></button>
-              <button data-family="F3"><strong>Spiral</strong><small>F3</small></button>
-              <button data-family="F4"><strong>Spider-netted</strong><small>F4</small></button>
+              <button class="active" data-family="F0"><strong>Serpentine</strong></button>
+              <button data-family="F1"><strong>Parallel</strong></button>
+              <button data-family="F2"><strong>Circular pin-fin</strong></button>
+              <button data-family="F3"><strong>Spiral</strong></button>
+              <button data-family="F4"><strong>Spider-netted</strong></button>
             </div>
             <label for="condition"><span id="variableLabel">Pass count</span><output id="conditionOut">7</output></label>
             <input id="condition" type="range" min="0" max="100" value="0" step="1" aria-describedby="conditionHelp" />
@@ -74,11 +74,8 @@
             <div id="cadLoading" class="cad-loading" role="status">LOADING CAD MODEL</div>
             <div class="spacecraft-generator viewer-generator">
               <button id="generateNext" class="spacecraft-button" type="button" aria-label="Generate another random verified geometry">
-                <span class="launch-visual" aria-hidden="true">
-                  <span class="orbit-ring"><span class="data-satellite"><i></i><b></b></span></span>
-                  <span class="earth-play"><i>▶</i></span>
-                </span>
-                <span class="generate-copy"><strong>GENERATE NEXT</strong><small>Explore a new verified design</small></span>
+                <span class="generate-arrow" aria-hidden="true">↻</span>
+                <span class="generate-copy"><strong>GENERATE</strong><small>NEXT DESIGN</small></span>
               </button>
             </div>
           </div>
@@ -94,7 +91,7 @@
       </section>
 
       <section id="results" class="results-section section-shell">
-        <div class="results-intro"><p class="eyebrow"><span></span> Generation quality control</p><h2>&infin; designs.<br />Controlled by user-defined conditions.</h2><p>Five family conditions with 256 generated RAW SDF samples per family. Pass rates are reported before projection or geometry substitution.</p></div>
+        <div class="results-intro results-intro-compact"><p class="eyebrow"><span></span> Generation quality control</p><p>Five family conditions with 256 generated RAW SDF samples per family. Pass rates are reported before projection or geometry substitution.</p></div>
         <div class="result-grid">
           <article><header><b>F0</b><span>SERPENTINE</span></header><img src="assets/geometry/f0_1_mask.png" alt="F0 generated serpentine mask" /><strong>81.6%</strong><p>209 / 256 RAW PASS</p><ul><li>37 connectivity failures</li><li>5 isolated-fluid failures</li><li>4 minimum-wall failures</li></ul></article>
           <article><header><b>F1</b><span>PARALLEL</span></header><img src="assets/geometry/f1_1_mask.png" alt="F1 generated parallel-channel mask" /><strong>99.6%</strong><p>255 / 256 RAW PASS</p><ul><li>1 channel-count failure</li><li>Full-width parallel headers</li><li>Actual generated mask shown</li></ul></article>
