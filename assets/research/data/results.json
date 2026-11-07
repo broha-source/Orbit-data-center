@@ -1,0 +1,410 @@
+{
+ "meta": {
+  "tile_px": 256,
+  "generated_per_family": 1000,
+  "sampler": "DDIM, 100 steps",
+  "training_tiles": "2,000 SDF tiles per family x 5 families = 10,000",
+  "pass_rate_definition": "pass / generated x 100, automatic geometry gates (connectivity, minimum wall, channel structure)",
+  "dup95_definition": "share of generated tiles whose max IoU with any training tile is >= 0.95 (near-copy)"
+ },
+ "stages": [
+  {
+   "key": "baseline",
+   "label": "Baseline (plain MSE)",
+   "families": {
+    "serpentine": {
+     "name": "Serpentine",
+     "pass": 700,
+     "n": 1000,
+     "pass_rate": 70.0,
+     "fail_reasons": {
+      "isolated fluid region": 233,
+      "disconnected channel": 232,
+      "dead-end branch": 35,
+      "dangling end": 31,
+      "minimum wall thickness": 21,
+      "low tortuosity": 18,
+      "volume fraction out of range": 5
+     },
+     "dup95_pct": 1.8
+    },
+    "parallel": {
+     "name": "Parallel",
+     "pass": 986,
+     "n": 1000,
+     "pass_rate": 98.6,
+     "fail_reasons": {
+      "minimum wall thickness": 11,
+      "dangling end": 3,
+      "dead-end branch": 1
+     },
+     "dup95_pct": 11.3
+    },
+    "pin": {
+     "name": "Pin",
+     "pass": 999,
+     "n": 1000,
+     "pass_rate": 99.9,
+     "fail_reasons": {
+      "dangling end": 1
+     },
+     "dup95_pct": 61.5
+    },
+    "spiral": {
+     "name": "Spiral",
+     "pass": 563,
+     "n": 1000,
+     "pass_rate": 56.3,
+     "fail_reasons": {
+      "isolated fluid region": 200,
+      "shortcut around an island": 173,
+      "disconnected channel": 169,
+      "dead-end branch": 157,
+      "dangling end": 117,
+      "minimum wall thickness": 46,
+      "volume fraction out of range": 2
+     },
+     "dup95_pct": 0.2
+    },
+    "spider_web": {
+     "name": "Spider Web",
+     "pass": 962,
+     "n": 1000,
+     "pass_rate": 96.2,
+     "fail_reasons": {
+      "dangling end": 29,
+      "dead-end branch": 4,
+      "isolated fluid region": 3,
+      "G6 칸 수(섬)": 2
+     },
+     "dup95_pct": 0.1
+    }
+   },
+   "total": {
+    "pass": 4210,
+    "n": 5000,
+    "pass_rate": 84.2
+   }
+  },
+  {
+   "key": "boundary",
+   "label": "+ Boundary Weighting",
+   "families": {
+    "serpentine": {
+     "name": "Serpentine",
+     "pass": 910,
+     "n": 1000,
+     "pass_rate": 91.0,
+     "fail_reasons": {
+      "isolated fluid region": 56,
+      "disconnected channel": 55,
+      "volume fraction out of range": 13,
+      "dead-end branch": 9,
+      "minimum wall thickness": 9,
+      "dangling end": 8,
+      "low tortuosity": 4
+     },
+     "dup95_pct": 9.9
+    },
+    "parallel": {
+     "name": "Parallel",
+     "pass": 990,
+     "n": 1000,
+     "pass_rate": 99.0,
+     "fail_reasons": {
+      "minimum wall thickness": 10
+     },
+     "dup95_pct": 22.9
+    },
+    "pin": {
+     "name": "Pin",
+     "pass": 999,
+     "n": 1000,
+     "pass_rate": 99.9,
+     "fail_reasons": {
+      "dangling end": 1
+     },
+     "dup95_pct": 85.5
+    },
+    "spiral": {
+     "name": "Spiral",
+     "pass": 943,
+     "n": 1000,
+     "pass_rate": 94.3,
+     "fail_reasons": {
+      "minimum wall thickness": 27,
+      "shortcut around an island": 13,
+      "dead-end branch": 13,
+      "isolated fluid region": 13,
+      "dangling end": 10,
+      "disconnected channel": 10,
+      "volume fraction out of range": 2
+     },
+     "dup95_pct": 15.5
+    },
+    "spider_web": {
+     "name": "Spider Web",
+     "pass": 996,
+     "n": 1000,
+     "pass_rate": 99.6,
+     "fail_reasons": {
+      "dead-end branch": 3,
+      "volume fraction out of range": 1
+     },
+     "dup95_pct": 1.6
+    }
+   },
+   "total": {
+    "pass": 4838,
+    "n": 5000,
+    "pass_rate": 96.8
+   }
+  },
+  {
+   "key": "corner_thickness",
+   "label": "+ Corner·Thickness Weighting",
+   "families": {
+    "serpentine": {
+     "name": "Serpentine",
+     "pass": 808,
+     "n": 1000,
+     "pass_rate": 80.8,
+     "fail_reasons": {
+      "isolated fluid region": 113,
+      "disconnected channel": 110,
+      "dead-end branch": 47,
+      "dangling end": 46,
+      "volume fraction out of range": 16,
+      "minimum wall thickness": 12,
+      "low tortuosity": 11
+     },
+     "dup95_pct": 9.0
+    },
+    "parallel": {
+     "name": "Parallel",
+     "pass": 980,
+     "n": 1000,
+     "pass_rate": 98.0,
+     "fail_reasons": {
+      "minimum wall thickness": 18,
+      "dangling end": 2,
+      "dead-end branch": 2
+     },
+     "dup95_pct": 19.9
+    },
+    "pin": {
+     "name": "Pin",
+     "pass": 1000,
+     "n": 1000,
+     "pass_rate": 100.0,
+     "fail_reasons": {},
+     "dup95_pct": 82.3
+    },
+    "spiral": {
+     "name": "Spiral",
+     "pass": 972,
+     "n": 1000,
+     "pass_rate": 97.2,
+     "fail_reasons": {
+      "minimum wall thickness": 23,
+      "shortcut around an island": 5,
+      "dangling end": 3,
+      "dead-end branch": 3,
+      "volume fraction out of range": 2,
+      "isolated fluid region": 2
+     },
+     "dup95_pct": 20.1
+    },
+    "spider_web": {
+     "name": "Spider Web",
+     "pass": 996,
+     "n": 1000,
+     "pass_rate": 99.6,
+     "fail_reasons": {
+      "volume fraction out of range": 2,
+      "dead-end branch": 2
+     },
+     "dup95_pct": 1.5
+    }
+   },
+   "total": {
+    "pass": 4756,
+    "n": 5000,
+    "pass_rate": 95.1
+   }
+  },
+  {
+   "key": "pass_count",
+   "label": "+ Pass-Count Conditioning (final)",
+   "families": {
+    "serpentine": {
+     "name": "Serpentine",
+     "pass": 993,
+     "n": 1000,
+     "pass_rate": 99.3,
+     "fail_reasons": {
+      "disconnected channel": 6,
+      "isolated fluid region": 6,
+      "volume fraction out of range": 1
+     },
+     "dup95_pct": 18.6
+    },
+    "parallel": {
+     "name": "Parallel",
+     "pass": 980,
+     "n": 1000,
+     "pass_rate": 98.0,
+     "fail_reasons": {
+      "minimum wall thickness": 18,
+      "dangling end": 2,
+      "dead-end branch": 2
+     },
+     "dup95_pct": 19.9
+    },
+    "pin": {
+     "name": "Pin",
+     "pass": 1000,
+     "n": 1000,
+     "pass_rate": 100.0,
+     "fail_reasons": {},
+     "dup95_pct": 82.3
+    },
+    "spiral": {
+     "name": "Spiral",
+     "pass": 972,
+     "n": 1000,
+     "pass_rate": 97.2,
+     "fail_reasons": {
+      "minimum wall thickness": 23,
+      "shortcut around an island": 5,
+      "dangling end": 3,
+      "dead-end branch": 3,
+      "volume fraction out of range": 2,
+      "isolated fluid region": 2
+     },
+     "dup95_pct": 20.1
+    },
+    "spider_web": {
+     "name": "Spider Web",
+     "pass": 996,
+     "n": 1000,
+     "pass_rate": 99.6,
+     "fail_reasons": {
+      "volume fraction out of range": 2,
+      "dead-end branch": 2
+     },
+     "dup95_pct": 1.5
+    }
+   },
+   "total": {
+    "pass": 4941,
+    "n": 5000,
+    "pass_rate": 98.8
+   }
+  }
+ ],
+ "final": {
+  "key": "pass_count",
+  "label": "+ Pass-Count Conditioning (final)",
+  "families": {
+   "serpentine": {
+    "name": "Serpentine",
+    "pass": 993,
+    "n": 1000,
+    "pass_rate": 99.3,
+    "fail_reasons": {
+     "disconnected channel": 6,
+     "isolated fluid region": 6,
+     "volume fraction out of range": 1
+    },
+    "dup95_pct": 18.6
+   },
+   "parallel": {
+    "name": "Parallel",
+    "pass": 980,
+    "n": 1000,
+    "pass_rate": 98.0,
+    "fail_reasons": {
+     "minimum wall thickness": 18,
+     "dangling end": 2,
+     "dead-end branch": 2
+    },
+    "dup95_pct": 19.9
+   },
+   "pin": {
+    "name": "Pin",
+    "pass": 1000,
+    "n": 1000,
+    "pass_rate": 100.0,
+    "fail_reasons": {},
+    "dup95_pct": 82.3
+   },
+   "spiral": {
+    "name": "Spiral",
+    "pass": 972,
+    "n": 1000,
+    "pass_rate": 97.2,
+    "fail_reasons": {
+     "minimum wall thickness": 23,
+     "shortcut around an island": 5,
+     "dangling end": 3,
+     "dead-end branch": 3,
+     "volume fraction out of range": 2,
+     "isolated fluid region": 2
+    },
+    "dup95_pct": 20.1
+   },
+   "spider_web": {
+    "name": "Spider Web",
+    "pass": 996,
+    "n": 1000,
+    "pass_rate": 99.6,
+    "fail_reasons": {
+     "volume fraction out of range": 2,
+     "dead-end branch": 2
+    },
+    "dup95_pct": 1.5
+   }
+  },
+  "total": {
+   "pass": 4941,
+   "n": 5000,
+   "pass_rate": 98.8
+  }
+ },
+ "serpentine_pass_parity": {
+  "note": "Training Serpentine tiles have only odd pass counts (5,7,9,11,13). Counts are horizontal runs crossing the tile centre.",
+  "boundary_model": {
+   "odd": {
+    "n": 965,
+    "fail": 62
+   },
+   "even": {
+    "n": 35,
+    "fail": 28
+   }
+  },
+  "corner_thickness_model": {
+   "odd": {
+    "n": 890,
+    "fail": 121
+   },
+   "even": {
+    "n": 110,
+    "fail": 71
+   },
+   "fails_with_wrong_pass_structure": 163,
+   "fails_total": 192
+  },
+  "final_model": {
+   "odd": {
+    "n": 999,
+    "fail": 6
+   },
+   "even": {
+    "n": 1,
+    "fail": 1
+   }
+  }
+ }
+}

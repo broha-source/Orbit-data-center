@@ -6,7 +6,7 @@
     <meta name="description" content="Radiator Flow Field: interactive orbital data-center radiator geometry explorer." />
     <title>Radiator Flow Field — Orbit Data Center</title>
     <link rel="stylesheet" href="styles.css?v=ux-refresh-1" />
-    <link rel="stylesheet" href="theme.css?v=compact-glossy-1" />
+    <link rel="stylesheet" href="theme.css?v=final-research-1" />
   </head>
   <body>
     <div class="noise" aria-hidden="true"></div>
@@ -51,9 +51,7 @@
               <button data-family="F3"><strong>Spiral</strong></button>
               <button data-family="F4"><strong>Spider Web</strong></button>
             </div>
-            <label for="condition"><span id="variableLabel">Pass count</span><output id="conditionOut">7</output></label>
-            <input id="condition" type="range" min="0" max="100" value="0" step="1" aria-describedby="conditionHelp" />
-            <p id="conditionHelp" class="slider-help">Move freely across the learned design range.</p>
+<div id="passCondition"><label for="condition"><span id="variableLabel">Pass count</span><output id="conditionOut">5 passes</output></label><input id="condition" type="range" min="0" max="4" value="0" step="1" aria-describedby="conditionHelp"/><p id="conditionHelp" class="slider-help">Odd pass counts only — the inlet and outlet sit on opposite sides.</p></div>
             <label>Representation</label>
             <div class="segmented two" id="representations">
               <button data-view="sdf">SDF</button>
@@ -70,7 +68,7 @@
               <span><i></i> <b id="viewerLabel">Serpentine</b></span>
             </div>
             <canvas id="flowCanvas" aria-hidden="true"></canvas>
-            <div id="cadViewer" aria-label="SDF and CAD geometry viewer"></div>
+            <div id="cadViewer" aria-label="SDF and CAD geometry viewer"></div><p id="sampleStatus" role="status" class="sample-status"></p>
             <div id="cadLoading" class="cad-loading" role="status" hidden></div>
             <div class="spacecraft-generator viewer-generator">
               <button id="generateNext" class="spacecraft-button" type="button" aria-label="Generate another random verified geometry">
@@ -85,58 +83,21 @@
             <article><span>Internal volume</span><strong id="volumeMetric">—</strong><em>mm³</em></article>
             <article><span>Average thickness</span><strong id="thicknessMetric">—</strong><em>mm</em></article>
             <article><span>Total flow length</span><strong id="lengthMetric">—</strong><em>mm</em></article>
-            <p class="metric-note">Estimated from the current CAD projection.</p>
-          </aside>
+            <p class="metric-note">Physical scale and channel depth are not supplied; mm-based estimates are unavailable.</p>
+          <p id="sampleFacts" class="metric-note"></p></aside>
         </div>
       </section>
 
-      <section id="results" class="results-section section-shell">
-        <div class="results-intro results-intro-compact"><p class="eyebrow"><span></span> Generation quality control</p><p>Five family conditions with 256 generated RAW SDF samples per family. Pass rates are reported before projection or geometry substitution.</p></div>
-        <div class="result-grid">
-          <article><header><b>Serpentine</b></header><img src="assets/geometry/f0_1_mask.png" alt="F0 generated serpentine mask" /><strong>81.6%</strong><p>209 / 256 RAW PASS</p><ul><li>37 connectivity failures</li><li>5 isolated-fluid failures</li><li>4 minimum-wall failures</li></ul></article>
-          <article><header><b>Parallel</b></header><img src="assets/geometry/f1_1_mask.png" alt="F1 generated parallel-channel mask" /><strong>99.6%</strong><p>255 / 256 RAW PASS</p><ul><li>1 channel-count failure</li><li>Full-width parallel headers</li><li>Actual generated mask shown</li></ul></article>
-          <article><header><b>Pin</b></header><img src="assets/geometry/f2_2_mask.png" alt="F2 generated circular pin-fin mask" /><strong>100%</strong><p>256 / 256 RAW PASS</p><ul><li>6 × 6 to 9 × 9 pin grids</li><li>Circular obstacle field</li><li>No RAW gate failures</li></ul></article>
-          <article><header><b>Spiral</b></header><img src="assets/geometry/f3_2_mask.png" alt="F3 generated spiral mask" /><strong>98.8%</strong><p>253 / 256 RAW PASS</p><ul><li>1 connectivity failure</li><li>1 isolated-fluid failure</li><li>1 minimum-width failure</li></ul></article>
-          <article><header><b>Spider Web</b></header><img src="assets/geometry/f4_1_mask.png" alt="F4 generated spider-netted mask" /><strong>97.3%</strong><p>249 / 256 RAW PASS</p><ul><li>3 ring-count failures</li><li>2 minimum-width failures</li><li>2 connectivity / isolation failures</li></ul></article>
-        </div>
-        <div class="research-note"><b>QUALITY PRINCIPLE</b><p>RAW model performance, conservative cleanup, and final release decisions are reported separately. Geometry validity is a pre-screening step—not a substitute for CFD/CHT validation.</p></div>
-      </section>
-
-      <section id="method" class="method-section section-shell">
-        <div class="section-heading compact">
-          <div><p class="eyebrow"><span></span> Conditional diffusion pipeline</p><h2>Diffusion workflow,<br />step by step.</h2></div>
-        </div>
-        <div class="pipeline method-pipeline">
-          <article>
-            <b>01</b><span>PREPARE</span>
-            <div class="method-visual data-visual" aria-hidden="true"><div><i>F0</i><i>F1</i><i>F2</i><i>F3</i><i>F4</i></div><strong>5 × 5,000</strong></div>
-            <h3>Build the SDF dataset</h3>
-            <p>A 250-sample pilot is checked first. After release, 5,000 frozen SDFs are built for each of F0–F4: 25,000 training geometries in total.</p>
-          </article>
-          <article>
-            <b>02</b><span>TRAIN</span>
-            <div class="method-visual model-visual" aria-hidden="true"><div><i>F0</i><i>F1</i><i>F2</i><i>F3</i><i>F4</i></div><u>→</u><strong>ONE<br />MODEL</strong></div>
-            <h3>Learn with one model</h3>
-            <p>A one-epoch smoke test precedes 50-epoch unified training. The family ID tells the same conditional diffusion model which channel grammar to learn.</p>
-          </article>
-          <article>
-            <b>03</b><span>GENERATE</span>
-            <div class="method-visual denoise-visual" aria-hidden="true"><i></i><i></i><i></i><i></i><u>100 STEPS</u></div>
-            <h3>Turn noise into RAW SDF</h3>
-            <p>The reverse process progressively removes noise and produces 256 native 256 × 256 RAW SDF samples for each family.</p>
-          </article>
-          <article>
-            <b>04</b><span>VERIFY</span>
-            <div class="method-visual gate-visual" aria-hidden="true"><i>SDF &gt; 0</i><u>→</u><i>MASK</i><u>→</u><strong>PASS</strong></div>
-            <h3>Threshold, then gate</h3>
-            <p>SDF &gt; 0 becomes the fluid mask. Family-specific geometry gates report PASS or FAIL without projection or morphology; CFD/CHT remains a separate validation step.</p>
-          </article>
-        </div>
-      </section>
+      <section id="results" class="results-section section-shell"><div class="results-intro results-intro-compact"><p class="eyebrow"><span></span>Generation quality control</p><p><b>98.8% overall (4,941 / 5,000)</b><br/>Final model · 1,000 generated tiles per family.</p></div><div class="result-grid"><article><header><b>Serpentine</b></header><img src="assets/research/images/qc_cards/serpentine.png" alt="Serpentine final-model PASS sample"/><strong>99.3%</strong><p>993 / 1,000 PASS</p><h4>Failure flags</h4><ul><li>6 × disconnected channel</li><li>6 × isolated fluid region</li><li>1 × volume fraction out of range</li></ul></article>
+<article><header><b>Parallel</b></header><img src="assets/research/images/qc_cards/parallel.png" alt="Parallel final-model PASS sample"/><strong>98.0%</strong><p>980 / 1,000 PASS</p><h4>Failure flags</h4><ul><li>18 × minimum wall thickness</li><li>2 × dangling end</li><li>2 × dead-end branch</li></ul></article>
+<article><header><b>Pin</b></header><img src="assets/research/images/qc_cards/pin.png" alt="Pin final-model PASS sample"/><strong>100%</strong><p>1,000 / 1,000 PASS</p><h4>Failure flags</h4><ul><li>No gate failures</li></ul></article>
+<article><header><b>Spiral</b></header><img src="assets/research/images/qc_cards/spiral.png" alt="Spiral final-model PASS sample"/><strong>97.2%</strong><p>972 / 1,000 PASS</p><h4>Failure flags</h4><ul><li>23 × minimum wall thickness</li><li>5 × shortcut around an island</li><li>3 × dangling end</li></ul></article>
+<article><header><b>Spider Web</b></header><img src="assets/research/images/qc_cards/spider_web.png" alt="Spider Web final-model PASS sample"/><strong>99.6%</strong><p>996 / 1,000 PASS</p><h4>Failure flags</h4><ul><li>2 × volume fraction out of range</li><li>2 × dead-end branch</li></ul></article></div><div class="research-note"><b>QUALITY PRINCIPLE</b><p>Failure flags may overlap: a tile can carry more than one flag. Automatic gates only judge the generated results and do not influence generation. Geometry gates are a pre-screening step; CFD/CHT remains a separate validation step.</p></div></section>
+<section id="method" class="method-section section-shell"><div class="section-heading compact"><div><p class="eyebrow"><span></span>Conditional diffusion pipeline</p><h2>Diffusion workflow,<br/>step by step.</h2></div></div><div class="pipeline method-pipeline"><article><b>01</b><span>PREPARE</span><div class="method-visual data-visual"><strong>5 × 2,000</strong></div><h3>Build the SDF dataset</h3><p>2,000 SDF tiles per family × 5 families = 10,000 training geometries. Each tile is 256 × 256. SDF is the signed distance to the channel wall: positive inside the channel, negative outside.</p></article><article><b>02</b><span>TRAIN</span><figure><img loading="lazy" src="assets/research/images/workflow/unet.png" alt="Conditional diffusion U-Net"/><figcaption>Conditional diffusion U-Net</figcaption></figure><h3>One conditional model</h3><p>One conditional diffusion U-Net learns all five families for 50 epochs. Family + channel width conditions are fed to every layer. Boundary Weighting counts pixels near channel walls up to 5× more. Corner·Thickness Weighting counts sharp corners and thin walls up to 13× more for Serpentine and Spiral.</p></article><article><b>03</b><span>ADAPT</span><div class="method-visual"><strong>5 · 7 · 9 · 11 · 13 passes</strong></div><h3>Pass-Count Conditioning</h3><p>For Serpentine only, the trained model is frozen and a small add-on condition specifies 5, 7, 9, 11 or 13 passes. It is trained on 2,000 Serpentine tiles. It is switched off for the other four families, whose outputs remain identical to the frozen model.</p></article><article><b>04</b><span>GENERATE</span><div class="denoise-strip"><figure><img loading="lazy" src="assets/research/images/workflow/denoise_xT.png" alt="xT · noise"/><figcaption>xT · noise</figcaption></figure><figure><img loading="lazy" src="assets/research/images/workflow/denoise_xt.png" alt="xt · denoising"/><figcaption>xt · denoising</figcaption></figure><figure><img loading="lazy" src="assets/research/images/workflow/denoise_x0_0.png" alt="x0 · SDF"/><figcaption>x0 · SDF</figcaption></figure></div><h3>Turn noise into an SDF</h3><p>DDIM uses 100 denoising steps instead of 1,000, with no retraining needed. Generating 1,000 tiles per family — 5,000 in total — takes about 80 minutes.</p></article><article><b>05</b><span>VERIFY</span><div class="method-visual gate-visual"><i>SDF &gt; 0</i><u>→</u><strong>PASS / FAIL</strong></div><h3>Threshold, then gate</h3><p>SDF > 0 becomes the fluid mask. Automatic gates check inlet-to-outlet connectivity, minimum wall thickness and channel structure, then report PASS or FAIL. Gates only judge results; CFD/CHT remains a separate validation step.</p></article></div></section>
+<section id="progress" class="method-section section-shell"><div class="section-heading compact"><h2>How we got to 98.8%</h2></div><div class="research-stages"><article><span>01</span><h3>Baseline</h3><strong>84.2%</strong><div class="stage-bar"><i style="width:84.2%"></i></div><p>Serpentine and Spiral often break or merge channels.</p><figure><img loading="lazy" src="assets/research/images/workflow/five_families.png" alt="Five flow-channel families"/><figcaption>Five flow-channel families</figcaption></figure></article><article><span>02</span><h3>+ Boundary Weighting</h3><strong>96.8%</strong><div class="stage-bar"><i style="width:96.8%"></i></div><p>Boundary Weighting counts pixels near channel walls up to 5× more, raising Spiral from 56.3% to 94.3%.</p><figure><img loading="lazy" src="assets/research/images/workflow/boundary_weight_zoom.png" alt="Boundary Weighting near channel walls"/><figcaption>Boundary Weighting near channel walls</figcaption></figure></article><article><span>03</span><h3>+ Corner·Thickness Weighting</h3><strong>95.1%</strong><div class="stage-bar"><i style="width:95.1%"></i></div><p>Corner·Thickness Weighting raises Spiral to 97.2%, but Serpentine drops to 80.8%.</p><div class="figure-pair"><figure><img loading="lazy" src="assets/research/images/workflow/corner_thickness_serpentine_before.png" alt="Serpentine · before"/><figcaption>Serpentine · before</figcaption></figure><figure><img loading="lazy" src="assets/research/images/workflow/corner_thickness_serpentine_after.png" alt="Serpentine · after"/><figcaption>Serpentine · after</figcaption></figure><figure><img loading="lazy" src="assets/research/images/workflow/corner_thickness_spiral_before.png" alt="Spiral · before"/><figcaption>Spiral · before</figcaption></figure><figure><img loading="lazy" src="assets/research/images/workflow/corner_thickness_spiral_after.png" alt="Spiral · after"/><figcaption>Spiral · after</figcaption></figure></div></article><article><span>04</span><h3>+ Pass-Count Conditioning (final)</h3><strong>98.8%</strong><div class="stage-bar"><i style="width:98.8%"></i></div><p>Pass-Count Conditioning tells Serpentine how many passes to draw, raising it to 99.3%. The other four families are unchanged.</p><figure><img loading="lazy" src="assets/research/images/workflow/pass_count_train_odd.png" alt="Odd pass-count training tile"/><figcaption>Odd pass-count training tile</figcaption></figure></article></div><div class="stage-table"><table><caption>Geometry gate PASS rates by family (%)</caption><thead><tr><th>Stage</th><th>Serpentine</th><th>Parallel</th><th>Pin</th><th>Spiral</th><th>Spider Web</th><th>Overall</th></tr></thead><tbody><tr><th>Baseline (plain MSE)</th><td>70.0</td><td>98.6</td><td>99.9</td><td>56.3</td><td>96.2</td><td>84.2</td></tr><tr><th>+ Boundary Weighting</th><td>91.0</td><td>99.0</td><td>99.9</td><td>94.3</td><td>99.6</td><td>96.8</td></tr><tr><th>+ Corner·Thickness Weighting</th><td>80.8</td><td>98.0</td><td>100.0</td><td>97.2</td><td>99.6</td><td>95.1</td></tr><tr><th>+ Pass-Count Conditioning (final)</th><td>99.3</td><td>98.0</td><td>100.0</td><td>97.2</td><td>99.6</td><td>98.8</td></tr></tbody></table></div><div class="research-note parity-note"><div><h3>Why Serpentine dropped</h3><p>Training tiles have only odd pass counts, but the model was never told the count. It sometimes drew even counts or misplaced turns. Of 192 failures, 163 had a wrong pass structure. Even-count tiles failed 64.5% of the time, versus 13.6% for odd-count tiles.</p><p>Dark red in the Corner·Thickness Weighting figures marks extra weight. Red in the failed generated tile highlights where the pass structure goes wrong.</p></div><div class="figure-pair"><figure><img loading="lazy" src="assets/research/images/workflow/pass_count_train_odd.png" alt="Training · odd passes"/><figcaption>Training · odd passes</figcaption></figure><figure><img loading="lazy" src="assets/research/images/workflow/pass_count_generated_even_fail.png" alt="Generated · even passes, FAIL"/><figcaption>Generated · even passes, FAIL</figcaption></figure></div></div></section>
     </main>
 
-    <footer><span>RADIATOR FLOW FIELD</span><p>Unified Conditional Diffusion · 1,280 RAW SDF Samples</p><a href="#top">Back to top ↑</a></footer>
-    <script type="module" src="cad-viewer.js?v=sdf-ivory-slate-1"></script>
-    <script src="app.js?v=alignment-names-2" defer></script>
+    <footer><span>RADIATOR FLOW FIELD</span><p>Conditional Diffusion · 5,000 evaluated tiles · 98.8% PASS</p><a href="#top">Back to top ↑</a></footer>
+    <script src="research.js?v=final-research-1" defer></script>
   </body>
 </html>
