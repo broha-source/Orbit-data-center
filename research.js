@@ -63,7 +63,7 @@ async function show() {
   const mmPerPixel=1000/256;
   $('#thicknessMetric').textContent=(presentation.stats.thickness*mmPerPixel).toFixed(1);
   $('#lengthMetric').textContent=Math.round(presentation.stats.length*mmPerPixel).toLocaleString();
-  $('#volumeMetric').textContent=Number(sample.internal_volume_L).toFixed(3);
+  $('#areaMetric').textContent=Number(sample.volume_fraction).toFixed(3);
   [sample.cad, sample.sdf].forEach(path => { const preload = new Image(); preload.src = `assets/research/${path}`; });
 }
 $('#families').addEventListener('click', e => {

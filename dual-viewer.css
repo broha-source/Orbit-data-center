@@ -2,7 +2,7 @@
 #demo #cadViewer{inset:66px 190px 0 0;padding:30px 16px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-content:center;gap:22px;background:#292d30}
 #cadViewer figure{margin:0;min-width:0;display:flex;flex-direction:column;gap:15px}
 #cadViewer figcaption{order:2;margin:0;color:#dce5eb;font:700 18px/1.2 Arial,sans-serif;letter-spacing:.11em;text-align:center}
-#demo .viewer-bar{background:#08090a;justify-content:center;text-align:center}
+#demo .viewer-bar{background:#08090a;justify-content:center;text-align:center;padding-left:0;padding-right:190px}
 #demo .viewer-bar b{font-size:23px;line-height:1.25;letter-spacing:.02em}
 #demo .viewer-bar>span i{display:none}
 #demo .assumed-scale-note{font-size:16px;line-height:1.6;color:#bccbd3;margin:22px 0 0}
@@ -18,6 +18,17 @@
 #demo .metrics article>span{font-size:21px;line-height:1.4;display:block;padding-right:8px;color:#e1e9ed}
 #demo .metrics article>strong{font-size:42px;line-height:1.25;margin-top:22px;color:#fff}
 #demo .metrics article>em{font-size:15px;position:static;display:block;margin-top:9px;color:#9caeb8}
-@media(max-width:1400px){#demo #cadViewer{inset:66px 0 180px;padding:25px;gap:20px}#demo .viewer-generator{top:auto;bottom:22px;right:50%;transform:translateX(50%)}#demo .metrics article>span{font-size:20px}}
+@media(max-width:1400px){#demo .viewer-bar{padding-right:0}#demo #cadViewer{inset:66px 0 180px;padding:25px;gap:20px}#demo .viewer-generator{top:auto;bottom:22px;right:50%;transform:translateX(50%)}#demo .metrics article>span{font-size:20px}}
 @media(max-width:1200px){#demo .metrics article{padding:26px 20px}#demo .metrics .metric-kicker{font-size:18px}#demo .metrics article>strong{font-size:38px}}
 @media(max-width:560px){#demo .viewer{min-height:980px}#demo #cadViewer{grid-template-columns:1fr;padding:24px;gap:24px;align-content:start;overflow:auto}#cadViewer figure{max-width:290px;width:100%;justify-self:center}#demo .metrics article>span{font-size:22px}}
+html{scroll-padding-top:84px}
+#demo,#results,#method,#progress{scroll-margin-top:0}
+@media(min-width:1201px) and (min-height:780px){
+  #demo{padding-top:25px;padding-bottom:65px}
+  #demo .demo-heading{margin-bottom:30px}
+  #demo .demo-frame{min-height:0}
+  #demo .viewer{min-height:max(590px,calc(100svh - 215px))}
+  #demo .controls,#demo .metrics{padding-top:22px;padding-bottom:22px}
+  #demo .metrics article{padding:25px 0}
+  #demo .metrics article>strong{margin-top:14px}
+}

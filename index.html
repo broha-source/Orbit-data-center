@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="styles.css?v=ux-refresh-1" />
     <link rel="stylesheet" href="theme.css?v=visual-method-1" />
     <link rel="stylesheet" href="readability.css?v=research-type-1" />
-    <link rel="stylesheet" href="dual-viewer.css?v=representation-layout-1" />
+    <link rel="stylesheet" href="dual-viewer.css?v=area-scroll-1" />
   </head>
   <body>
     <div class="noise" aria-hidden="true"></div>
@@ -76,7 +76,7 @@
 
           <aside class="metrics">
             <div class="metric-kicker">GEOMETRY ESTIMATE</div>
-            <article><span>Internal volume</span><strong id="volumeMetric" title="Manifest internal_volume_L, derived using the assumed tile dimensions and channel depth.">—</strong><em>L</em></article>
+            <article><span>Channel area</span><strong id="areaMetric" title="Channel area: volume_fraction × the assumed 1 m² tile area.">—</strong><em>m²</em></article>
             <article><span>Average thickness</span><strong id="thicknessMetric" title="Equivalent average width, converted from original tile pixels at 1000/256 mm per pixel.">—</strong><em>mm</em></article>
             <article><span>Total flow length</span><strong id="lengthMetric" title="Estimated total centreline network length, converted from original tile pixels at 1000/256 mm per pixel.">—</strong><em>mm</em></article>
             <p class="assumed-scale-note">Assumed: 1 m × 1 m tile, 3 mm channel depth.</p>
@@ -95,6 +95,7 @@
 
     <footer><span>RADIATOR FLOW FIELD</span><p>Conditional Diffusion · 5,000 evaluated tiles · 98.8% PASS</p><a href="#top">Back to top ↑</a></footer>
     <script src="geometry-math.js?v=dual-sdf-1" defer></script>
-    <script src="research.js?v=random-dark-1" defer></script>
+    <script src="research.js?v=area-scroll-1" defer></script>
+    <script src="section-scroll.js?v=area-scroll-1" defer></script>
   </body>
 </html>
