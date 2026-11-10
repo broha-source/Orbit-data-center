@@ -27,6 +27,7 @@
 #demo .width-condition>output{display:block;margin-top:12px;font:700 23px/1.4 Arial,sans-serif;color:#f0fbff;letter-spacing:-.025em}
 #demo .width-condition>p{margin:12px 0 0;font:500 14px/1.6 Arial,sans-serif;color:#b6c5cd}
 #demo .width-condition>p.width-condition-note{font-size:13px;color:#8fa3af}
+#demo .width-condition>span.width-conversion-label{margin-top:6px;font:500 13px/1.5 Arial,sans-serif;letter-spacing:0;color:#a8bac5}
 #demo .metrics .metric-kicker{font-size:17px;line-height:1.5;letter-spacing:.055em;color:#a3dce9;padding-bottom:24px}
 #demo .metrics article{padding:36px 0}
 #demo .metrics article>span{font-size:21px;line-height:1.4;display:block;padding-right:8px;color:#e1e9ed}

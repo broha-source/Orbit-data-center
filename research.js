@@ -62,9 +62,9 @@ async function show() {
   $('#viewerLabel').textContent = sample.family;
   const [widthMin,widthMax]=widthRanges[sample.family];
   $('#widthConditionLabel').textContent=sample.family==='Pin'?'INLET / OUTLET WIDTH':'CHANNEL WIDTH CONDITION';
-  $('#widthConditionValue').textContent=`${sample.channel_width_px} px · ${(sample.channel_width_px*1000/256).toFixed(1)} mm`;
+  $('#widthConditionValue').textContent=`${sample.channel_width_px} px ≈ ${(sample.channel_width_px*1000/256).toFixed(1)} mm`;
   $('#widthConditionValue').dataset.sampleId=sample.id;
-  $('#widthConditionRange').textContent=`Training range: ${widthMin}–${widthMax} px · step 2 px`;
+  $('#widthConditionRange').textContent=`Range: ${widthMin}–${widthMax} px (step 2)`;
   $('#sampleStatus').textContent = '';
   const mmPerPixel=1000/256;
   $('#thicknessMetric').textContent=(presentation.stats.thickness*mmPerPixel).toFixed(1);
