@@ -1,4 +1,5 @@
 const ids = { F0: 'Serpentine', F1: 'Parallel', F2: 'Pin', F3: 'Spiral', F4: 'Spider Web' };
+const widthRanges = { Serpentine: [7,23], Parallel: [7,23], Pin: [7,15], Spiral: [5,13], 'Spider Web': [5,13] };
 const $ = (selector) => document.querySelector(selector);
 let manifest, selected, family = 'F0', renderToken = 0;
 const bags = new Map();
@@ -59,6 +60,11 @@ async function show() {
   sdfCanvas.width=sdfCanvas.height=768;sdfCanvas.getContext('2d').drawImage(presentation.canvas,0,0);
   sdfCanvas.dataset.sampleId=sample.id;sdfCanvas.setAttribute('aria-label',`${sample.family} SDF colour preview — ${sample.id}`);
   $('#viewerLabel').textContent = sample.family;
+  const [widthMin,widthMax]=widthRanges[sample.family];
+  $('#widthConditionLabel').textContent=sample.family==='Pin'?'INLET / OUTLET WIDTH':'CHANNEL WIDTH CONDITION';
+  $('#widthConditionValue').textContent=`${sample.channel_width_px} px · ${(sample.channel_width_px*1000/256).toFixed(1)} mm`;
+  $('#widthConditionValue').dataset.sampleId=sample.id;
+  $('#widthConditionRange').textContent=`Training range: ${widthMin}–${widthMax} px · step 2 px`;
   $('#sampleStatus').textContent = '';
   const mmPerPixel=1000/256;
   $('#thicknessMetric').textContent=(presentation.stats.thickness*mmPerPixel).toFixed(1);

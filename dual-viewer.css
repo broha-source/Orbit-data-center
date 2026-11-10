@@ -22,6 +22,11 @@
 #demo .representation-summary{margin-top:auto;padding-top:28px;padding-bottom:12px}
 #demo .representation-summary>span{font-size:14px}
 #demo .representation-summary .dual-view-note{font-size:19px;margin-top:12px}
+#demo .width-condition{margin-top:auto;border-top:1px solid #41464a;padding-top:24px;text-align:center}
+#demo .width-condition>span{display:block;font:700 13px/1.5 Arial,sans-serif;letter-spacing:.055em;color:#bcd3de}
+#demo .width-condition>output{display:block;margin-top:12px;font:700 23px/1.4 Arial,sans-serif;color:#f0fbff;letter-spacing:-.025em}
+#demo .width-condition>p{margin:12px 0 0;font:500 14px/1.6 Arial,sans-serif;color:#b6c5cd}
+#demo .width-condition>p.width-condition-note{font-size:13px;color:#8fa3af}
 #demo .metrics .metric-kicker{font-size:17px;line-height:1.5;letter-spacing:.055em;color:#a3dce9;padding-bottom:24px}
 #demo .metrics article{padding:36px 0}
 #demo .metrics article>span{font-size:21px;line-height:1.4;display:block;padding-right:8px;color:#e1e9ed}
